@@ -1,5 +1,5 @@
-import { ComponentType, ComponentClass } from 'react';
-import { reactPlugin } from '../services/telemetryService';
+import { ComponentClass, ComponentType } from 'react';
+import { reactPlugin } from '../services/TelemetryService';
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
 
 

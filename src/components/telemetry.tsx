@@ -1,6 +1,6 @@
-import { FC, ReactElement, useEffect, PropsWithChildren } from 'react';
-import { TelemetryProvider } from './telemetryContext';
-import { reactPlugin, getApplicationInsights } from '../services/telemetryService';
+import { FC, PropsWithChildren, ReactElement, useEffect } from 'react';
+import { TelemetryProvider } from './TelemetryContext';
+import { getApplicationInsights, reactPlugin } from '../services/TelemetryService';
 
 type TelemetryProps = PropsWithChildren<unknown>;
 
