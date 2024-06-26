@@ -1,6 +1,7 @@
 import type { Components } from '@mui/material/styles';
 
 import type { Theme } from '../types';
+
 import { MuiAvatar } from './Avatar';
 import { MuiButton } from './Button';
 import { MuiCard } from './Card';

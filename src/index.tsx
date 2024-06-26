@@ -1,16 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+
 import App from './App.tsx';
 import reportWebVitals from './reportWebVitals.ts';
-
-// Inject some global styles
-// mergeStyles({
-//   ':global(body,html,#root)': {
-//     margin: 0,
-//     padding: 0,
-//     height: '100vh',
-//   },
-// });
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
  <React.StrictMode>

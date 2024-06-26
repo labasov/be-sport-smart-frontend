@@ -1,5 +1,3 @@
-import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -10,8 +8,10 @@ import Typography from '@mui/material/Typography';
 import { GearSix as GearSixIcon } from '@phosphor-icons/react/dist/ssr/GearSix';
 import { SignOut as SignOutIcon } from '@phosphor-icons/react/dist/ssr/SignOut';
 import { User as UserIcon } from '@phosphor-icons/react/dist/ssr/User';
+import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { paths } from '../../routes/paths';
+import { routes } from '../../routes';
 // import { useUser } from '@/hooks/use-user';
 
 export interface UserPopoverProps {
@@ -61,13 +61,13 @@ export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): Reac
       </Box>
       <Divider />
       <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>
-        <MenuItem href={paths.home} onClick={onClose}>
+        <MenuItem href={routes.home} onClick={onClose}>
           <ListItemIcon>
             <GearSixIcon fontSize="var(--icon-fontSize-md)" />
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem href={paths.evaluation} onClick={onClose}>
+        <MenuItem href={routes.evaluation} onClick={onClose}>
           <ListItemIcon>
             <UserIcon fontSize="var(--icon-fontSize-md)" />
           </ListItemIcon>
