@@ -21,7 +21,7 @@ export const statusMap: StatusMap  = {
   unknown: { label: 'Unknown', color: 'default' },
 } as const;
 
-const getStatusByRank = (rank: number): { label: string, color: string } => {
+const getStatusByRank = (rank: number): Status => {
   if (isNaN(rank)) return statusMap.unknown;
 
   if (rank <= 1) return statusMap.recommended;

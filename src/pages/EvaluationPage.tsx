@@ -2,9 +2,9 @@
 import Grid from "@mui/material/Unstable_Grid2";
 
 import WithApplicationInsights from "../components/core/telemetry/TelemetryWithAppInsights.tsx";
-import { EvaluationForm } from "../components/evaluation-form/EvaluationForm.tsx";
-import { EvaluationMobileForm } from "../components/evaluation-form/EvaluationMobileForm.tsx";
-import { SportList } from "../components/sport-list/SportList.tsx";
+import { EvaluationCard } from "../components/evaluation-card/EvaluationCard.tsx";
+import { EvaluationMobileCard } from "../components/evaluation-card/EvaluationMobileCard.tsx";
+import { SportsCard } from "../components/sports-card/SportsCard.tsx";
 import { Measure, MeasureType } from "../services/core-service/interfaces/index.ts";
 import { useMeasureValuesStore } from "../stores/MeasureValuesStore.ts";
 import { useSportStore } from "../stores/SportStore.ts";
@@ -40,18 +40,18 @@ const EvaluationPage = () => {
   };
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} sx={{  mt: {xs : 3}, mb: { xs: 7 } }}>
       <Grid lg={8} xs={12}>
-        <SportList sx={{ height: "100%" }} />
+        <SportsCard sx={{ height: "100%" }} />
       </Grid>
       <Grid lg={4} md={12} sx={{ display: { xs: 'none', sm: 'block' } }}>
-        <EvaluationForm
+        <EvaluationCard
           sx={{ height: "100%" }}
           enterMeasure={handleEnterMeasure}
         />
       </Grid>
 
-      <EvaluationMobileForm enterMeasure={handleEnterMeasure} />
+      <EvaluationMobileCard enterMeasure={handleEnterMeasure} />
     </Grid>
   );
 };

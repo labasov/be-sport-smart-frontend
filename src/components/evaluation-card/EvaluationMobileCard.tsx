@@ -8,7 +8,7 @@ import {
 } from "../../services/core-service/interfaces";
 
 
-import { EvaluationForm } from "./EvaluationForm";
+import { EvaluationCard } from "./EvaluationCard";
 
 
 const drawerBleeding = 56;
@@ -27,12 +27,12 @@ const Puller = styled("div")(() => ({
   left: "calc(50% - 15px)",
 }));
 
-export interface EvaluationMobileFormProps {
+export interface EvaluationMobileCardProps {
   enterMeasure: (measure: Measure, value?: string) => boolean;
 }
-export function EvaluationMobileForm({
+export function EvaluationMobileCard({
   enterMeasure,
-}: EvaluationMobileFormProps): React.JSX.Element {
+}: EvaluationMobileCardProps): React.JSX.Element {
   const isMobile = useMediaQuery("(max-width:600px)");
   const containerRef = React.useRef(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -83,11 +83,11 @@ export function EvaluationMobileForm({
               onClick={() => toggleDrawer(!drawerOpen)}
               sx={{ p: 2, color: "text.secondary" }}
             >
-              Inputs form
+              Measures form
             </Typography>
           </StyledBox>
-          <StyledBox sx={{ mt: 2, px: 2, pb: 2 }}>
-            <EvaluationForm enterMeasure={enterMeasure} />
+          <StyledBox >
+            <EvaluationCard enterMeasure={enterMeasure}/>
           </StyledBox>
         </SwipeableDrawer>
     </>

@@ -1,6 +1,6 @@
 import { RestService } from "../RestService";
 
-import { ComputationResult, ComputationType, Measure } from "./interfaces";
+import { ComputationResult as Sport, ComputationType, Measure } from "./interfaces";
 
 export class CoreService extends RestService<any> {
   public constructor(baseUrl: string) {
@@ -16,10 +16,10 @@ export class CoreService extends RestService<any> {
     return response.data;
   }
 
-  public async evaluateComputations(type: ComputationType, measureValues: {[key: string]: string}): Promise<ComputationResult[]> {
+  public async evaluateSports(measureValues: {[key: string]: string}): Promise<Sport[]> {
     const response = await this.client.post('evaluateComputations',
       {
-        type: type,
+        type: ComputationType.Sport,
         measureValues: measureValues
       }
     );

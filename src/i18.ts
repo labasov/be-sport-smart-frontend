@@ -1,31 +1,30 @@
-import i18nextBase from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import HttpApi from 'i18next-http-backend'; // have a own http fallback
-import MultiloadAdapter, { MultiloadBackendOptions } from 'i18next-multiload-backend-adapter';
+import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-
-
-export const i18n = i18nextBase
-  .use(MultiloadAdapter)
-  .use(LanguageDetector)
-  .use(initReactI18next);
-
+import HttpBackend from 'i18next-http-backend';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import config from './config';
 
 i18n
-.init<MultiloadBackendOptions>({
+  .use(HttpBackend)
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
     fallbackLng: 'en',
     debug: true,
+    ns: ['static', 'dynamic'],
+    defaultNS: 'static',
     backend: {
-      backend: HttpApi,
-      backendOption: {
-        loadPath: '/locales/{{lng}}/{{ns}}.json' // http load path for my own fallback
-      }
+      loadPath: function (lng: any, ns: any) {
+        if (ns === 'dynamic') {
+          return `${config.translationApi.baseUrl}/localization/${lng}/translate`;
+        }
+        return `/locales/${lng}/translate.json`;
+      },
     },
     react: {
       useSuspense: false,
     },
-    interpolation: {
-      escapeValue: false,
-    },
-    load: 'languageOnly', // Only load 'en' and not 'en-US'
+    load: 'languageOnly',
   });
+
+export default i18n;

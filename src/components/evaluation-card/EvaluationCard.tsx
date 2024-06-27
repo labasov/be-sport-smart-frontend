@@ -25,7 +25,7 @@ export interface EvaluationFormProps {
   enterMeasure: (measure: Measure, value?: string) => boolean;
 }
 
-export function EvaluationForm({
+export function EvaluationCard({
   enterMeasure: measure,
 }: EvaluationFormProps): React.JSX.Element {
   const {
