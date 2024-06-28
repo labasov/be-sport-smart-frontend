@@ -5,9 +5,9 @@ import TextField from "@mui/material/TextField";
 import React from "react";
 
 import { MeasureType } from "../../../services/core-service/interfaces";
+import { useDynamicTranslation } from "../../../hooks/UseTranslation";
 
-
-interface EvaluationInputProps {
+interface MeasureInputProps {
   name: string;
   options: string[];
   type: MeasureType.Number | MeasureType.String;
@@ -17,7 +17,7 @@ interface EvaluationInputProps {
   value?: string;
 }
 
-const EvaluationInput: React.FC<EvaluationInputProps> = ({
+export const MeasureInput: React.FC<MeasureInputProps> = ({
   name,
   options,
   type,
@@ -26,12 +26,13 @@ const EvaluationInput: React.FC<EvaluationInputProps> = ({
   value,
   onChange,
 }) => {
-  const label = name.toUpperCase();
+  const { t } = useDynamicTranslation();
+  const label = t(`measures.${name}.name`);
 
   if (options.length > 0) {
     return (
       <>
-        <InputLabel>{label}</InputLabel>
+        {/* <InputLabel>{label}</InputLabel> */}
         <Select
           label={label}
           name={name}
@@ -63,5 +64,3 @@ const EvaluationInput: React.FC<EvaluationInputProps> = ({
     />
   );
 };
-
-export default EvaluationInput;

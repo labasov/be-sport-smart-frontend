@@ -1,7 +1,8 @@
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import HttpBackend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import HttpBackend from 'i18next-http-backend';
+import { initReactI18next } from 'react-i18next';
+
 import config from './config';
 
 i18n
@@ -14,12 +15,24 @@ i18n
     ns: ['static', 'dynamic'],
     defaultNS: 'static',
     backend: {
-      loadPath: function (lng: any, ns: any) {
-        if (ns === 'dynamic') {
-          return `${config.translationApi.baseUrl}/localization/${lng}/translate`;
+      loadPath: function (language: string, namespace: string[]) {
+        if (namespace[0] === 'dynamic') {
+          if (process.env.NODE_ENV === 'development') {
+            return 'https://api.jsonbin.io/v3/b/667e16dbe41b4d34e40a2652';
+          }
+
+          return `${config.translationApi.baseUrl}/localization/${language}/translate`;
         }
-        return `/locales/${lng}/translate.json`;
+
+        return `/locales/${language}/translate.json`;
       },
+      parse: function (data: string) {
+        const parsedData = JSON.parse(data);
+        if (parsedData.record) {
+          return parsedData.record;
+        }
+        return parsedData;
+      }
     },
     react: {
       useSuspense: false,

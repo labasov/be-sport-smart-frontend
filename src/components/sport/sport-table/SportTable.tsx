@@ -1,17 +1,19 @@
-import React from 'react';
 import { SxProps, Table, TableBody } from '@mui/material';
+import React from 'react';
+
 import { useSortedSports } from "../../../hooks/UseSortedSports";
 import { ComputationResult } from "../../../services/core-service/interfaces";
-import { SportsTableHeader } from './SportsTableHeader';
-import { SportsTableRow } from './SportsTableRow';
 import { useSportStore } from '../../../stores/SportStore';
 
-interface SportsTableComponentProps {
+import { SportTableHeader } from './SportTableHeader';
+import { SportTableRow } from './SportTableRow';
+
+interface SportTableProps {
   recordsLimit?: number;
   sx?: SxProps;
 }
 
-export const SportsTableComponent: React.FC<SportsTableComponentProps> = ({ recordsLimit, sx }) => {
+export const SportTable: React.FC<SportTableProps> = ({ recordsLimit, sx }) => {
   const { sports } = useSportStore();
   const { sortedSports, rankMap, getStatusByRank } = useSortedSports(sports);
 
@@ -19,10 +21,10 @@ export const SportsTableComponent: React.FC<SportsTableComponentProps> = ({ reco
 
   return (
     <Table sx={{ minWidth: 800, ...sx }}>
-      <SportsTableHeader />
+      <SportTableHeader />
       <TableBody>
         {displayedSports.map((sport: ComputationResult) => (
-          <SportsTableRow
+          <SportTableRow
             key={sport.name}
             sport={sport}
             rankMap={rankMap}

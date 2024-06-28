@@ -1,5 +1,35 @@
 {
-  "sport_list": {
-    "title": "Sport list test"
+  "sport": {
+    "rank": {
+      "title":"Sport list"
+    },
+    "table": {
+      "header": {
+        "sport": "Sport",
+        "score": "Score",
+        "important": "Important",
+        "recomendation": "Recomendation"
+      },
+      "labels": {
+        "recommended": "Best",
+        "possible": "Average",
+        "not_recommended": "Worst",
+        "unknown": "Unknown"
+      },
+      "fullList": "View all"
+    }
+  },
+  "measure": {
+    "stepper": {
+      "title": "Measure stepper",
+      "actions": {
+        "next": "Next",
+        "back": "Back"
+      }
+    },
+    "form": {
+      "title": "Measure form",
+      "help": "Measure"
+    }
   }
 }

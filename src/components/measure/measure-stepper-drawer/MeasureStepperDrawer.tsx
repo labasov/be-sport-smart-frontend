@@ -3,13 +3,10 @@ import { Container, styled, SwipeableDrawer, Typography, useMediaQuery } from "@
 import { grey } from "@mui/material/colors";
 import * as React from "react";
 
-import {
-  Measure,
-} from "../../services/core-service/interfaces";
+import { MeasureStepperProps } from "../interfaces/MeasureStepperProps";
 
-
-import { EvaluationCard } from "./EvaluationCard";
-
+import { MeasureStepperDrawerForm } from "./MeasureStepperDrawerForm";
+import { useStaticTranslation } from "../../../hooks/UseTranslation";
 
 const drawerBleeding = 56;
 
@@ -27,12 +24,10 @@ const Puller = styled("div")(() => ({
   left: "calc(50% - 15px)",
 }));
 
-export interface EvaluationMobileCardProps {
-  enterMeasure: (measure: Measure, value?: string) => boolean;
-}
-export function EvaluationMobileCard({
+export function MeasureStepperDrawer({
   enterMeasure,
-}: EvaluationMobileCardProps): React.JSX.Element {
+}: MeasureStepperProps): React.JSX.Element {
+  const { t } = useStaticTranslation();
   const isMobile = useMediaQuery("(max-width:600px)");
   const containerRef = React.useRef(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -83,11 +78,11 @@ export function EvaluationMobileCard({
               onClick={() => toggleDrawer(!drawerOpen)}
               sx={{ p: 2, color: "text.secondary" }}
             >
-              Measures form
+             {t("measure.form.title")}
             </Typography>
           </StyledBox>
           <StyledBox >
-            <EvaluationCard enterMeasure={enterMeasure}/>
+            <MeasureStepperDrawerForm enterMeasure={enterMeasure}/>
           </StyledBox>
         </SwipeableDrawer>
     </>

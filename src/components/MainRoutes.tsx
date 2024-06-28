@@ -1,7 +1,7 @@
 import { FC, ReactElement } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import EvaluationPage from "../pages/EvaluationPage";
+import EvaluationPage from "../pages/EvaluationDashboard";
 import HomePage from "../pages/HomePage";
 import { routes } from "../routes";
 

@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { Modal, Box, Typography, Divider, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { ArrowRight as ArrowRightIcon } from '@phosphor-icons/react/dist/ssr/ArrowRight';
-import { X as CloseIcon } from '@phosphor-icons/react/dist/ssr/X';
-import { SportsTableComponent } from './sports-table/SportsTable';
+import React, { useState } from 'react';
+
+import { SportTable } from './sport-table/SportTable';
+import { useStaticTranslation } from '../../hooks/UseTranslation';
 
 interface FullSportListModalProps {
 }
 
-export const FullSportListModal: React.FC<FullSportListModalProps> = () => {
+export const SportRankFullList: React.FC<FullSportListModalProps> = () => {
+  const { t } = useStaticTranslation();
   const [open, setOpen] = useState(false);
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -23,7 +24,7 @@ export const FullSportListModal: React.FC<FullSportListModalProps> = () => {
         variant="text"
         onClick={handleOpen}
       >
-        View all
+        {t('sport.table.fullList')}
       </Button>
 
       <Dialog
@@ -35,7 +36,7 @@ export const FullSportListModal: React.FC<FullSportListModalProps> = () => {
       >
         <DialogTitle id="dialog-title">Full Sport List</DialogTitle>
         <DialogContent dividers={true} sx={{ p: 0 }}>
-          <SportsTableComponent/>
+          <SportTable/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>

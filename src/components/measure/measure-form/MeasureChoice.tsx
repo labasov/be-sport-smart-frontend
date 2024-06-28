@@ -1,7 +1,8 @@
 import Checkbox from "@mui/material/Checkbox";
 import React from "react";
+import { useDynamicTranslation } from "../../../hooks/UseTranslation";
 
-interface EvaluationChoiceProps {
+interface MeasureChoiceProps {
   name: string;
   variant: "outlined" | "filled" | "standard";
   size: "small" | "medium";
@@ -9,12 +10,13 @@ interface EvaluationChoiceProps {
   value?: string;
 }
 
-const EvaluationChoise: React.FC<EvaluationChoiceProps> = ({
+export const MeasureChoise: React.FC<MeasureChoiceProps> = ({
   name,
   value,
   onChange,
 }) => {
-  const label = name.toUpperCase();
+  const { t } = useDynamicTranslation();
+  const label = t(`measures.${name}.name`);
 
   return (
     <Checkbox
@@ -24,5 +26,3 @@ const EvaluationChoise: React.FC<EvaluationChoiceProps> = ({
     />
   );
 };
-
-export default EvaluationChoise;

@@ -14,7 +14,7 @@ type State = {
 
 type Actions = {
   loadMeasures: () => Promise<Measure[]>;
-  getCurrentMeasure: () => Measure;
+  getCurrentMeasure: () => Measure | undefined;
   getCurrentMeasureIndex: () => number;
   getMeasureCount: () => number;
   moveBack: () => void;

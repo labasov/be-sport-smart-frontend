@@ -4,6 +4,7 @@ import { FC, ReactElement } from "react";
 
 import { MainNav } from "./common/MainNav";
 import MainRoutes from "./MainRoutes";
+
 import "../styles/global.css"
 import { Grid } from "@mui/material";
 
