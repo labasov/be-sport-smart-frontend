@@ -7,13 +7,14 @@ import MainRoutes from "./MainRoutes";
 
 import "../styles/global.css"
 import { Grid } from "@mui/material";
+import UserNotifications from "./common/UserNotifications";
 
 const MainLayout: FC = (): ReactElement => {
   return (
     <>
       <Box
         sx={{
-          backgroundImage: "url(/assets//cool-background.svg)",
+          backgroundImage: "url(/assets/cool-background.svg)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
@@ -32,6 +33,7 @@ const MainLayout: FC = (): ReactElement => {
           </Container>
         </Grid>
       </Box>
+      <UserNotifications/>
     </>
   );
 };

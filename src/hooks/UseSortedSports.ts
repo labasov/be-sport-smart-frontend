@@ -15,10 +15,10 @@ export type StatusMap = {
 };
 
 export const statusMap: StatusMap  = {
-  recommended: { label: 'Recommended', color: 'success' },
-  neutral: { label: 'Possible', color: 'warning' },
-  notRecommended: { label: 'Not recommended', color: 'error' },
-  unknown: { label: 'Unknown', color: 'default' },
+  recommended: { label: 'recommended', color: 'success' },
+  neutral: { label: 'possible', color: 'warning' },
+  notRecommended: { label: 'not_recommended', color: 'error' },
+  unknown: { label: 'unknown', color: 'default' },
 } as const;
 
 const getStatusByRank = (rank: number): Status => {

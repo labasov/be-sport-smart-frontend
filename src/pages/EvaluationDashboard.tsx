@@ -8,10 +8,12 @@ import { SportRankCard } from "../components/sport/SportRankCard.tsx";
 import { Measure, MeasureType } from "../services/core-service/interfaces/index.ts";
 import { useMeasureValuesStore } from "../stores/MeasureValuesStore.ts";
 import { useSportStore } from "../stores/SportStore.ts";
+import { useSnackbar } from "notistack";
 
 const EvaluationDashboard = () => {
   const { setValue, measureValues } = useMeasureValuesStore();
   const { rankSports } = useSportStore();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleEnterMeasure = (measure: Measure, value?: string) => {
     let newMeasureProvided = false;
@@ -38,6 +40,10 @@ const EvaluationDashboard = () => {
 
     if (newMeasureProvided) {
       rankSports(measureValues);
+    }
+
+    if (!newMeasureAccepted) {
+      enqueueSnackbar("Please provide a valid value for the measure", { variant: "error" });
     }
 
     return newMeasureAccepted;
