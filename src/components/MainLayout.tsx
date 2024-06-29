@@ -7,7 +7,6 @@ import MainRoutes from "./MainRoutes";
 
 import "../styles/global.css"
 import { Grid } from "@mui/material";
-import UserNotifications from "./common/UserNotifications";
 
 const MainLayout: FC = (): ReactElement => {
   return (
@@ -33,7 +32,6 @@ const MainLayout: FC = (): ReactElement => {
           </Container>
         </Grid>
       </Box>
-      <UserNotifications/>
     </>
   );
 };
