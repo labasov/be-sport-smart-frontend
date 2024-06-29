@@ -1,5 +1,6 @@
 import { TableHead, TableRow, TableCell } from '@mui/material';
 import React from 'react';
+
 import { useStaticTranslation } from '../../../hooks/UseTranslation';
 
 export const SportTableHeader: React.FC = () => {

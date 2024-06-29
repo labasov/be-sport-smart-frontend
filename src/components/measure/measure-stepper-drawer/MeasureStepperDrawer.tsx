@@ -3,10 +3,10 @@ import { Container, styled, SwipeableDrawer, Typography, useMediaQuery } from "@
 import { grey } from "@mui/material/colors";
 import * as React from "react";
 
+import { useStaticTranslation } from "../../../hooks/UseTranslation";
 import { MeasureStepperProps } from "../interfaces/MeasureStepperProps";
 
 import { MeasureStepperDrawerForm } from "./MeasureStepperDrawerForm";
-import { useStaticTranslation } from "../../../hooks/UseTranslation";
 
 const drawerBleeding = 56;
 
@@ -81,7 +81,8 @@ export function MeasureStepperDrawer({
              {t("measure.form.title")}
             </Typography>
           </StyledBox>
-          <StyledBox >
+          <StyledBox 
+            sx={{ maxHeight: "100vh", overflowY: "auto" }}>
             <MeasureStepperDrawerForm enterMeasure={enterMeasure}/>
           </StyledBox>
         </SwipeableDrawer>

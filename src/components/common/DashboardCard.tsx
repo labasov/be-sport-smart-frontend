@@ -1,5 +1,6 @@
 import { Card, CardHeader, Divider, CardActions, CardContent, CircularProgress } from "@mui/material";
 import { SxProps } from "@mui/system";
+
 import { useStaticTranslation } from "../../hooks/UseTranslation";
 
 export interface DashboardCardProps {

@@ -11,9 +11,9 @@ interface MeasureInputProps {
   name: string;
   options: string[];
   type: MeasureType.Number | MeasureType.String;
-  variant: "outlined" | "filled" | "standard";
   size: "small" | "medium";
   onChange: (value: string) => void;
+  variant?: "outlined" | "filled" | "standard";
   value?: string;
 }
 
@@ -32,7 +32,7 @@ export const MeasureInput: React.FC<MeasureInputProps> = ({
   if (options.length > 0) {
     return (
       <>
-        {/* <InputLabel>{label}</InputLabel> */}
+        <InputLabel>{label}</InputLabel>
         <Select
           label={label}
           name={name}

@@ -1,5 +1,6 @@
-import React from 'react';
 import CardMedia from '@mui/material/CardMedia';
+import React from 'react';
+
 import { useDynamicTranslation } from '../../hooks/UseTranslation';
 import { useMeasureStepperStore } from '../../stores/MeasureStepperStore';
 

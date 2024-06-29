@@ -1,16 +1,17 @@
 import Checkbox from "@mui/material/Checkbox";
 import React from "react";
+
 import { useDynamicTranslation } from "../../../hooks/UseTranslation";
 
 interface MeasureChoiceProps {
   name: string;
-  variant: "outlined" | "filled" | "standard";
   size: "small" | "medium";
   onChange: (value: boolean) => void;
+  variant?: "outlined" | "filled" | "standard";
   value?: string;
 }
 
-export const MeasureChoise: React.FC<MeasureChoiceProps> = ({
+export const MeasureChoice: React.FC<MeasureChoiceProps> = ({
   name,
   value,
   onChange,

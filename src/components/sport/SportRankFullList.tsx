@@ -2,8 +2,9 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/
 import { ArrowRight as ArrowRightIcon } from '@phosphor-icons/react/dist/ssr/ArrowRight';
 import React, { useState } from 'react';
 
-import { SportTable } from './sport-table/SportTable';
 import { useStaticTranslation } from '../../hooks/UseTranslation';
+
+import { SportTable } from './sport-table/SportTable';
 
 interface FullSportListModalProps {
 }
@@ -20,7 +21,6 @@ export const SportRankFullList: React.FC<FullSportListModalProps> = () => {
         color="inherit"
         endIcon={<ArrowRightIcon fontSize="var(--icon-fontSize-md)" />}
         size="small"
-        sx={{ marginRight: 1}}
         variant="text"
         onClick={handleOpen}
       >

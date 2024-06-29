@@ -4,6 +4,7 @@ import { SxProps } from "@mui/system";
 import { ArrowLeft as ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr/ArrowLeft";
 import { ArrowRight as ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
 import React from "react";
+
 import { useStaticTranslation } from "../../hooks/UseTranslation";
 
 interface MeasureStepperActionsProps {

@@ -6,9 +6,9 @@ import { useMeasureStepperStore } from "../../stores/MeasureStepperStore";
 import { DashboardCard } from "../common/DashboardCard";
 
 import { MeasureStepperProps } from "./interfaces/MeasureStepperProps";
-import { MeasureForm } from "./measure-form/MeasureForm";
-import { MeasureStepperActions } from "./MeasureStepperActions";
+import { MeasureForm, MeasureFormHandle } from "./measure-form/MeasureForm";
 import { MeasureImage } from "./MeasureImage";
+import { MeasureStepperActions } from "./MeasureStepperActions";
 
 export function MeasureStepperCard({
   enterMeasure,
@@ -53,7 +53,7 @@ export function MeasureStepperCard({
         (currentMeasure && (<MeasureImage/>))
       }>
       {currentMeasure && (
-        <MeasureForm 
+        <MeasureForm
           measure={currentMeasure}
           value={currentValue}
           onValueChange={setCurrentValue}/>

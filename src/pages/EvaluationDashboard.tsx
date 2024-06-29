@@ -1,5 +1,6 @@
 
 import Grid from "@mui/material/Unstable_Grid2";
+import { useSnackbar } from "notistack";
 
 import WithApplicationInsights from "../components/core/telemetry/TelemetryWithAppInsights.tsx";
 import { MeasureStepperDrawer } from "../components/measure/measure-stepper-drawer/MeasureStepperDrawer.tsx";
@@ -8,7 +9,7 @@ import { SportRankCard } from "../components/sport/SportRankCard.tsx";
 import { Measure, MeasureType } from "../services/core-service/interfaces/index.ts";
 import { useMeasureValuesStore } from "../stores/MeasureValuesStore.ts";
 import { useSportStore } from "../stores/SportStore.ts";
-import { useSnackbar } from "notistack";
+import { UpdatePasswordForm } from "../components/common/UpdatePasswordForm.tsx";
 
 const EvaluationDashboard = () => {
   const { setValue, measureValues } = useMeasureValuesStore();

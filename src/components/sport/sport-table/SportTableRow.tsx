@@ -2,8 +2,8 @@ import { TableRow as MuiTableRow, TableCell, Chip } from '@mui/material';
 import React from 'react';
 
 import { Status, statusMap } from '../../../hooks/UseSortedSports';
-import { ComputationResult } from '../../../services/core-service/interfaces';
 import { useDynamicTranslation, useStaticTranslation } from '../../../hooks/UseTranslation';
+import { ComputationResult } from '../../../services/core-service/interfaces';
 
 interface SportTableRowProps {
   sport: ComputationResult;
