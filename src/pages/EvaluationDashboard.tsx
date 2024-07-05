@@ -45,6 +45,9 @@ const EvaluationDashboard = () => {
     if (!newMeasureAccepted) {
       enqueueSnackbar("Please provide a valid value for the measure", { variant: "error" });
     }
+    else if (newMeasureProvided) {
+      enqueueSnackbar("Measure accepted. Continue entering to update the ranking table!", { variant: "success" });
+    }
 
     return newMeasureAccepted;
   };
