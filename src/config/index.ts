@@ -20,13 +20,13 @@ export interface AppConfig {
 
 const config: AppConfig = {
   backend: {
-    baseUrl: import.meta.env.BACKEND_BASE_URL || 'http://localhost:8080/api/v1/'
+    baseUrl: import.meta.env.VITE_BACKEND_BASE_URL || 'http://localhost:8080/api/v1/'
   },
   dynamicLocalization: {
-    baseUrl: import.meta.env.DYNAMIC_LOCALIZATION_BASE_URL || ''
+    baseUrl: import.meta.env.VITE_DYNAMIC_LOCALIZATION_BASE_URL || ''
   },
   observability: {
-    connectionString: import.meta.env.APPLICATIONINSIGHTS_CONNECTION_STRING || ''
+    connectionString: import.meta.env.VITE_APPLICATIONINSIGHTS_CONNECTION_STRING || ''
   }
 }
 
