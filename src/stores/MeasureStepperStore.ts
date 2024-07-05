@@ -30,7 +30,7 @@ const initialValues: State = {
   currentInputIndex: 0
 };
 
-const coreService = new CoreService(config.api.baseUrl);
+const coreService = new CoreService(config.backend.baseUrl);
 
 export const useMeasureStepperStore = create<MeasureStepperStore>()(
   persist(

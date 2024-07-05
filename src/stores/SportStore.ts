@@ -25,7 +25,7 @@ const initialValues: State = {
   sports: []
 };
 
-const coreService = new CoreService(config.api.baseUrl);
+const coreService = new CoreService(config.backend.baseUrl);
 
 export const useSportStore = create<SportStore>()(
   persist(
