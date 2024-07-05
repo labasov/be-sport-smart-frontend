@@ -3,7 +3,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import config from "../config";
 import { CoreService } from "../services/core-service/CoreService";
-import { ComputationResult, ComputationType } from "../services/core-service/interfaces";
+import { ComputationResult } from "../services/core-service/interfaces";
 
 import { MeasureValue } from "./interfaces/MeasureValue";
 
@@ -29,7 +29,7 @@ const coreService = new CoreService(config.api.baseUrl);
 
 export const useSportStore = create<SportStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       ...initialValues,
       rankSports: async (measureValues: MeasureValue[]): Promise<void> => {
         set({ loading: true });

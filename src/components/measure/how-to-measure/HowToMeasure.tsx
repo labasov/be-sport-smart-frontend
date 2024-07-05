@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Question as QuestionIcon } from "@phosphor-icons/react/dist/ssr/Question";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Question as QuestionIcon } from "@phosphor-icons/react/dist/ssr/Question";
+import React, { useState } from 'react';
+
 import { useDynamicTranslation, useStaticTranslation } from '../../../hooks/UseTranslation';
 import { YoutubeEmbed } from '../../common/youtube-embed/YoutubeEmbed';
 

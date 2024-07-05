@@ -1,5 +1,4 @@
-import { Grid, Typography, FormControl, Button, Box } from "@mui/material";
-import { Question as QuestionIcon } from "@phosphor-icons/react/dist/ssr/Question";
+import { Grid, Typography, FormControl, Box } from "@mui/material";
 import { useImperativeHandle, forwardRef, useRef } from "react";
 
 import {
@@ -10,10 +9,10 @@ import {
   Measure,
   MeasureType,
 } from "../../../services/core-service/interfaces";
+import HowToMeasure from "../how-to-measure/HowToMeasure";
 
 import { MeasureChoice } from "./MeasureChoice";
 import { MeasureInput } from "./MeasureInput";
-import HowToMeasure from "../how-to-measure/HowToMeasure";
 
 export interface MeasureFormProps {
   measure: Measure;

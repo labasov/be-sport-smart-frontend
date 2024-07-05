@@ -1,4 +1,3 @@
-import { CardMedia } from "@mui/material";
 import * as React from "react";
 import { useEffect } from "react";
 
@@ -6,7 +5,7 @@ import { useMeasureStepperStore } from "../../stores/MeasureStepperStore";
 import { DashboardCard } from "../common/DashboardCard";
 
 import { MeasureStepperProps } from "./interfaces/MeasureStepperProps";
-import { MeasureForm, MeasureFormHandle } from "./measure-form/MeasureForm";
+import { MeasureForm } from "./measure-form/MeasureForm";
 import { MeasureImage } from "./MeasureImage";
 import { MeasureStepperActions } from "./MeasureStepperActions";
 

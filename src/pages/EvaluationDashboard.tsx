@@ -9,7 +9,6 @@ import { SportRankCard } from "../components/sport/SportRankCard.tsx";
 import { Measure, MeasureType } from "../services/core-service/interfaces/index.ts";
 import { useMeasureValuesStore } from "../stores/MeasureValuesStore.ts";
 import { useSportStore } from "../stores/SportStore.ts";
-import { UpdatePasswordForm } from "../components/common/UpdatePasswordForm.tsx";
 
 const EvaluationDashboard = () => {
   const { setValue, measureValues } = useMeasureValuesStore();

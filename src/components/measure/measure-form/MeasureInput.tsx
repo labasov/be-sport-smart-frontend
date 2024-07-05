@@ -4,8 +4,8 @@ import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import React from "react";
 
-import { MeasureType } from "../../../services/core-service/interfaces";
 import { useDynamicTranslation } from "../../../hooks/UseTranslation";
+import { MeasureType } from "../../../services/core-service/interfaces";
 
 interface MeasureInputProps {
   name: string;

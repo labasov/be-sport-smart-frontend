@@ -1,8 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import config from "../config";
-import { CoreService } from "../services/core-service/CoreService";
 import { Measure } from "../services/core-service/interfaces";
 
 import { MeasureValue } from "./interfaces/MeasureValue";
@@ -24,7 +22,7 @@ const initialValues: State = {
   measureValues: [],
 };
 
-const coreService = new CoreService(config.api.baseUrl);
+// const coreService = new CoreService(config.api.baseUrl);
 
 export const useMeasureValuesStore = create<MeasureValuesStore>()(
   persist(
