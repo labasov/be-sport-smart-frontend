@@ -16,7 +16,7 @@ export const MeasureImage: React.FC = () => {
       component="img"
       image={image}
       alt="Sport"
-      sx={{ objectFit: "scale-down", height: 200}}
+      sx={{ objectFit: "scale-down", minHeight: 200}}
     />
   );
 };

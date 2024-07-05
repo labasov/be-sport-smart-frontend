@@ -13,6 +13,7 @@ import {
 
 import { MeasureChoice } from "./MeasureChoice";
 import { MeasureInput } from "./MeasureInput";
+import HowToMeasure from "../how-to-measure/HowToMeasure";
 
 export interface MeasureFormProps {
   measure: Measure;
@@ -89,14 +90,7 @@ export const MeasureForm = forwardRef<MeasureFormHandle, MeasureFormProps>(
             </FormControl>
           </Grid>
           <Grid item md={4} xs={12}>
-            <Button
-              color="info"
-              fullWidth
-              endIcon={<QuestionIcon fontSize="var(--icon-fontSize-md)" />}
-              variant="contained"
-            >
-              {tStatic("measure.form.help")}
-            </Button>
+            <HowToMeasure measureName={measure.name} />
           </Grid>
         </Grid>
       </form>

@@ -58,7 +58,8 @@ export const MeasureInput: React.FC<MeasureInputProps> = ({
       name={name}
       variant={variant}
       size={size}
-      required={true}
+      autoFocus
+      required
       value={value}
       onChange={(event) => onChange(event.target.value)}
     />

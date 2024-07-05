@@ -29,7 +29,13 @@
     },
     "form": {
       "title": "Measure form",
-      "help": "Measure"
+      "help": "Measure",
+      "howToMeasure": "How to measure {{measureName}}"
+    }
+  },
+  "common": {
+    "actions": {
+      "close": "Close"
     }
   }
 }
