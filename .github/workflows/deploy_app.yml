@@ -13,6 +13,7 @@ env:
   APP_NAME: 'app-frontend-besportsmart'
   NODE_VERSION: '20.x'
   DEPLOYMENT_ENVIRONMENT: 'Production'
+  VITE_BACKEND_BASE_URL: 'https://app-backend-besportsmart.azurewebsites.net/'
 
 jobs:
   build:
