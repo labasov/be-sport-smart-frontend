@@ -11,7 +11,7 @@ on:
 
 env:
   APP_NAME: 'app-frontend-besportsmart'
-  DOTNET_CONFIG: 'Release'
+  NODE_VERSION: '20.x'
   DEPLOYMENT_ENVIRONMENT: 'Production'
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: npm install, build, and test
         run: |
