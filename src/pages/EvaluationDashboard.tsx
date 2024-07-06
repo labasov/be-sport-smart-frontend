@@ -9,13 +9,15 @@ import { SportRankCard } from "../components/sport/SportRankCard.tsx";
 import { Measure, MeasureType } from "../services/core-service/interfaces/index.ts";
 import { useMeasureValuesStore } from "../stores/MeasureValuesStore.ts";
 import { useSportStore } from "../stores/SportStore.ts";
+import { useStaticTranslation } from "../hooks/UseTranslation.ts";
 
 const EvaluationDashboard = () => {
+  const { t } = useStaticTranslation();
   const { setValue, measureValues } = useMeasureValuesStore();
   const { rankSports } = useSportStore();
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleEnterMeasure = (measure: Measure, value?: string) => {
+  const handleEnterMeasure = async (measure: Measure, value?: string) : Promise<boolean> => {
     let newMeasureProvided = false;
     let newMeasureAccepted = false;
 
@@ -39,14 +41,14 @@ const EvaluationDashboard = () => {
     }
 
     if (newMeasureProvided) {
-      rankSports(measureValues);
+      await rankSports(measureValues);
     }
 
     if (!newMeasureAccepted) {
-      enqueueSnackbar("Please provide a valid value for the measure", { variant: "error" });
+      enqueueSnackbar(t("sport.rank.alerts.nonValidMeasure"), { variant: "error" });
     }
     else if (newMeasureProvided) {
-      enqueueSnackbar("Measure accepted. Continue entering to update the ranking table!", { variant: "success" });
+      enqueueSnackbar(t("sport.rank.alerts.measureAccepted"), { variant: "info" });
     }
 
     return newMeasureAccepted;

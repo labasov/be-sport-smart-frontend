@@ -3,7 +3,6 @@ import React from 'react';
 
 import { useSortedSports } from "../../../hooks/UseSortedSports";
 import { ComputationResult } from "../../../services/core-service/interfaces";
-import { useSportStore } from '../../../stores/SportStore';
 
 import { SportTableHeader } from './SportTableHeader';
 import { SportTableRow } from './SportTableRow';
@@ -14,10 +13,9 @@ interface SportTableProps {
 }
 
 export const SportTable: React.FC<SportTableProps> = ({ recordsLimit, sx }) => {
-  const { sports } = useSportStore();
-  const { sortedSports, rankMap, getStatusByRank } = useSortedSports(sports);
+  const { sports, rankMap, getStatusByRank } = useSortedSports();
 
-  const displayedSports = recordsLimit ? sortedSports.slice(0, recordsLimit) : sortedSports;
+  const displayedSports = recordsLimit ? sports.slice(0, recordsLimit) : sports;
 
   return (
     <Table sx={{ minWidth: 800, ...sx }}>

@@ -63,7 +63,7 @@ export const MeasureForm = forwardRef<MeasureFormHandle, MeasureFormProps>(
             </Grid>
           </Grid>
         </Box>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{ mt : 1}}>
           <Grid item md={8} xs={12}>
             <FormControl fullWidth required>
               {measure.type === MeasureType.Boolean ? (

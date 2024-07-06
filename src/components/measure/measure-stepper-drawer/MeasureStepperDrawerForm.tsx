@@ -28,8 +28,8 @@ export const MeasureStepperDrawerForm: React.FC<MeasureStepperProps> = ({ enterM
     setCurrentValue(undefined);
   };
 
-  const handleClickNext = () => {
-    if (enterMeasure(currentMeasure!, currentValue)) {
+  const handleClickNext = async () => {
+    if (await enterMeasure(currentMeasure!, currentValue)) {
       moveNext();
       setCurrentValue(undefined);
     }

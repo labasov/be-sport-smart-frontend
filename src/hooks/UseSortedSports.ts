@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { ComputationResult } from '../services/core-service/interfaces';
+import { useSportStore } from '../stores/SportStore';
+import { useSnackbar } from 'notistack';
+import { useStaticTranslation } from './UseTranslation';
 
 export type Status = {
   label: string;
@@ -14,7 +17,13 @@ export type StatusMap = {
   unknown: Status;
 };
 
-export const statusMap: StatusMap  = {
+export type UseSortedSports = {
+  sports: ComputationResult[];
+  rankMap: Record<number, number>;
+  getStatusByRank: (rank: number) => Status;
+};
+
+export const statusMap: StatusMap = {
   recommended: { label: 'recommended', color: 'success' },
   neutral: { label: 'possible', color: 'warning' },
   notRecommended: { label: 'not_recommended', color: 'error' },
@@ -30,11 +39,15 @@ const getStatusByRank = (rank: number): Status => {
   return statusMap.notRecommended;
 };
 
-export const useSortedSports = (sports: ComputationResult[]) => {
+export const useSortedSports = (): UseSortedSports => {
+  const { t } = useStaticTranslation();
+  const { sports } = useSportStore();
+  const { enqueueSnackbar } = useSnackbar();
   const [sortedSports, setSortedSports] = useState<ComputationResult[]>([]);
   const [rankMap, setRankMap] = useState<Record<number, number>>({});
 
   useEffect(() => {
+    const previousTopSport = sortedSports[0];
     const validResults = sports.filter(sport => !isNaN(sport.result as any));
     const unknownResults = sports.filter(sport => isNaN(sport.result as any));
 
@@ -50,8 +63,17 @@ export const useSortedSports = (sports: ComputationResult[]) => {
     });
 
     setRankMap(tempRankMap);
-    setSortedSports([...validResults, ...unknownResults]);
+    const newSortedSports = [...validResults, ...unknownResults];
+    const newTopSport = newSortedSports[0];
+    setSortedSports(newSortedSports);
+
+    if (!!newTopSport && !isNaN(newTopSport.result)
+      && !!previousTopSport && !isNaN(previousTopSport.result)
+      && newTopSport.name !== previousTopSport.name ) {
+      enqueueSnackbar(t("sport.rank.alerts.topSportUpdate"), { variant: "success" });
+    }
+
   }, [sports]);
 
-  return { sortedSports, rankMap, getStatusByRank };
+  return { sports: sortedSports, rankMap, getStatusByRank };
 };
