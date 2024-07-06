@@ -16,7 +16,7 @@ import { usePopover } from '../../hooks/UsePopover';
 import { UserPopover } from './UserPopover';
 
 export function MainNav(): React.JSX.Element {
-  const [_, setOpenNav] = React.useState<boolean>(false);
+  const [, setOpenNav] = React.useState<boolean>(false);
 
   const userPopover = usePopover<HTMLDivElement>();
 

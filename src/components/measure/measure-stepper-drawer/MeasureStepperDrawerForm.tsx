@@ -21,7 +21,7 @@ export const MeasureStepperDrawerForm: React.FC<MeasureStepperProps> = ({ enterM
     if(!initialized) {
       loadMeasures();
     }
-  }, []);
+  }, [initialized, loadMeasures]);
 
   const handleClickBack = () => {
     moveBack();

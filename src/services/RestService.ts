@@ -11,13 +11,20 @@ export interface Entity {
   updated?: Date
 }
 
-export abstract class RestService<T extends Entity> {
+export abstract class RestServiceBase {
   protected client: AxiosInstance;
 
   public constructor(baseUrl: string, baseRoute: string) {
     this.client = axios.create({
       baseURL: `${baseUrl}${baseRoute}`
     });
+  }
+}
+
+export abstract class RestService<T extends Entity> extends RestServiceBase {
+
+  public constructor(baseUrl: string, baseRoute: string) {
+    super(baseUrl, baseRoute);
   }
 
   public async getList(queryOptions?: QueryOptions): Promise<T[]> {

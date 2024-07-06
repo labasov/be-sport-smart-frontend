@@ -15,17 +15,17 @@ export const SportTableRow: React.FC<SportTableRowProps> = ({ sport, rankMap, ge
   const { t } = useDynamicTranslation();
   const { t: tStatic } = useStaticTranslation();
   const { result } = sport;
-  const { label, color } = isNaN(result as any)
+  const { label, color } = isNaN(result)
     ? statusMap.unknown
     : getStatusByRank(rankMap[result as number]);
 
   return (
     <MuiTableRow hover key={sport.name}>
       <TableCell>{t(`sports.${sport.name}.name`)}</TableCell>
-      <TableCell>{isNaN(result as any) ? '-' : result}</TableCell>
+      <TableCell>{isNaN(result) ? '-' : result}</TableCell>
       <TableCell>-</TableCell>
       <TableCell>
-        <Chip color={color as any} label={tStatic(`sport.table.labels.${label}`)} size="small" />
+        <Chip color={color} label={tStatic(`sport.table.labels.${label}`)} size="small" />
       </TableCell>
     </MuiTableRow>
   );

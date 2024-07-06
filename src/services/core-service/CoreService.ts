@@ -1,8 +1,8 @@
-import { RestService } from "../RestService";
+import { RestServiceBase } from "../RestService";
 
 import { ComputationResult as Sport, ComputationType, Measure } from "./interfaces";
 
-export class CoreService extends RestService<any> {
+export class CoreService extends RestServiceBase {
   public constructor(baseUrl: string) {
     super(baseUrl, 'core');
   }

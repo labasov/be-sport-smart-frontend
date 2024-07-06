@@ -1,8 +1,9 @@
+import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 
 import { ComputationResult } from '../services/core-service/interfaces';
 import { useSportStore } from '../stores/SportStore';
-import { useSnackbar } from 'notistack';
+
 import { useStaticTranslation } from './UseTranslation';
 
 export type Status = {
@@ -48,10 +49,10 @@ export const useSortedSports = (): UseSortedSports => {
 
   useEffect(() => {
     const previousTopSport = sortedSports[0];
-    const validResults = sports.filter(sport => !isNaN(sport.result as any));
-    const unknownResults = sports.filter(sport => isNaN(sport.result as any));
+    const validResults = sports.filter(sport => !isNaN(sport.result));
+    const unknownResults = sports.filter(sport => isNaN(sport.result));
 
-    validResults.sort((a, b) => (a.result as any) - (b.result as any));
+    validResults.sort((a, b) => (a.result) - (b.result));
 
     const tempRankMap: Record<number, number> = {};
     let currentRank = 1;

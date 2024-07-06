@@ -6,10 +6,10 @@ import WithApplicationInsights from "../components/core/telemetry/TelemetryWithA
 import { MeasureStepperDrawer } from "../components/measure/measure-stepper-drawer/MeasureStepperDrawer.tsx";
 import { MeasureStepperCard } from "../components/measure/MeasureStepperCard.tsx";
 import { SportRankCard } from "../components/sport/SportRankCard.tsx";
+import { useStaticTranslation } from "../hooks/UseTranslation.ts";
 import { Measure, MeasureType } from "../services/core-service/interfaces/index.ts";
 import { useMeasureValuesStore } from "../stores/MeasureValuesStore.ts";
 import { useSportStore } from "../stores/SportStore.ts";
-import { useStaticTranslation } from "../hooks/UseTranslation.ts";
 
 const EvaluationDashboard = () => {
   const { t } = useStaticTranslation();

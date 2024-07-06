@@ -1,3 +1,4 @@
+import { Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { FC, ReactElement } from "react";
@@ -6,7 +7,6 @@ import { MainNav } from "./common/MainNav";
 import MainRoutes from "./MainRoutes";
 
 import "../styles/global.css"
-import { Grid } from "@mui/material";
 
 const MainLayout: FC = (): ReactElement => {
   return (

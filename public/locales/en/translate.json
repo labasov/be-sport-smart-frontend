@@ -2,7 +2,7 @@
   "sport": {
     "rank": {
       "title":"Sport list",
-      "alersts": {
+      "alerts": {
         "topSportUpdate": "#1 sport updated! Keep measuring for accuracy!",
         "nonValidMeasure": "Please provide a valid value for the measure",
         "measureAccepted": "Measure accepted. Keep entering to update rankings!"

@@ -15,7 +15,7 @@ export interface SportRankCardProps {
   sx?: SxProps;
 }
 
-export function SportRankCard({ }: SportRankCardProps): React.JSX.Element {
+export function SportRankCard(): React.JSX.Element {
   const { measureValues } = useMeasureValuesStore();
   const { initialized, rankSports } = useSportStore();
 
@@ -23,7 +23,7 @@ export function SportRankCard({ }: SportRankCardProps): React.JSX.Element {
     if (!initialized) {
       rankSports(measureValues);
     }
-  }, []);
+  }, [initialized, rankSports, measureValues]);
 
   return (
     <DashboardCard
