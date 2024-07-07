@@ -31,7 +31,7 @@ export function SportRankCard(): React.JSX.Element {
       titleKey='sport.rank.title'
       noPadding={true}
       loading={loading}
-      actions={
+      buttomActions={
         <SportRankFullList />
       }>
       <SportTable recordsLimit={cardSportCountLimit}/>

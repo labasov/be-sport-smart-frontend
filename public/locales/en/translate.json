@@ -1,7 +1,7 @@
 {
   "sport": {
     "rank": {
-      "title":"Sport list",
+      "title":"Your sports",
       "alerts": {
         "topSportUpdate": "#1 sport updated! Keep measuring for accuracy!",
         "nonValidMeasure": "Please provide a valid value for the measure",
@@ -26,13 +26,20 @@
   },
   "measure": {
     "stepper": {
-      "title": "Measure stepper",
+      "title": "Measurement",
       "actions": {
-        "next": "Next",
+        "next": "Enter",
         "back": "Back",
-        "reset": "Reset",
-        "enter": "Enter"
+        "reset": "Start over",
+        "enter": "Done",
+        "startOverQuestion": "Are you sure you want to start over?"
       }
+    },
+    "finalScreen": {
+      "wellDone": "Well done!",
+      "whereToExamine": "Where to examine?",
+      "complitionTitle": "You've successfully completed all home measures.",
+      "complitionDescription": "For more accurate, Olympic-level rankings, visit a gym facility. Click the button below to find out where."
     },
     "form": {
       "title": "Measure form",
@@ -43,7 +50,9 @@
   },
   "common": {
     "actions": {
-      "close": "Close"
+      "close": "Close",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
     },
     "brand": "Be Sport Smart",
     "brandDescription": "Be smart about your sport, use your full potential."

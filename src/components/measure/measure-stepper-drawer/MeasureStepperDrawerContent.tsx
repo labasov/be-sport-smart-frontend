@@ -1,24 +1,35 @@
 import { Box } from "@mui/material";
-import React, {  } from "react";
+import React from "react";
 
-import { useMeasureContext } from "../../../hooks/UseMeasureContext";
+import {
+  ScreenType,
+  useMeasureContext,
+} from "../../../hooks/UseMeasureContext";
+import FinalScreen from "../FinalScreen";
 import { MeasureForm } from "../measure-form/MeasureForm";
 import { MeasureImage } from "../MeasureImage";
 
 export const MeasureStepperDrawerForm: React.FC = () => {
-  const { currentValue, setCurrentValue, actions, currentMeasure} = useMeasureContext();
+  const { currentValue, screenType, setCurrentValue, actions, currentMeasure } =
+    useMeasureContext();
+
+  const isMeasuring = screenType == ScreenType.Measuring;
 
   return (
     <>
-      <MeasureImage/>
-      <Box sx={{padding: 2}}>
-        <MeasureForm 
-          measure={currentMeasure}
-          value={currentValue}
-          onValueChange={setCurrentValue}/>
-        <Box sx={{paddingTop: 2}}>
+      {isMeasuring && <MeasureImage />}
+      <Box sx={{ padding: 2 }}>
+        {(isMeasuring && (
+          <MeasureForm
+            measure={currentMeasure}
+            value={currentValue}
+            onValueChange={setCurrentValue}
+          />
+        )) || <FinalScreen />}
+        <Box sx={{ paddingTop: isMeasuring ? 2 : 6 }}>
           {actions}
         </Box>
       </Box>
-    </>);
+    </>
+  );
 };

@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { ArrowRight as ArrowRightIcon } from '@phosphor-icons/react/dist/ssr/ArrowRight';
+import { List as ListIcon } from '@phosphor-icons/react/dist/ssr/List';
 import React, { useState } from 'react';
 
 import { useStaticTranslation } from '../../hooks/UseTranslation';
@@ -19,7 +19,7 @@ export const SportRankFullList: React.FC<FullSportListModalProps> = () => {
     <>
       <Button
         color="inherit"
-        endIcon={<ArrowRightIcon fontSize="var(--icon-fontSize-md)" />}
+        startIcon={<ListIcon fontSize="var(--icon-fontSize-md)" />}
         size="small"
         variant="text"
         onClick={handleOpen}

@@ -38,7 +38,8 @@ export const MeasureInput: React.FC<MeasureInputProps> = ({
           name={name}
           variant={variant}
           size={size}
-          defaultValue={value || options[0]}
+          value={value}
+          defaultValue={options[0]}
           onChange={(event) => onChange(event.target.value)}
         >
           {options.map((option) => (

@@ -3,10 +3,10 @@ import Button from "@mui/material/Button";
 import { SxProps } from "@mui/system";
 import { ArrowCounterClockwise as ArrowCounterClockwiseIcon } from "@phosphor-icons/react/dist/ssr/ArrowCounterClockwise";
 import { ArrowLeft as ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr/ArrowLeft";
-import { ArrowRight as ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
 import React from "react";
 
 import { useStaticTranslation } from "../../hooks/UseTranslation";
+import { ConfirmationPopover } from "../common/ConfirmationPopover";
 
 interface MeasureStepperActionsProps {
   onClickBack: () => void;
@@ -15,6 +15,7 @@ interface MeasureStepperActionsProps {
   firstStep: boolean;
   lastStep: boolean;
   showReset: boolean;
+  showSubmit: boolean;
   sx?: SxProps;
 }
 
@@ -25,6 +26,7 @@ export const MeasureStepperActions: React.FC<MeasureStepperActionsProps> = ({
   firstStep,
   lastStep,
   showReset,
+  showSubmit,
   sx,
 }) => {
   const { t } = useStaticTranslation();
@@ -49,36 +51,51 @@ export const MeasureStepperActions: React.FC<MeasureStepperActionsProps> = ({
         display: "flex",
         justifyContent: "space-between",
         width: "100%",
+        pb: "2",
       }}
     >
-      <Button
-        color="secondary"
-        startIcon={<ArrowLeftIcon fontSize="var(--icon-fontSize-md)" />}
-        variant="contained"
-        onClick={onClickBack}
-        disabled={isSubmitting || firstStep}
-      >
-        {t("measure.stepper.actions.back")}
-      </Button>
-      {(showReset && (
+      <Box>
         <Button
-          color="primary"
-          endIcon={<ArrowCounterClockwiseIcon fontSize="var(--icon-fontSize-md)" />}
+          color="secondary"
+          startIcon={<ArrowLeftIcon fontSize="var(--icon-fontSize-md)" />}
           variant="text"
-          onClick={handleReset}
-          disabled={isSubmitting}
+          size="small"
+          onClick={onClickBack}
+          disabled={isSubmitting || firstStep}
         >
-          {t("measure.stepper.actions.reset")}
+          {t("measure.stepper.actions.back")}
         </Button>
-      )) || (
+        {showReset && (
+          <ConfirmationPopover
+            onConfirm={handleReset}
+            message={t("measure.stepper.actions.startOverQuestion")}
+          >
+            <Button
+              sx={{ ml: 1 }}
+              color="secondary"
+              startIcon={
+                <ArrowCounterClockwiseIcon fontSize="var(--icon-fontSize-md)" />
+              }
+              variant="outlined"
+              size="small"
+              disabled={isSubmitting}
+            >
+              {t("measure.stepper.actions.reset")}
+            </Button>
+          </ConfirmationPopover>
+        )}
+      </Box>
+      {showSubmit && (
         <Button
           color="primary"
-          endIcon={lastStep ? <></> : <ArrowRightIcon fontSize="var(--icon-fontSize-md)" />}
-          variant="contained"
+          variant="outlined"
           onClick={handleSubmit}
-          disabled={isSubmitting}
+          size="small"
+          disabled={isSubmitting || showReset}
         >
-          {lastStep ? t("measure.stepper.actions.enter") : t("measure.stepper.actions.next")}
+          {lastStep
+            ? t("measure.stepper.actions.enter")
+            : t("measure.stepper.actions.next")}
         </Button>
       )}
     </Box>

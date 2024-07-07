@@ -29,7 +29,7 @@ const UserActionButton = (): React.JSX.Element => {
           sx={{ cursor: 'pointer' }}
         />
       ) : (
-        <Button variant="contained" color="primary" onClick={handleLogin}>
+        <Button variant="contained" size="small" color="primary" onClick={handleLogin}>
           {t('auth.actions.signIn')}
         </Button>
       )}

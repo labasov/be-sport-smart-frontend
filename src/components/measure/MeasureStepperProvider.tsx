@@ -2,7 +2,7 @@ import { enqueueSnackbar } from "notistack";
 import * as React from "react";
 import { useEffect } from "react";
 
-import { MeasureContext } from "../../hooks/UseMeasureContext";
+import { MeasureContext, ScreenType } from "../../hooks/UseMeasureContext";
 import { useStaticTranslation } from "../../hooks/UseTranslation";
 import { MeasureType } from "../../services/core-service/interfaces";
 import { useMeasureStepperStore } from "../../stores/MeasureStepperStore";
@@ -11,7 +11,7 @@ import { useMeasureValuesStore } from "../../stores/MeasureValuesStore";
 import { MeasureStepperActions } from "./MeasureStepperActions";
 
 export interface MeasureStepperProviderProps {
-  measuresUpdated: () => Promise<void>;
+  measuresUpdated: (useNoValues?: boolean) => Promise<void>;
   children : React.ReactNode
 }
 
@@ -41,7 +41,8 @@ export function MeasureStepperProvider({
   }, []);
 
   const handleClickBack = () => {
-    moveBack()
+    moveBack();
+    setSubmittedLastMeasure(false);
   };
 
   const handleClickSubmit = async () => {
@@ -87,7 +88,7 @@ export function MeasureStepperProvider({
 
   const handleClickReset = async () => {
     clearAllMeasureValues();
-    await measuresUpdated();
+    await measuresUpdated(true);
     moveFirst();
     setSubmittedLastMeasure(false);
   }
@@ -97,6 +98,7 @@ export function MeasureStepperProvider({
       return;
     }
 
+    setSubmittedLastMeasure(false);
     setMeasureValue(currentMeasure, value);
   }
 
@@ -107,11 +109,14 @@ export function MeasureStepperProvider({
     firstStep={currentMeasureIndex === 0}
     lastStep={currentMeasureIndex === measureCount - 1}
     showReset={submittedLastMeasure}
+    showSubmit={true}
   />
 
+  const screenType = submittedLastMeasure ? ScreenType.Final : ScreenType.Measuring;
+
   return (
-    <MeasureContext.Provider value={{ loading, actions, currentValue: getMeasureValue(currentMeasure!), setCurrentValue: handleSetCurrentValue, currentMeasure }}>
-      {children}
+    <MeasureContext.Provider value={{ loading, screenType, actions, currentValue: getMeasureValue(currentMeasure!), setCurrentValue: handleSetCurrentValue, currentMeasure }}>
+      { children}
     </MeasureContext.Provider>
   );
 }

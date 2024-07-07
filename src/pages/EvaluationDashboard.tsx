@@ -1,4 +1,3 @@
-
 import Grid from "@mui/material/Unstable_Grid2";
 
 import WithApplicationInsights from "../components/core/telemetry/TelemetryWithAppInsights.tsx";
@@ -13,22 +12,24 @@ const EvaluationDashboard = () => {
   const { measureValues } = useMeasureValuesStore();
   const { rankSports } = useSportStore();
 
-  const handleMeasuresUpdated = async () : Promise<void> => {
-    await rankSports(measureValues);
+  const handleMeasuresUpdated = async (
+    useNoValues?: boolean
+  ): Promise<void> => {
+    await rankSports(useNoValues ? [] : measureValues);
   };
 
   return (
-    <Grid container spacing={3} sx={{  mt: {xs : 3}, mb: { xs: 7 } }}>
+    <Grid container spacing={3} sx={{ mt: { xs: 3 }, mb: { xs: 7 } }}>
       <Grid lg={8} xs={12}>
-        <SportRankCard/>
+        <SportRankCard />
       </Grid>
-      <Grid lg={4} xs={12} sx={{ display: { xs: 'none', sm: 'block' } }}>
+      <Grid lg={4} xs={12} sx={{ display: { xs: "none", sm: "block" } }}>
         <MeasureStepperProvider measuresUpdated={handleMeasuresUpdated}>
-          <MeasureStepperCard/>
+          <MeasureStepperCard />
         </MeasureStepperProvider>
       </Grid>
       <MeasureStepperProvider measuresUpdated={handleMeasuresUpdated}>
-        <MeasureStepperDrawer/>
+        <MeasureStepperDrawer />
       </MeasureStepperProvider>
     </Grid>
   );

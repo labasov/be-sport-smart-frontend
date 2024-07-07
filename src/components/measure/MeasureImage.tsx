@@ -3,9 +3,9 @@ import CardMedia from '@mui/material/CardMedia';
 import { exists } from 'i18next';
 import React from 'react';
 
+import { DynamicNamespace } from '../../constants/LocalizationConstants';
 import { useDynamicTranslation } from '../../hooks/UseTranslation';
 import { useMeasureStepperStore } from '../../stores/MeasureStepperStore';
-import { DynamicNamespace } from '../../constants/LocalizationConstants';
 
 export const MeasureImage: React.FC = () => {
   const { getCurrentMeasure } = useMeasureStepperStore();

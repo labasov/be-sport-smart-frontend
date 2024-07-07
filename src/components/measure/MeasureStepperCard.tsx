@@ -1,26 +1,39 @@
 import * as React from "react";
 
-import { useMeasureContext } from "../../hooks/UseMeasureContext";
+import { ScreenType, useMeasureContext } from "../../hooks/UseMeasureContext";
 import { DashboardCard } from "../common/DashboardCard";
 
+import FinalScreen from "./FinalScreen";
 import { MeasureForm } from "./measure-form/MeasureForm";
 import { MeasureImage } from "./MeasureImage";
 
 export function MeasureStepperCard(): React.JSX.Element {
-  const { loading, currentValue, setCurrentValue, actions, currentMeasure} = useMeasureContext();
+  const {
+    loading,
+    screenType,
+    currentValue,
+    setCurrentValue,
+    actions,
+    currentMeasure,
+  } = useMeasureContext();
 
   return (
     <DashboardCard
       titleKey={"measure.stepper.title"}
       loading={loading}
-      actions={actions}
-      media={
-        <MeasureImage/>
-      }>
-      <MeasureForm
-        measure={currentMeasure}
-        value={currentValue}
-        onValueChange={setCurrentValue}/>
+      buttomActions={actions}
+      media={(screenType == ScreenType.Measuring && <MeasureImage />)}
+    >
+      {screenType == ScreenType.Measuring && (
+        <MeasureForm
+          measure={currentMeasure}
+          value={currentValue}
+          onValueChange={setCurrentValue}
+        />
+      )
+      || (
+        <FinalScreen/>
+      )}
     </DashboardCard>
   );
 }

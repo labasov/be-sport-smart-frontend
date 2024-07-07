@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, useMediaQuery } from '@mui/material';
 import { Question as QuestionIcon } from "@phosphor-icons/react/dist/ssr/Question";
 import React, { useState } from 'react';
 
@@ -12,6 +12,7 @@ interface ButtonWithDialogProps {
 const ButtonWithDialog: React.FC<ButtonWithDialogProps> = ({ measureName }) => {
   const { t: tDynamic } = useDynamicTranslation();
   const { t: tStatic } = useStaticTranslation();
+  const isMobile = useMediaQuery("(max-width:600px)");
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpenDialog = () => {
@@ -30,8 +31,8 @@ const ButtonWithDialog: React.FC<ButtonWithDialogProps> = ({ measureName }) => {
           color="info"
           fullWidth
           onClick={handleOpenDialog} 
-          endIcon={<QuestionIcon fontSize="var(--icon-fontSize-md)" />}
-          variant="contained"
+          startIcon={<QuestionIcon fontSize="var(--icon-fontSize-md)" />}
+          variant="text"
         >
           {tStatic("measure.form.help")}
         </Button>
@@ -44,7 +45,7 @@ const ButtonWithDialog: React.FC<ButtonWithDialogProps> = ({ measureName }) => {
             {tStatic("measure.form.howToMeasure", { measureName: measureName })}
           </DialogTitle>
           <DialogContent
-            sx={{paddingBottom: 0}}
+            sx={{paddingBottom: 0, minWidth: isMobile ? '310px' : '650px'}}
           >
             {!!youtubeEmbdedId && (
               <YoutubeEmbed 
