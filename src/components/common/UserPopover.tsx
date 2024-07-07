@@ -25,7 +25,7 @@ export interface UserPopoverProps {
 export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): React.JSX.Element {
   //const { checkSession } = useUser();
   const { enqueueSnackbar } = useSnackbar();
-  const { signOut } = useUserStore();
+  const { userEmail, signOut } = useUserStore();
 
   const router = useNavigate();
 
@@ -49,7 +49,7 @@ export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): Reac
       <Box sx={{ p: '16px 20px ' }}>
         <Typography variant="subtitle1">Sofia Rivers</Typography>
         <Typography color="text.secondary" variant="body2">
-          sofia.rivers@devias.io
+          {userEmail}
         </Typography>
       </Box>
       <Divider />
