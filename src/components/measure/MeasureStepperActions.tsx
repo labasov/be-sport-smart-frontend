@@ -9,7 +9,7 @@ import { useStaticTranslation } from "../../hooks/UseTranslation";
 
 interface MeasureStepperActionsProps {
   onClickBack: () => void;
-  onClickNext: () => void;
+  onClickNext: () => Promise<void>;
   sx?: SxProps
 }
 
@@ -19,6 +19,12 @@ export const MeasureStepperActions: React.FC<MeasureStepperActionsProps> = ({
   sx,
 }) => {
   const { t } = useStaticTranslation();
+  const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+  const handleNext = async () => {
+    setIsSubmitting(true);
+    await onClickNext();
+    setIsSubmitting(false);
+  }
 
   return (
     <Box
@@ -41,7 +47,8 @@ export const MeasureStepperActions: React.FC<MeasureStepperActionsProps> = ({
         color="primary"
         endIcon={<ArrowRightIcon fontSize="var(--icon-fontSize-md)" />}
         variant="contained"
-        onClick={onClickNext}
+        onClick={handleNext}
+        disabled={isSubmitting}
       >
         {t('measure.stepper.actions.next')}
       </Button>

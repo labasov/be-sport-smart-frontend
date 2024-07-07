@@ -21,6 +21,8 @@ export type StatusMap = {
 export type UseSortedSports = {
   sports: ComputationResult[];
   rankMap: Record<number, number>;
+  loading: boolean;
+  initialized: boolean;
   getStatusByRank: (rank: number) => Status;
 };
 
@@ -42,7 +44,7 @@ const getStatusByRank = (rank: number): Status => {
 
 export const useSortedSports = (): UseSortedSports => {
   const { t } = useStaticTranslation();
-  const { sports } = useSportStore();
+  const { loading, initialized, sports } = useSportStore();
   const { enqueueSnackbar } = useSnackbar();
   const [sortedSports, setSortedSports] = useState<ComputationResult[]>([]);
   const [rankMap, setRankMap] = useState<Record<number, number>>({});
@@ -76,5 +78,5 @@ export const useSortedSports = (): UseSortedSports => {
 
   }, [sports]);
 
-  return { sports: sortedSports, rankMap, getStatusByRank };
+  return { sports: sortedSports, rankMap, getStatusByRank, loading, initialized };
 };
