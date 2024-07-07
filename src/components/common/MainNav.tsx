@@ -1,4 +1,3 @@
-import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -10,18 +9,14 @@ import { MagnifyingGlass as MagnifyingGlassIcon } from '@phosphor-icons/react/di
 import { Users as UsersIcon } from '@phosphor-icons/react/dist/ssr/Users';
 import * as React from 'react';
 
-import { usePopover } from '../../hooks/UsePopover';
-
 // import { MobileNav } from './MobileNav';
-import { UserPopover } from './UserPopover';
+import UserActionButton from '../account/UserActionButton';
 
 export function MainNav(): React.JSX.Element {
   const [, setOpenNav] = React.useState<boolean>(false);
 
-  const userPopover = usePopover<HTMLDivElement>();
-
   return (
-    <React.Fragment>
+    <>
       <Box
         component="header"
         sx={{
@@ -65,22 +60,17 @@ export function MainNav(): React.JSX.Element {
                 </IconButton>
               </Badge>
             </Tooltip>
-            <Avatar
-              onClick={userPopover.handleOpen}
-              ref={userPopover.anchorRef}
-              src="/assets/avatar.png"
-              sx={{ cursor: 'pointer' }}
-            />
+            <UserActionButton/>
           </Stack>
         </Stack>
       </Box>
-      <UserPopover anchorEl={userPopover.anchorRef.current} onClose={userPopover.handleClose} open={userPopover.open} />
+
       {/* <MobileNav
         onClose={() => {
           setOpenNav(false);
         }}
         open={openNav}
       /> */}
-    </React.Fragment>
+    </>
   );
 }

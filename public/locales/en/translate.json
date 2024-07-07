@@ -36,11 +36,38 @@
       "title": "Measure form",
       "help": "Measure",
       "howToMeasure": "How to measure {{measureName}}"
+
     }
   },
   "common": {
     "actions": {
       "close": "Close"
-    }
+    },
+    "brand": "Be Sport Smart",
+    "brandDescription": "Be smart about your sport, use your full potential."
+  },
+  "auth": {
+    "fields": {
+      "emailAddress": "Email address",
+      "password": "Password",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "validation": {
+        "emailAddress": "Email address is required",
+        "password": "Password is required",
+        "passwordMinLength": "Password must be at least 6 characters long",
+        "terms": "You must accept the terms and conditions"
+      }
+    },
+    "actions": {
+      "signUp": "Sign up",
+      "signIn": "Sign in",
+      "dontHaveAccount": "Don't have an account?",
+      "alreadyHaveAccount": "Already have an account?",
+      "forgotPassword": "Forgot password?",
+      "iHaveRead": "I have read the <0>terms and conditions</0>"
+    },
+    "welcomeTo": "Welcome to",
+    "accountCreated": "Account {{email}} created successfully!"
   }
 }

@@ -8,10 +8,12 @@ import Typography from '@mui/material/Typography';
 import { GearSix as GearSixIcon } from '@phosphor-icons/react/dist/ssr/GearSix';
 import { SignOut as SignOutIcon } from '@phosphor-icons/react/dist/ssr/SignOut';
 import { User as UserIcon } from '@phosphor-icons/react/dist/ssr/User';
+import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { routes } from '../../routes';
+import { useUserStore } from '../../stores/UserStore';
 // import { useUser } from '@/hooks/use-user';
 
 export interface UserPopoverProps {
@@ -22,26 +24,17 @@ export interface UserPopoverProps {
 
 export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): React.JSX.Element {
   //const { checkSession } = useUser();
+  const { enqueueSnackbar } = useSnackbar();
+  const { signOut } = useUserStore();
 
   const router = useNavigate();
 
   const handleSignOut = React.useCallback(async (): Promise<void> => {
     try {
-      const error = null; // await authClient.signOut();
-
-      if (error) {
-        // logger.error('Sign out error', error);
-        return;
-      }
-
-      // Refresh the auth state
-      // await checkSession?.();
-
-      // UserProvider, for this case, will not refresh the router and we need to do it manually
-      // router.refresh();
-      // After refresh, AuthGuard will handle the redirect
-    } catch (err) {
-      // logger.error('Sign out error', err);
+      onClose();
+      await signOut()
+    } catch (error) {
+      enqueueSnackbar('An error occurred while signing out', { variant: 'error' });
     }
   }, [router]);
 

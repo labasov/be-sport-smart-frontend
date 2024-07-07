@@ -19,6 +19,17 @@ export abstract class RestServiceBase {
       baseURL: `${baseUrl}${baseRoute}`
     });
   }
+
+  public async post<T>(url: string, data?: object): Promise<T> {
+    const response = await this.client.request<T>({
+      method: 'POST',
+      url,
+      data: data || {},
+      withCredentials: true
+    });
+
+    return response.data;
+  }
 }
 
 export abstract class RestService<T extends Entity> extends RestServiceBase {
@@ -36,7 +47,7 @@ export abstract class RestService<T extends Entity> extends RestServiceBase {
     return response.data;
   }
 
-  public async get(id: string): Promise<T> {
+  public async getEntity(id: string): Promise<T> {
     const response = await this.client.request<T>({
       method: 'GET',
       url: id
@@ -45,20 +56,20 @@ export abstract class RestService<T extends Entity> extends RestServiceBase {
     return response.data
   }
 
-  public async save(entity: T): Promise<T> {
+  public async saveEntity(entity: T): Promise<T> {
     return entity.id
-      ? await this.put(entity)
-      : await this.post(entity);
+      ? await this.putEntity(entity)
+      : await this.postEntity(entity);
   }
 
-  public async delete(id: string): Promise<void> {
+  public async deleteEntity(id: string): Promise<void> {
     await this.client.request<void>({
       method: 'DELETE',
       url: id
     });
   }
 
-  private async post(entity: T): Promise<T> {
+  private async postEntity(entity: T): Promise<T> {
     const response = await this.client.request<T>({
       method: 'POST',
       data: entity
@@ -67,7 +78,7 @@ export abstract class RestService<T extends Entity> extends RestServiceBase {
     return response.data;
   }
 
-  private async put(entity: T): Promise<T> {
+  private async putEntity(entity: T): Promise<T> {
     const response = await this.client.request<T>({
       method: 'PUT',
       url: entity.id,
@@ -77,7 +88,7 @@ export abstract class RestService<T extends Entity> extends RestServiceBase {
     return response.data;
   }
 
-  public async patch(id: string, entity: Partial<T>): Promise<T> {
+  public async patchEntity(id: string, entity: Partial<T>): Promise<T> {
     const response = await this.client.request<T>({
       method: 'PATCH',
       url: id,

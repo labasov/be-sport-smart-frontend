@@ -9,20 +9,20 @@ export class CoreService extends RestServiceBase {
 
   public async getMeasures(): Promise<Measure[]> {
     const response = await this.client.post('getAvailableMeasures',
-      {
-        sources: ['User', 'Professional']
-      }
-    );
+    {
+      sources: ['User', 'Professional']
+    });
+
     return response.data;
   }
 
   public async evaluateSports(measureValues: {[key: string]: string}): Promise<Sport[]> {
     const response = await this.client.post('evaluateComputations',
-      {
-        type: ComputationType.Sport,
-        measureValues: measureValues
-      }
-    );
+    {
+      type: ComputationType.Sport,
+      measureValues: measureValues
+    });
+
     return response.data;
   }
 }
