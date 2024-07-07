@@ -57,7 +57,7 @@ const EvaluationDashboard = () => {
   return (
     <Grid container spacing={3} sx={{  mt: {xs : 3}, mb: { xs: 7 } }}>
       <Grid lg={8} xs={12}>
-        <SportRankCard sx={{ height: "100%" }} />
+        <SportRankCard/>
       </Grid>
       <Grid lg={4} md={12} sx={{ display: { xs: 'none', sm: 'block' } }}>
         <MeasureStepperCard enterMeasure={handleEnterMeasure}/>
