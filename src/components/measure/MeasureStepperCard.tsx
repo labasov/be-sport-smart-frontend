@@ -1,62 +1,26 @@
 import * as React from "react";
-import { useEffect } from "react";
 
-import { useMeasureStepperStore } from "../../stores/MeasureStepperStore";
+import { useMeasureContext } from "../../hooks/UseMeasureContext";
 import { DashboardCard } from "../common/DashboardCard";
 
-import { MeasureStepperProps } from "./interfaces/MeasureStepperProps";
 import { MeasureForm } from "./measure-form/MeasureForm";
 import { MeasureImage } from "./MeasureImage";
-import { MeasureStepperActions } from "./MeasureStepperActions";
 
-export function MeasureStepperCard({
-  enterMeasure,
-}: MeasureStepperProps): React.JSX.Element {
-  const {
-    loading,
-    initialized,
-    loadMeasures,
-    getCurrentMeasure,
-    moveBack,
-    moveNext } = useMeasureStepperStore();
-  const currentMeasure = getCurrentMeasure();
-  const [currentValue, setCurrentValue] = React.useState<string | undefined>();
-
-  useEffect(() => {
-    if(!initialized) {
-      loadMeasures();
-    }
-  }, []);
-
-  const handleClickBack = () => {
-    moveBack();
-    setCurrentValue(undefined);
-  };
-
-  const handleClickNext = async () => {
-    if (await enterMeasure(currentMeasure!, currentValue)) {
-      moveNext();
-      setCurrentValue(undefined);
-    }
-  };
+export function MeasureStepperCard(): React.JSX.Element {
+  const { loading, currentValue, setCurrentValue, actions, currentMeasure} = useMeasureContext();
 
   return (
     <DashboardCard
       titleKey={"measure.stepper.title"}
       loading={loading}
-      actions={<MeasureStepperActions
-        onClickBack={handleClickBack}
-        onClickNext={handleClickNext}
-      />}
+      actions={actions}
       media={
-        (currentMeasure && (<MeasureImage/>))
+        <MeasureImage/>
       }>
-      {currentMeasure && (
-        <MeasureForm
-          measure={currentMeasure}
-          value={currentValue}
-          onValueChange={setCurrentValue}/>
-      )}
+      <MeasureForm
+        measure={currentMeasure}
+        value={currentValue}
+        onValueChange={setCurrentValue}/>
     </DashboardCard>
   );
 }

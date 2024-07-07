@@ -1,3 +1,3 @@
 import { Measure } from "../../services/core-service/interfaces";
 
-export type MeasureValue = Measure & { value: string };
+export type MeasureValue = Measure & { value?: string };

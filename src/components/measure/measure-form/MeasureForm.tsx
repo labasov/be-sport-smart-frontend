@@ -13,9 +13,10 @@ import HowToMeasure from "../how-to-measure/HowToMeasure";
 
 import { MeasureChoice } from "./MeasureChoice";
 import { MeasureInput } from "./MeasureInput";
+import { MeasureSkeletonForm } from "./MeasureSkeletonForm";
 
 export interface MeasureFormProps {
-  measure: Measure;
+  measure: Measure | undefined;
   value?: string;
   onValueChange: (value: string | undefined) => void;
 }
@@ -30,9 +31,6 @@ export const MeasureForm = forwardRef<MeasureFormHandle, MeasureFormProps>(
     const { t: tStatic } = useStaticTranslation();
     const formRef = useRef<HTMLFormElement>(null);
 
-    const measureName = t(`measures.${measure.name}.name`);
-    const measureDescription = t(`measures.${measure.name}.description`);
-
     useImperativeHandle(ref, () => ({
       submitForm: () => {
         if (formRef.current) {
@@ -42,6 +40,13 @@ export const MeasureForm = forwardRef<MeasureFormHandle, MeasureFormProps>(
         }
       },
     }));
+
+    if (measure === undefined) {
+      return <MeasureSkeletonForm/>;
+    }
+
+    const measureName = t(`measures.${measure.name}.name`);
+    const measureDescription = t(`measures.${measure.name}.description`);
 
     return (
       <form

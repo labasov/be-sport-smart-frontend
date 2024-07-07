@@ -9,7 +9,7 @@ type State = {
   loading: boolean;
   initialized: boolean;
   measures: Measure[];
-  currentInputIndex: number;
+  currentMeasureIndex: number;
 };
 
 type Actions = {
@@ -17,8 +17,9 @@ type Actions = {
   getCurrentMeasure: () => Measure | undefined;
   getCurrentMeasureIndex: () => number;
   getMeasureCount: () => number;
-  moveBack: () => void;
-  moveNext: () => void;
+  moveBack: () => Measure;
+  moveNext: () => Measure;
+  moveFirst: () => Measure;
 };
 
 type MeasureStepperStore = State & Actions;
@@ -27,7 +28,7 @@ const initialValues: State = {
   loading: true,
   initialized: false,
   measures: [],
-  currentInputIndex: 0
+  currentMeasureIndex: 0
 };
 
 const coreService = new CoreService(config.backend.baseUrl);
@@ -38,31 +39,38 @@ export const useMeasureStepperStore = create<MeasureStepperStore>()(
       ...initialValues,
       loadMeasures: async (): Promise<Measure[]> => {
         set({ loading: true });
-        const inputs = await coreService.getMeasures();
-        set({ measures: inputs, loading: false, initialized: true});
+        const measures = await coreService.getMeasures();
+        set({ measures, loading: false, initialized: true});
         return get().measures;
       },
       getCurrentMeasure: () => {
-        const { measures: inputs, currentInputIndex } = get();
-        return inputs[currentInputIndex];
+        const { measures, currentMeasureIndex: currentInputIndex } = get();
+        return measures[currentInputIndex];
       },
       moveBack: () => {
-        const { currentInputIndex } = get();
-        const newIndex = (currentInputIndex ?? 0) - 1;
+        const { currentMeasureIndex, measures } = get();
+        const newIndex = (currentMeasureIndex ?? 0) - 1;
         if (newIndex < 0) {
-          return;
+          return measures[0];
         }
-        set({ currentInputIndex: newIndex });
+        set({ currentMeasureIndex: newIndex });
+        return measures[newIndex];
       },
       moveNext: () => {
-        const { currentInputIndex } = get();
-        const newIndex = (currentInputIndex ?? 0) + 1;
+        const { currentMeasureIndex, measures } = get();
+        const newIndex = (currentMeasureIndex ?? 0) + 1;
         if (newIndex >= get().measures.length) {
-          return;
+          return measures[measures.length - 1];
         }
-        set({ currentInputIndex: (currentInputIndex ?? 0) + 1 });
+        set({ currentMeasureIndex: (currentMeasureIndex ?? 0) + 1 });
+        return measures[newIndex];
       },
-      getCurrentMeasureIndex: () => get().currentInputIndex ?? 0,
+      moveFirst: () => {
+        const { measures } = get();
+        set({ currentMeasureIndex: 0 });
+        return measures[0];
+      },
+      getCurrentMeasureIndex: () => get().currentMeasureIndex ?? 0,
       getMeasureCount: () => get().measures.length
     }),
     {

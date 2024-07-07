@@ -37,7 +37,7 @@ export const useSportStore = create<SportStore>()(
         const sports = await coreService
           .evaluateSports(
             measureValues.reduce((acc, m) => {
-              acc[m.name] = m.value;
+              acc[m.name] = m.value || "";
               return acc;
             }, {} as { [key: string]: string }));
 

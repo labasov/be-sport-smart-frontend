@@ -4,9 +4,8 @@ import { grey } from "@mui/material/colors";
 import * as React from "react";
 
 import { useStaticTranslation } from "../../../hooks/UseTranslation";
-import { MeasureStepperProps } from "../interfaces/MeasureStepperProps";
 
-import { MeasureStepperDrawerForm } from "./MeasureStepperDrawerForm";
+import { MeasureStepperDrawerForm } from "./MeasureStepperDrawerContent";
 
 const drawerBleeding = 56;
 
@@ -24,9 +23,7 @@ const Puller = styled("div")(() => ({
   left: "calc(50% - 15px)",
 }));
 
-export function MeasureStepperDrawer({
-  enterMeasure,
-}: MeasureStepperProps): React.JSX.Element {
+export function MeasureStepperDrawer(): React.JSX.Element {
   const { t } = useStaticTranslation();
   const isMobile = useMediaQuery("(max-width:600px)");
   const containerRef = React.useRef(null);
@@ -83,7 +80,7 @@ export function MeasureStepperDrawer({
           </StyledBox>
           <StyledBox 
             sx={{ maxHeight: "100vh", overflowY: "auto" }}>
-            <MeasureStepperDrawerForm enterMeasure={enterMeasure}/>
+            <MeasureStepperDrawerForm />
           </StyledBox>
         </SwipeableDrawer>
     </>

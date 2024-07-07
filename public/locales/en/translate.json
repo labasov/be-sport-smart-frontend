@@ -29,7 +29,9 @@
       "title": "Measure stepper",
       "actions": {
         "next": "Next",
-        "back": "Back"
+        "back": "Back",
+        "reset": "Reset",
+        "enter": "Enter"
       }
     },
     "form": {

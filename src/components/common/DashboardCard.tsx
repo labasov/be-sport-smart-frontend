@@ -1,7 +1,9 @@
-import { Card, CardHeader, Divider, CardActions, CardContent, CircularProgress } from "@mui/material";
+import { Card, CardHeader, Divider, CardActions, CardContent } from "@mui/material";
 import { SxProps } from "@mui/system";
 
 import { useStaticTranslation } from "../../hooks/UseTranslation";
+
+import { LoadingOverlay } from "./LoadingOverlay";
 
 export interface DashboardCardProps {
   titleKey: string;
@@ -16,15 +18,13 @@ export interface DashboardCardProps {
 export function DashboardCard({ titleKey, children, loading, noPadding, sx, media, actions }: DashboardCardProps): React.JSX.Element {
   const { t } = useStaticTranslation();
 
-  if (loading)
-    return <CircularProgress />;
-
   return (
-    <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <Card sx={{ display: 'flex', flexDirection: 'column', position: "relative", height: '100%' }}>
+      <LoadingOverlay open={loading || false} />
       <CardHeader title={t(titleKey)} />
       <Divider />
       {media}
-      <CardContent sx={{ flexGrow: 1, padding: noPadding? 0 : undefined, ...sx }}>
+      <CardContent sx={{ flexGrow: 1, padding: noPadding? 0 : undefined,  ...sx }}>
         {children}
       </CardContent>
       {actions && (<>

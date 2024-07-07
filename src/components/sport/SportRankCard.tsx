@@ -17,7 +17,7 @@ export interface SportRankCardProps {
 
 export function SportRankCard(): React.JSX.Element {
   const { measureValues } = useMeasureValuesStore();
-  const { initialized, rankSports } = useSportStore();
+  const { initialized, loading, rankSports } = useSportStore();
 
   useEffect(() => {
     if (!initialized) {
@@ -30,6 +30,7 @@ export function SportRankCard(): React.JSX.Element {
       sx={{ overflowX: "auto" }}
       titleKey='sport.rank.title'
       noPadding={true}
+      loading={loading}
       actions={
         <SportRankFullList />
       }>

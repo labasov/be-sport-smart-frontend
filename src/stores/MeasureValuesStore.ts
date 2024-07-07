@@ -12,7 +12,9 @@ type State = {
 
 type Actions = {
   loadFromAccount: () => Promise<void>;
-  setValue: (measure: Measure, value: string) => boolean;
+  setMeasureValue: (measure: Measure, value?: string) => boolean;
+  getMeasureValue: (measure: Measure) => string;
+  clearAllMeasureValues: () => void;
 };
 
 type MeasureValuesStore = State & Actions;
@@ -33,21 +35,29 @@ export const useMeasureValuesStore = create<MeasureValuesStore>()(
         // TODO: Load measure values from account
         set({ measureValues: [], loading: false });
       },
-      setValue: (measure: Measure, value: string): boolean => {
-        const { measureValues: measures } = get();
-        const measureIndex = measures.findIndex((m) => m.name === measure.name);
+      setMeasureValue: (measure: Measure, value?: string): boolean => {
+        const { measureValues } = get();
+        const measureIndex = measureValues.findIndex((m) => m.name === measure.name);
         if (measureIndex !== -1) {
-          const oldMeasure = measures[measureIndex];
-          const newMeasures = [...measures];
-          newMeasures[measureIndex] = { ...measures[measureIndex], value };
+          const oldMeasure = measureValues[measureIndex];
+          const newMeasures = [...measureValues];
+          newMeasures[measureIndex] = { ...measureValues[measureIndex], value };
           set({ measureValues: newMeasures });
           return oldMeasure.value !== value;
         } else {
           const newMeasure = { ...measure, value };
-          set({ measureValues: [...measures, newMeasure] });
+          set({ measureValues: [...measureValues, newMeasure] });
           return true;
         }
-      }
+      },
+      getMeasureValue: (measure: Measure): string => {
+        const { measureValues } = get();
+        const measureIndex = measureValues.findIndex((m) => m.name === measure.name);
+        return measureIndex !== -1 ? measureValues[measureIndex].value! : "";
+      },
+      clearAllMeasureValues: () => {
+        set({ measureValues: [] });
+      },
     }),
     {
       name: "measure-values-store",

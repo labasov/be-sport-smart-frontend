@@ -1,4 +1,6 @@
+import { Skeleton } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
+import { exists } from 'i18next';
 import React from 'react';
 
 import { useDynamicTranslation } from '../../hooks/UseTranslation';
@@ -8,8 +10,14 @@ export const MeasureImage: React.FC = () => {
   const { getCurrentMeasure } = useMeasureStepperStore();
   const currentMeasure = getCurrentMeasure();
 
-  const { t } = useDynamicTranslation();
-  const image = currentMeasure !== undefined ? t(`measures.${currentMeasure.name}.image`) : '';
+  const { t, } = useDynamicTranslation();
+  const imageKey = currentMeasure !== undefined ? `measures.${currentMeasure.name}.image` : '';
+
+  const image = exists(imageKey) ? t(imageKey) : undefined;
+
+  if (currentMeasure === undefined || image === undefined) {
+    return <Skeleton variant="rectangular" width="100%" height={200} />
+  }
 
   return (
     <CardMedia
