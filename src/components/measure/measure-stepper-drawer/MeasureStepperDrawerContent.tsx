@@ -9,14 +9,16 @@ export const MeasureStepperDrawerForm: React.FC = () => {
   const { currentValue, setCurrentValue, actions, currentMeasure} = useMeasureContext();
 
   return (
-    <Box sx={{padding: 2}}>
+    <>
       <MeasureImage/>
-      <MeasureForm 
-        measure={currentMeasure}
-        value={currentValue}
-        onValueChange={setCurrentValue}/>
-      <Box sx={{paddingTop: 2}}>
-        {actions}
+      <Box sx={{padding: 2}}>
+        <MeasureForm 
+          measure={currentMeasure}
+          value={currentValue}
+          onValueChange={setCurrentValue}/>
+        <Box sx={{paddingTop: 2}}>
+          {actions}
+        </Box>
       </Box>
-    </Box>);
+    </>);
 };
