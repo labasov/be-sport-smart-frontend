@@ -9,9 +9,9 @@ export const SportTableHeader: React.FC = () => {
     <TableHead>
       <TableRow>
         <TableCell>{t('sport.table.header.sport')}</TableCell>
+        <TableCell>{t('sport.table.header.recomendation')}</TableCell>
         <TableCell>{t('sport.table.header.score')}</TableCell>
         <TableCell>{t('sport.table.header.important')}</TableCell>
-        <TableCell>{t('sport.table.header.recomendation')}</TableCell>
       </TableRow>
     </TableHead>
   );

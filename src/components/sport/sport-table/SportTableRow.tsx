@@ -11,22 +11,22 @@ interface SportTableRowProps {
   getStatusByRank: (rank: number) => Status;
 }
 
-export const SportTableRow: React.FC<SportTableRowProps> = ({ sport, rankMap, getStatusByRank }) => {
+export const SportTableRow: React.FC<SportTableRowProps> = ({ sport, getStatusByRank }) => {
   const { t } = useDynamicTranslation();
   const { t: tStatic } = useStaticTranslation();
   const { result } = sport;
   const { label, color } = isNaN(result)
     ? statusMap.unknown
-    : getStatusByRank(rankMap[result as number]);
+    : getStatusByRank(result);
 
   return (
     <MuiTableRow hover key={sport.name}>
       <TableCell>{t(`sports.${sport.name}.name`)}</TableCell>
-      <TableCell>{isNaN(result) ? '-' : result}</TableCell>
-      <TableCell>-</TableCell>
       <TableCell>
         <Chip color={color} label={tStatic(`sport.table.labels.${label}`)} size="small" />
       </TableCell>
+      <TableCell>{isNaN(result) ? '-' : result.toFixed(2)}</TableCell>
+      <TableCell>-</TableCell>
     </MuiTableRow>
   );
 };

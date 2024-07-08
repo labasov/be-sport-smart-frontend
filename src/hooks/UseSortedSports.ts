@@ -8,13 +8,17 @@ import { useStaticTranslation } from './UseTranslation';
 
 export type Status = {
   label: string;
-  color: 'success' | 'warning' | 'error' | 'default';
+  color: 'success' | 'warning' | 'info' | 'error' | 'default';
 };
 
 export type StatusMap = {
-  recommended: Status;
-  neutral: Status;
-  notRecommended: Status;
+  top1: Status;
+  top2: Status;
+  top3: Status;
+  top4: Status;
+  top5: Status;
+  top6: Status;
+  top7: Status;
   unknown: Status;
 };
 
@@ -23,23 +27,59 @@ export type UseSortedSports = {
   rankMap: Record<number, number>;
   loading: boolean;
   initialized: boolean;
-  getStatusByRank: (rank: number) => Status;
+  getStatusByRank: (score: number) => Status;
 };
 
 export const statusMap: StatusMap = {
-  recommended: { label: 'recommended', color: 'success' },
-  neutral: { label: 'possible', color: 'warning' },
-  notRecommended: { label: 'not_recommended', color: 'error' },
-  unknown: { label: 'unknown', color: 'default' },
+  top1: { label: 'top1', color: 'success' },
+  top2: { label: 'top2', color: 'info' },
+  top3: { label: 'top3', color: 'info' },
+  top4: { label: 'top4', color: 'warning' },
+  top5: { label: 'top5', color: 'warning' },
+  top6: { label: 'top6', color: 'default' },
+  top7: { label: 'top7', color: 'error' },
+  unknown: { label: 'Unknown', color: 'default' },
 } as const;
 
-const getStatusByRank = (rank: number): Status => {
-  if (isNaN(rank)) return statusMap.unknown;
+const calculateGroups = (sortedScores: number[]): number[] => {
+  const jumps: number[] = [];
 
-  if (rank <= 1) return statusMap.recommended;
-  if (rank <= 2) return statusMap.neutral;
+  for (let i = 1; i < sortedScores.length; i++) {
+    jumps.push(sortedScores[i] - sortedScores[i - 1]);
+  }
 
-  return statusMap.notRecommended;
+  const significantJumps = jumps.filter(jump => jump > 1); // Adjust threshold as needed
+
+  const groupBoundaries = [sortedScores[0]];
+  let currentGroupSum = 0;
+  let currentGroupCount = 0;
+
+  for (let i = 1; i < sortedScores.length; i++) {
+    currentGroupSum += jumps[i - 1];
+    currentGroupCount++;
+
+    if (significantJumps.includes(jumps[i - 1])) {
+      groupBoundaries.push(sortedScores[i]);
+      currentGroupSum = 0;
+      currentGroupCount = 0;
+    }
+  }
+
+  groupBoundaries.push(sortedScores[sortedScores.length - 1]);
+  return groupBoundaries;
+};
+
+const getStatusByRank = (score: number, groupBoundaries: number[]): Status => {
+  if (isNaN(score)) return statusMap.unknown;
+
+  if (score < groupBoundaries[1]) return statusMap.top1;
+  if (groupBoundaries[2] && score < groupBoundaries[2]) return statusMap.top2;
+  if (groupBoundaries[3] && score < groupBoundaries[3]) return statusMap.top3;
+  if (groupBoundaries[4] && score < groupBoundaries[4]) return statusMap.top4;
+  if (groupBoundaries[5] && score < groupBoundaries[5]) return statusMap.top5;
+  if (groupBoundaries[6] && score < groupBoundaries[6]) return statusMap.top6;
+
+  return statusMap.top7;
 };
 
 export const useSortedSports = (): UseSortedSports => {
@@ -48,13 +88,14 @@ export const useSortedSports = (): UseSortedSports => {
   const { enqueueSnackbar } = useSnackbar();
   const [sortedSports, setSortedSports] = useState<ComputationResult[]>([]);
   const [rankMap, setRankMap] = useState<Record<number, number>>({});
+  const [groupBoundaries, setGroupBoundaries] = useState<number[]>([]);
 
   useEffect(() => {
     const previousTopSport = sortedSports[0];
     const validResults = sports.filter(sport => !isNaN(sport.result));
     const unknownResults = sports.filter(sport => isNaN(sport.result));
 
-    validResults.sort((a, b) => (a.result) - (b.result));
+    validResults.sort((a, b) => a.result - b.result);
 
     const tempRankMap: Record<number, number> = {};
     let currentRank = 1;
@@ -65,18 +106,31 @@ export const useSortedSports = (): UseSortedSports => {
       tempRankMap[sport.result] = currentRank;
     });
 
+    // Calculate dynamic group boundaries based on significant jumps
+    const sortedScores = validResults.map(sport => sport.result);
+    const calculatedGroupBoundaries = calculateGroups(sortedScores);
+    setGroupBoundaries(calculatedGroupBoundaries);
+
     setRankMap(tempRankMap);
     const newSortedSports = [...validResults, ...unknownResults];
     const newTopSport = newSortedSports[0];
     setSortedSports(newSortedSports);
 
-    if (!!newTopSport && !isNaN(newTopSport.result)
-      && !!previousTopSport && !isNaN(previousTopSport.result)
-      && newTopSport.name !== previousTopSport.name ) {
+    if (
+      !!newTopSport && !isNaN(newTopSport.result) &&
+      !!previousTopSport && !isNaN(previousTopSport.result) &&
+      newTopSport.name !== previousTopSport.name
+    ) {
       enqueueSnackbar(t("sport.rank.alerts.topSportUpdate"), { variant: "success" });
     }
 
   }, [sports]);
 
-  return { sports: sortedSports, rankMap, getStatusByRank, loading, initialized };
+  return { 
+    sports: sortedSports, 
+    rankMap, 
+    getStatusByRank: (score: number) => getStatusByRank(score, groupBoundaries), 
+    loading, 
+    initialized 
+  };
 };

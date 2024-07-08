@@ -16,10 +16,13 @@
         "recomendation": "Recomendation"
       },
       "labels": {
-        "recommended": "Best",
-        "possible": "Average",
-        "not_recommended": "Worst",
-        "unknown": "Unknown"
+        "top1": "The Best Choice",
+        "top2": "Excellent Choice",
+        "top3": "Highly Recommended",
+        "top4": "Recommended",
+        "top5": "Good Option",
+        "top6": "Considerable Choice",
+        "top7": "Not Recommended"
       },
       "fullList": "View all"
     }
