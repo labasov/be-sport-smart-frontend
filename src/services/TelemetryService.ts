@@ -40,7 +40,7 @@ export const getApplicationInsights = (): ApplicationInsights => {
     });
   } catch (err) {
     // TODO - proper logging for web
-    console.error("ApplicationInsights setup failed, ensure environment variable 'VITE_APPLICATIONINSIGHTS_CONNECTION_STRING' has been set.", err);
+    // console.error("ApplicationInsights setup failed, ensure environment variable 'VITE_APPLICATIONINSIGHTS_CONNECTION_STRING' has been set.", err);
   }
 
   return applicationInsights;

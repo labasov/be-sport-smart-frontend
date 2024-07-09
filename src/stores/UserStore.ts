@@ -7,6 +7,7 @@ import { IdentityService } from "../services/identity-service/IdentityService";
 import { OperationResult } from "./interfaces/OperationResult";
 
 type State = {
+  loading: boolean;
   isSignedIn: boolean;
   userName?: string;
   userEmail?: string;
@@ -23,6 +24,7 @@ type Actions = {
 type UserStore = State & Actions;
 
 const initialValues: State = {
+  loading: true,
   isSignedIn: false
 };
 
@@ -33,26 +35,32 @@ export const useUserStore = create<UserStore>()(
     (set) => ({
       ...initialValues,
       signIn: async (userName: string | undefined, email: string | undefined, password: string): Promise<OperationResult> => {
+        set({ loading: true });
         await identityService.signIn(userName, email, password);
 
         const userInfo = await identityService.getUserInfo();
-        set({ isSignedIn: true, userName: userInfo.userName, userEmail: userInfo.email, userRole: 'User' });
+        set({ isSignedIn: true, userName: userInfo.userName, userEmail: userInfo.email, userRole: 'User', loading: false });
       },
       signUp: async (userName: string | undefined, email: string | undefined, password: string): Promise<OperationResult> => {
+        set({ loading: true });
         await identityService.signUp(userName, email, password);
+        set({ loading: false });
       },
       signOut: async (): Promise<OperationResult> => {
+        set({ loading: true });
         await identityService.signOut();
 
-        set({ isSignedIn: false, userName: undefined, userEmail: undefined, userRole: undefined });
+        set({ isSignedIn: false, userName: undefined, userEmail: undefined, userRole: undefined, loading: false});
       },
       refreshUserInfo: async (): Promise<OperationResult> => {
+        set({ loading: true });
+
         try {
           const userInfo = await identityService.getUserInfo();
-          set({ isSignedIn: true, userName: userInfo.userName, userEmail: userInfo.email, userRole: 'User' });
+          set({ isSignedIn: true, userName: userInfo.userName, userEmail: userInfo.email, userRole: 'User', loading: false });
         }
         catch (error) {
-          set({ isSignedIn: false, userName: undefined, userEmail: undefined, userRole: undefined });
+          set({ isSignedIn: false, userName: undefined, userEmail: undefined, userRole: undefined, loading: false });
         }
       }
     }),

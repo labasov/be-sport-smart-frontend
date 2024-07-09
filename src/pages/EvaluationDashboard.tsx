@@ -7,6 +7,7 @@ import { MeasureStepperProvider } from "../components/measure/MeasureStepperProv
 import { SportRankCard } from "../components/sport/SportRankCard.tsx";
 import { useMeasureValuesStore } from "../stores/MeasureValuesStore.ts";
 import { useSportStore } from "../stores/SportStore.ts";
+import MetricsToolbar from "../components/metrics-toolbar/MetricsToolbar.tsx";
 
 const EvaluationDashboard = () => {
   const { measureValues } = useMeasureValuesStore();
@@ -20,6 +21,7 @@ const EvaluationDashboard = () => {
 
   return (
     <Grid container spacing={3} sx={{ mt: { xs: 3 }, mb: { xs: 7 } }}>
+      <MetricsToolbar/>
       <Grid lg={8} xs={12}>
         <SportRankCard />
       </Grid>

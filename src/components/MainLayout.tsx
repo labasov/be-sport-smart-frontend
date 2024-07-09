@@ -11,6 +11,7 @@ import { MainNav } from "./common/MainNav";
 import MainRoutes from "./MainRoutes";
 
 import "../styles/global.css"
+import { AuthProvider } from "./common/AuthProvider";
 
 const fullScreenPages: string[] = [routes.signIn, routes.signUp];
 
@@ -19,11 +20,11 @@ const MainLayout: FC = (): ReactElement => {
   const fullScreenPage = () => fullScreenPages.find((page) => page === pathname);
 
   if (fullScreenPage()) {
-    return <MainRoutes />;
+    return <AuthProvider><MainRoutes /></AuthProvider>
   }
 
   return (
-    <>
+    <AuthProvider>
       <Box
         sx={{
           backgroundImage: "url(/assets/cool-background.svg)",
@@ -45,7 +46,7 @@ const MainLayout: FC = (): ReactElement => {
           </Container>
         </Grid>
       </Box>
-    </>
+    </AuthProvider>
   );
 };
 
