@@ -7,11 +7,11 @@ import { useLocation } from "react-router-dom";
 
 import { routes } from "../routes";
 
+import { AuthProvider } from "./common/AuthProvider";
 import { MainNav } from "./common/MainNav";
 import MainRoutes from "./MainRoutes";
 
 import "../styles/global.css"
-import { AuthProvider } from "./common/AuthProvider";
 
 const fullScreenPages: string[] = [routes.signIn, routes.signUp];
 

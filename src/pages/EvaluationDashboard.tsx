@@ -4,10 +4,10 @@ import WithApplicationInsights from "../components/core/telemetry/TelemetryWithA
 import { MeasureStepperDrawer } from "../components/measure/measure-stepper-drawer/MeasureStepperDrawer.tsx";
 import { MeasureStepperCard } from "../components/measure/MeasureStepperCard.tsx";
 import { MeasureStepperProvider } from "../components/measure/MeasureStepperProvider.tsx";
+import MetricsToolbar from "../components/metrics-toolbar/MetricsToolbar.tsx";
 import { SportRankCard } from "../components/sport/SportRankCard.tsx";
 import { useMeasureValuesStore } from "../stores/MeasureValuesStore.ts";
 import { useSportStore } from "../stores/SportStore.ts";
-import MetricsToolbar from "../components/metrics-toolbar/MetricsToolbar.tsx";
 
 const EvaluationDashboard = () => {
   const { measureValues } = useMeasureValuesStore();

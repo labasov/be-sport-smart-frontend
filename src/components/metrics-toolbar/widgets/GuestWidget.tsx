@@ -1,6 +1,3 @@
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
-
 import {
   Card,
   CardContent,
@@ -8,7 +5,9 @@ import {
   Button,
   Stack,
 } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 import { X as XIcon } from "@phosphor-icons/react/dist/ssr/X";
+import React from "react";
 
 export const GuestWidget = (): React.ReactElement => {
   return (

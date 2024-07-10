@@ -1,3 +1,4 @@
+import { MeasureValue } from "../../stores/interfaces/MeasureValue";
 import { RestServiceBase } from "../RestService";
 
 import { ComputationResult, ComputationType, Measure } from "./interfaces";
@@ -16,25 +17,32 @@ export class CoreService extends RestServiceBase {
     return response.data;
   }
 
-  public async evaluateSports(measureValues: { [key: string]: string }, sportName? :string[]): Promise<ComputationResult[]> {
+  public async evaluateSports(measureValues: MeasureValue[], sportName?: string[]): Promise<ComputationResult[]> {
     const response = await this.client.post('evaluateComputations',
       {
         type: ComputationType.Sport,
         names: sportName,
-        measureValues: measureValues
+        measureValues: this.getMeasureValuesDictionary(measureValues)
       });
 
     return response.data;
   }
 
-  public async evaluateMetrics(measureValues: { [key: string]: string }, metricNames?: string[]): Promise<ComputationResult[]> {
+  public async evaluateMetrics(measureValues: MeasureValue[], metricNames?: string[]): Promise<ComputationResult[]> {
     const response = await this.client.post('evaluateComputations',
       {
         type: ComputationType.Metric,
         names: metricNames,
-        measureValues: measureValues
+        measureValues: this.getMeasureValuesDictionary(measureValues)
       });
 
     return response.data;
+  }
+
+  private getMeasureValuesDictionary(measureValues: MeasureValue[]): { [key: string]: string } {
+    return measureValues.reduce((acc, m) => {
+      acc[m.name] = m.value || "";
+      return acc;
+    }, {} as { [key: string]: string });
   }
 }

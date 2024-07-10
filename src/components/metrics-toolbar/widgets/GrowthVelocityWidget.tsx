@@ -1,26 +1,41 @@
-import * as React from "react";
 import { ChartLine as ChartLineIcon } from "@phosphor-icons/react/dist/ssr/ChartLine";
-import { TrendWidget, TrendWidgetProps } from "./TrendWidget";
-import { MeasureValuesChangeHandler } from "./interfaces/MeasureValuesChangeHandler";
+import * as React from "react";
+import { useState } from "react";
+
 import withMeasureValueChanges from "../../../hooks/WithMeasureValues";
 import { CoreService } from "../../../services/core-service/CoreService";
-import { useState } from "react";
+import { MeasureValue } from "../../../stores/interfaces/MeasureValue";
+
+import { MeasureValuesChangeHandler } from "./interfaces/MeasureValuesChangeHandler";
+import { TrendWidget, TrendWidgetProps } from "./TrendWidget";
 
 const GrowthVelocityWidget = React.forwardRef<MeasureValuesChangeHandler>((_, ref) => {
   const [trendWidgetProps, setTrendWidgetProps] = useState<TrendWidgetProps>({
     name: "Growth Velocity",
-    loading: false,
+    loading: true,
+    value: "7",
+    measure: "(cm/year)",
     diff: undefined,
-    trend: undefined,
-    value: "7 (cm/year)",
+    trend: "trendUp",
     icon: ChartLineIcon,
     iconColor: "primary",
-    description: "Slower than avarage"
+    description: "Gain during these years"
   });
 
   React.useImperativeHandle(ref, () => ({
-    async onMeasureValuesChange(coreService: CoreService, measureValues: { [key: string]: string | undefined }) {
-      console.log("Values changed in BMI Widget:", measureValues);
+    async onMeasureValuesChange(coreService: CoreService, measureValues: MeasureValue[]) {
+      const metrics = await coreService.evaluateMetrics(measureValues, ["height_at_18"]);
+      const heightAt18 = metrics[0].result;
+      const height = measureValues.find(x => x.name === "height")?.value;
+      const age = measureValues.find(x => x.name === "age")?.value;
+      const allDataProvided = !!(height) && !!(age) && !isNaN(heightAt18);
+      const newTrendWidgetProps = {... trendWidgetProps, ... {
+        loading: false,
+        value: allDataProvided ? ((heightAt18 - Number(height)) / (18 - Number(age))).toFixed(2) : undefined,
+        diff: `${age} - 18`
+      }};
+
+      setTrendWidgetProps(newTrendWidgetProps);
     }
   }));
   

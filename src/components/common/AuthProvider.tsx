@@ -1,7 +1,8 @@
 import React, { createContext, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../../stores/UserStore";
+
 import { routes } from "../../routes";
+import { useUserStore } from "../../stores/UserStore";
 
 type AuthContextType = {
   user?: { userName?: string; userEmail?: string };
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }: {children: React.ReactElement}) => {
 
   const signIn = async (userName: string, email: string, password: string) => {
     try {
-      const result = await userSignIn(userName, email, password);
+      await userSignIn(userName, email, password);
       if (isSignedIn) {
         navigate(routes.home);
       }

@@ -51,17 +51,17 @@ const calculateGroups = (sortedScores: number[]): number[] => {
   const significantJumps = jumps.filter(jump => jump > 1); // Adjust threshold as needed
 
   const groupBoundaries = [sortedScores[0]];
-  let currentGroupSum = 0;
-  let currentGroupCount = 0;
+  //let currentGroupSum = 0;
+  //let currentGroupCount = 0;
 
   for (let i = 1; i < sortedScores.length; i++) {
-    currentGroupSum += jumps[i - 1];
-    currentGroupCount++;
+    //currentGroupSum += jumps[i - 1];
+    //currentGroupCount++;
 
     if (significantJumps.includes(jumps[i - 1])) {
       groupBoundaries.push(sortedScores[i]);
-      currentGroupSum = 0;
-      currentGroupCount = 0;
+      //currentGroupSum = 0;
+      //currentGroupCount = 0;
     }
   }
 

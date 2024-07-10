@@ -1,12 +1,13 @@
-import * as React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
+import * as React from "react";
+
+import { useAuth } from "../common/AuthProvider";
 
 import BmiWidget from "./widgets/BmiWidget";
+import GrowthVelocityWidget from "./widgets/GrowthVelocityWidget";
+import { GuestWidget } from "./widgets/GuestWidget";
 import ProgectedBmiWidget from "./widgets/ProgectedBmiWidget";
 import ProgectedHeightWidget from "./widgets/ProgectedHeightWidget";
-import GrowthVelocityWidget from "./widgets/GrowthVelocityWidget";
-import { useAuth } from "../common/AuthProvider";
-import { GuestWidget } from "./widgets/GuestWidget";
 
 export default function MetricsToolbar(): React.JSX.Element {
   const auth = useAuth();
