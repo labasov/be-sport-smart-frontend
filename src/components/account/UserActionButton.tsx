@@ -1,4 +1,4 @@
-import Avatar from '@mui/material/Avatar';
+import { Avatar } from '@mui/material';
 import Button from '@mui/material/Button';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -22,12 +22,10 @@ const UserActionButton = (): React.JSX.Element => {
   return (
     <>
       {isSignedIn ? (
-        <Avatar
+        <Avatar 
           onClick={userPopover.handleOpen}
           ref={userPopover.anchorRef}
-          src="/assets/avatar.png"
-          sx={{ cursor: 'pointer' }}
-        />
+          sx={{ cursor: 'pointer' }}/>
       ) : (
         <Button variant="contained" size="small" color="primary" onClick={handleLogin}>
           {t('auth.actions.signIn')}

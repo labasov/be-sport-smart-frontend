@@ -17,6 +17,7 @@ const ProgectedHeightWidget = React.forwardRef<MeasureValuesChangeHandler>((_, r
     measure: "(cm)",
     diff: undefined,
     trend: "up",
+    trendColor: "success",
     icon: RulerIcon,
     iconColor: "success",
     description: "Progected height at 18"

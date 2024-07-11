@@ -1,4 +1,4 @@
-import { ClockClockwise as ClockClockwiseIcon } from "@phosphor-icons/react/dist/ssr/ClockClockwise";
+import { HeartHalf as HeartHalfIcon } from "@phosphor-icons/react/dist/ssr/HeartHalf";
 import { forwardRef, useImperativeHandle, useState } from "react";
 
 import withMeasureValueChanges from "../../../hooks/WithMeasureValues";
@@ -16,7 +16,8 @@ const ProgectedBmiWidget = forwardRef<MeasureValuesChangeHandler>((_, ref) => {
     measure: "(bmi)",
     diff: undefined,
     trend: "up",
-    icon: ClockClockwiseIcon,
+    trendColor: "info",
+    icon: HeartHalfIcon,
     iconColor: "success",
     description: "Progected BMI at 18"
   });
@@ -31,7 +32,7 @@ const ProgectedBmiWidget = forwardRef<MeasureValuesChangeHandler>((_, ref) => {
       const newTrendWidgetProps = {... trendWidgetProps, ... {
         loading: false,
         value: isNaN(bmiAt18Value) ? undefined : bmiAt18Value.toFixed(2),
-        diff,
+        diff: `${(diff && diff[0] != "-") ? "+" : ""}${diff}`,
         trend: (diff && diff[0] != "-") ? "up" : "down" as "up" | "down"
       }};
 

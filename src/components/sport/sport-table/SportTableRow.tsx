@@ -1,7 +1,7 @@
 import { TableRow as MuiTableRow, TableCell, Chip } from '@mui/material';
 import React from 'react';
 
-import { Status, statusMap } from '../../../hooks/UseSortedSports';
+import { Status, StatusMap } from '../../../hooks/UseRankedSports';
 import { useDynamicTranslation, useStaticTranslation } from '../../../hooks/UseTranslation';
 import { ComputationResult } from '../../../services/core-service/interfaces';
 
@@ -16,7 +16,7 @@ export const SportTableRow: React.FC<SportTableRowProps> = ({ sport, getStatusBy
   const { t: tStatic } = useStaticTranslation();
   const { result } = sport;
   const { label, color } = isNaN(result)
-    ? statusMap.unknown
+    ? StatusMap.unknown
     : getStatusByRank(result);
 
   return (

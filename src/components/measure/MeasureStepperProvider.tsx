@@ -41,8 +41,10 @@ export function MeasureStepperProvider({
   }, []);
 
   const handleClickBack = () => {
-    moveBack();
     setSubmittedLastMeasure(false);
+    if (!submittedLastMeasure) {
+      moveBack();
+    }
   };
 
   const handleClickSubmit = async () => {

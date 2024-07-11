@@ -17,6 +17,7 @@ const GrowthVelocityWidget = React.forwardRef<MeasureValuesChangeHandler>((_, re
     measure: "(cm/year)",
     diff: undefined,
     trend: "trendUp",
+    trendColor: "success",
     icon: ChartLineIcon,
     iconColor: "primary",
     description: "Gain during these years"
@@ -32,7 +33,7 @@ const GrowthVelocityWidget = React.forwardRef<MeasureValuesChangeHandler>((_, re
       const newTrendWidgetProps = {... trendWidgetProps, ... {
         loading: false,
         value: allDataProvided ? ((heightAt18 - Number(height)) / (18 - Number(age))).toFixed(2) : undefined,
-        diff: `${age} - 18`
+        diff: `${age ?? '?'} - 18`
       }};
 
       setTrendWidgetProps(newTrendWidgetProps);

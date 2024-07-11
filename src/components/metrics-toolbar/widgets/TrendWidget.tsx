@@ -21,6 +21,7 @@ export interface TrendWidgetProps {
   iconColor: "success" | "warning" | "primary" | "info" | "secondary" | "error";
   description: string;
   diff?: string;
+  trendColor: "success" | "error" | "info";
   trend?: "up" | "down" | "trendUp";
   sx?: SxProps;
 }
@@ -34,14 +35,11 @@ export function TrendWidget({
   measure,
   description,
   trend,
+  trendColor,
   icon,
   iconColor,
 }: TrendWidgetProps): React.JSX.Element {
   const MainIcon = icon;
-  const trendColor =
-    trend === "down"
-      ? "var(--mui-palette-error-main)"
-      : "var(--mui-palette-success-main)";
 
   let TrendIcon;
   switch (trend) {
@@ -117,10 +115,10 @@ export function TrendWidget({
                     spacing={0.5}
                   >
                     <TrendIcon
-                      color={trendColor}
+                      color={`var(--mui-palette-${trendColor}-main)`}
                       fontSize="var(--icon-fontSize-md)"
                     />
-                    <Typography color={trendColor} variant="body2">
+                    <Typography color={`var(--mui-palette-${trendColor}-main)`} variant="body2">
                       {diff}
                     </Typography>
                   </Stack>

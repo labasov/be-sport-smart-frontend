@@ -17,6 +17,7 @@ const BmiWidget = forwardRef<MeasureValuesChangeHandler>((_, ref) => {
     measure: "(bmi)",
     diff: undefined,
     trend: undefined,
+    trendColor: "success",
     icon: HeartIcon,
     iconColor: "info",
     description: "Current BMI based on height and weight"

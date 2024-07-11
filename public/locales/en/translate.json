@@ -22,7 +22,8 @@
         "top4": "Recommended",
         "top5": "Good Option",
         "top6": "Considerable Choice",
-        "top7": "Not Recommended"
+        "top7": "Not Recommended",
+        "unknown": "Unknown"
       },
       "fullList": "View all"
     }

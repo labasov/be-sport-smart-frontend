@@ -11,7 +11,7 @@ export type Status = {
   color: 'success' | 'warning' | 'info' | 'error' | 'default';
 };
 
-export type StatusMap = {
+export type StatusMapType = {
   top1: Status;
   top2: Status;
   top3: Status;
@@ -30,7 +30,7 @@ export type UseSortedSports = {
   getStatusByRank: (score: number) => Status;
 };
 
-export const statusMap: StatusMap = {
+export const StatusMap: StatusMapType = {
   top1: { label: 'top1', color: 'success' },
   top2: { label: 'top2', color: 'info' },
   top3: { label: 'top3', color: 'info' },
@@ -38,7 +38,7 @@ export const statusMap: StatusMap = {
   top5: { label: 'top5', color: 'warning' },
   top6: { label: 'top6', color: 'default' },
   top7: { label: 'top7', color: 'error' },
-  unknown: { label: 'Unknown', color: 'default' },
+  unknown: { label: 'unknown', color: 'default' },
 } as const;
 
 const calculateGroups = (sortedScores: number[]): number[] => {
@@ -70,19 +70,19 @@ const calculateGroups = (sortedScores: number[]): number[] => {
 };
 
 const getStatusByRank = (score: number, groupBoundaries: number[]): Status => {
-  if (isNaN(score)) return statusMap.unknown;
+  if (isNaN(score)) return StatusMap.unknown;
 
-  if (score < groupBoundaries[1]) return statusMap.top1;
-  if (groupBoundaries[2] && score < groupBoundaries[2]) return statusMap.top2;
-  if (groupBoundaries[3] && score < groupBoundaries[3]) return statusMap.top3;
-  if (groupBoundaries[4] && score < groupBoundaries[4]) return statusMap.top4;
-  if (groupBoundaries[5] && score < groupBoundaries[5]) return statusMap.top5;
-  if (groupBoundaries[6] && score < groupBoundaries[6]) return statusMap.top6;
+  if (score < groupBoundaries[1]) return StatusMap.top1;
+  if (groupBoundaries[2] && score < groupBoundaries[2]) return StatusMap.top2;
+  if (groupBoundaries[3] && score < groupBoundaries[3]) return StatusMap.top3;
+  if (groupBoundaries[4] && score < groupBoundaries[4]) return StatusMap.top4;
+  if (groupBoundaries[5] && score < groupBoundaries[5]) return StatusMap.top5;
+  if (groupBoundaries[6] && score < groupBoundaries[6]) return StatusMap.top6;
 
-  return statusMap.top7;
+  return StatusMap.top7;
 };
 
-export const useSortedSports = (): UseSortedSports => {
+export const useRankedSports = (): UseSortedSports => {
   const { t } = useStaticTranslation();
   const { loading, initialized, sports } = useSportStore();
   const { enqueueSnackbar } = useSnackbar();
