@@ -20,9 +20,10 @@ export interface UserPopoverProps {
   anchorEl: Element | null;
   onClose: () => void;
   open: boolean;
+  children?: React.ReactNode;
 }
 
-export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): React.JSX.Element {
+export function UserPopover({ anchorEl, onClose, open, children }: UserPopoverProps): React.JSX.Element {
   //const { checkSession } = useUser();
   const { enqueueSnackbar } = useSnackbar();
   const { userEmail, signOut } = useUserStore();
@@ -46,11 +47,14 @@ export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): Reac
       open={open}
       slotProps={{ paper: { sx: { width: '240px' } } }}
     >
-      <Box sx={{ p: '16px 20px ' }}>
-        <Typography variant="subtitle1">Sofia Rivers</Typography>
-        <Typography color="text.secondary" variant="body2">
-          {userEmail}
-        </Typography>
+      <Box sx={{ p: '16px 20px ', display: 'flex', alignItems: 'center', gap: 1 }}>
+        {children}
+        <Box>
+          <Typography variant="subtitle1">Sofia Rivers</Typography>
+          <Typography color="text.secondary" variant="body2">
+            {userEmail}
+          </Typography>
+        </Box>
       </Box>
       <Divider />
       <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>

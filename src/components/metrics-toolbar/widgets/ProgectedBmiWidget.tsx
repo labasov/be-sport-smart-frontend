@@ -32,7 +32,7 @@ const ProgectedBmiWidget = forwardRef<MeasureValuesChangeHandler>((_, ref) => {
       const newTrendWidgetProps = {... trendWidgetProps, ... {
         loading: false,
         value: isNaN(bmiAt18Value) ? undefined : bmiAt18Value.toFixed(2),
-        diff: `${(diff && diff[0] != "-") ? "+" : ""}${diff}`,
+        diff: diff !== undefined ? (`${(diff && diff[0] != "-") ? "+" : ""}${diff}`) : undefined,
         trend: (diff && diff[0] != "-") ? "up" : "down" as "up" | "down"
       }};
 

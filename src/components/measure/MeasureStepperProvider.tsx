@@ -59,6 +59,16 @@ export function MeasureStepperProvider({
       case MeasureType.String:
       case MeasureType.Number:
         if (measureValue) {
+          if (!!currentMeasure.minValue && Number(measureValue) < currentMeasure.minValue) {
+            enqueueSnackbar(t("sport.rank.alerts.measureBelowMin", { min: currentMeasure.minValue }), { variant: "error" });
+            return;
+          }
+
+          if (!!currentMeasure.maxValue && Number(measureValue) > currentMeasure.maxValue) {
+            enqueueSnackbar(t("sport.rank.alerts.measureAboveMax", { max: currentMeasure.maxValue }), { variant: "error" });
+            return;
+          }
+
           newMeasureAccepted = true;
         } else if (currentMeasure.options.length > 0) {
           setMeasureValue(currentMeasure, currentMeasure.options[0]);

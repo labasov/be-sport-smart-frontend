@@ -51,6 +51,10 @@ export const useMeasureValuesStore = create<MeasureValuesStore>()(
         }
       },
       getMeasureValue: (measure: Measure): string => {
+        if (!measure) {
+          return "";
+        }
+
         const { measureValues } = get();
         const measureIndex = measureValues.findIndex((m) => m.name === measure.name);
         return measureIndex !== -1 ? measureValues[measureIndex].value! : "";
