@@ -18,19 +18,10 @@ i18n
     backend: {
       loadPath: function (language: string, namespace: string[]) {
         if (namespace[0] === DynamicNamespace) {
-          return `${config.dynamicLocalization.baseUrl}?lang=${language}`;
+          return `${config.dynamicLocalization.baseUrl}/${language}/translate.json`;
         }
 
         return `/locales/${language}/translate.json`;
-      },
-      parse: function (data: string) {
-        // Free-tier test environment I use to host the JSON file, wrapping it in a record object
-        const parsedData = JSON.parse(data);
-        if (parsedData.record) {
-          return parsedData.record;
-        }
-
-        return parsedData;
       }
     },
     react: {
