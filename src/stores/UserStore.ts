@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
 
 import config from "../config";
 import { IdentityService } from "../services/identity-service/IdentityService";
@@ -31,42 +30,36 @@ const initialValues: State = {
 const identityService = new IdentityService(config.backend.baseUrl);
 
 export const useUserStore = create<UserStore>()(
-  persist(
-    (set) => ({
-      ...initialValues,
-      signIn: async (userName: string | undefined, email: string | undefined, password: string): Promise<OperationResult> => {
-        set({ loading: true });
-        await identityService.signIn(userName, email, password);
+  (set) => ({
+    ...initialValues,
+    signIn: async (userName: string | undefined, email: string | undefined, password: string): Promise<OperationResult> => {
+      set({ loading: true });
+      await identityService.signIn(userName, email, password);
 
+      const userInfo = await identityService.getUserInfo();
+      set({ isSignedIn: true, userName: userInfo.userName, userEmail: userInfo.email, userRole: 'User', loading: false });
+    },
+    signUp: async (userName: string | undefined, email: string | undefined, password: string): Promise<OperationResult> => {
+      set({ loading: true });
+      await identityService.signUp(userName, email, password);
+      set({ loading: false });
+    },
+    signOut: async (): Promise<OperationResult> => {
+      set({ loading: true });
+      await identityService.signOut();
+
+      set({ isSignedIn: false, userName: undefined, userEmail: undefined, userRole: undefined, loading: false});
+    },
+    refreshUserInfo: async (): Promise<OperationResult> => {
+      set({ loading: true });
+
+      try {
         const userInfo = await identityService.getUserInfo();
         set({ isSignedIn: true, userName: userInfo.userName, userEmail: userInfo.email, userRole: 'User', loading: false });
-      },
-      signUp: async (userName: string | undefined, email: string | undefined, password: string): Promise<OperationResult> => {
-        set({ loading: true });
-        await identityService.signUp(userName, email, password);
-        set({ loading: false });
-      },
-      signOut: async (): Promise<OperationResult> => {
-        set({ loading: true });
-        await identityService.signOut();
-
-        set({ isSignedIn: false, userName: undefined, userEmail: undefined, userRole: undefined, loading: false});
-      },
-      refreshUserInfo: async (): Promise<OperationResult> => {
-        set({ loading: true });
-
-        try {
-          const userInfo = await identityService.getUserInfo();
-          set({ isSignedIn: true, userName: userInfo.userName, userEmail: userInfo.email, userRole: 'User', loading: false });
-        }
-        catch (error) {
-          set({ isSignedIn: false, userName: undefined, userEmail: undefined, userRole: undefined, loading: false });
-        }
       }
-    }),
-    {
-      name: "user-store",
-      storage: createJSONStorage(() => sessionStorage)
+      catch (error) {
+        set({ isSignedIn: false, userName: undefined, userEmail: undefined, userRole: undefined, loading: false });
+      }
     }
-  )
+  })
 );

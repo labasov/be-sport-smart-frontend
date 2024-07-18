@@ -12,7 +12,7 @@ import { TrendWidget, TrendWidgetProps } from "./TrendWidget";
 const ProgectedHeightWidget = React.forwardRef<MeasureValuesChangeHandler>((_, ref) => {
   const [trendWidgetProps, setTrendWidgetProps] = useState<TrendWidgetProps>({
     name: "Progected height",
-    loading: true,
+    loading: false,
     value: undefined,
     measure: "(cm)",
     diff: undefined,
@@ -25,6 +25,8 @@ const ProgectedHeightWidget = React.forwardRef<MeasureValuesChangeHandler>((_, r
 
   React.useImperativeHandle(ref, () => ({
     async onMeasureValuesChange(coreService: CoreService, measureValues: MeasureValue[]) {
+      setTrendWidgetProps({...trendWidgetProps, loading: true});
+
       const metrics = await coreService.evaluateMetrics(measureValues, ["height_at_18"]);
       const metricValue = metrics[0].result;
       const height = measureValues.find(x => x.name === "height")?.value;

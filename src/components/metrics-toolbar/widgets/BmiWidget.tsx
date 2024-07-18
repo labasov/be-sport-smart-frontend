@@ -12,7 +12,7 @@ import { TrendWidget, TrendWidgetProps } from "./TrendWidget";
 const BmiWidget = forwardRef<MeasureValuesChangeHandler>((_, ref) => {
   const [trendWidgetProps, setTrendWidgetProps] = useState<TrendWidgetProps>({
     name: "BMI",
-    loading: true,
+    loading: false,
     value: undefined,
     measure: "(bmi)",
     diff: undefined,
@@ -25,6 +25,8 @@ const BmiWidget = forwardRef<MeasureValuesChangeHandler>((_, ref) => {
 
   useImperativeHandle(ref, () => ({
     async onMeasureValuesChange(coreService: CoreService, measureValues: MeasureValue[]) {
+      setTrendWidgetProps({...trendWidgetProps, loading: true});
+
       const metrics = await coreService.evaluateMetrics(measureValues, ["bmi"]);
       const metricValue = metrics[0].result;
       const newTrendWidgetProps = {... trendWidgetProps, ... {

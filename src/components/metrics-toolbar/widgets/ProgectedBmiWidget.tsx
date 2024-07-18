@@ -11,7 +11,7 @@ import { TrendWidget, TrendWidgetProps } from "./TrendWidget";
 const ProgectedBmiWidget = forwardRef<MeasureValuesChangeHandler>((_, ref) => {
   const [trendWidgetProps, setTrendWidgetProps] = useState<TrendWidgetProps>({
     name: "Progected BMI",
-    loading: true,
+    loading: false,
     value: undefined,
     measure: "(bmi)",
     diff: undefined,
@@ -24,6 +24,8 @@ const ProgectedBmiWidget = forwardRef<MeasureValuesChangeHandler>((_, ref) => {
 
   useImperativeHandle(ref, () => ({
     async onMeasureValuesChange(coreService: CoreService, measureValues: MeasureValue[]) {
+      setTrendWidgetProps({...trendWidgetProps, loading: true});
+
       const metrics = await coreService.evaluateMetrics(measureValues, ["bmi", "bmi_at_18"]);
       const bmiValue = metrics.find(x => x.name === "bmi")?.result ?? NaN;
       const bmiAt18Value = metrics.find(x => x.name === "bmi_at_18")?.result ?? NaN;

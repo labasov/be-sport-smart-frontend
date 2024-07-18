@@ -86,5 +86,11 @@
     },
     "welcomeTo": "Welcome to",
     "accountCreated": "Account {{email}} created successfully!"
+  },
+  "widgets": {
+    "guest": {
+      "title": "See more details",
+      "description": "Create free account to see your projected BMI, height at 18, etc."
+    }
   }
 }

@@ -12,19 +12,21 @@ import { TrendWidget, TrendWidgetProps } from "./TrendWidget";
 const GrowthVelocityWidget = React.forwardRef<MeasureValuesChangeHandler>((_, ref) => {
   const [trendWidgetProps, setTrendWidgetProps] = useState<TrendWidgetProps>({
     name: "Growth Velocity",
-    loading: true,
-    value: "7",
+    loading: false,
+    value: undefined,
     measure: "(cm/year)",
     diff: undefined,
     trend: "trendUp",
     trendColor: "success",
     icon: ChartLineIcon,
     iconColor: "primary",
-    description: "Gain during these years"
+    description: "Height gain per year"
   });
 
   React.useImperativeHandle(ref, () => ({
     async onMeasureValuesChange(coreService: CoreService, measureValues: MeasureValue[]) {
+      setTrendWidgetProps({...trendWidgetProps, loading: true});
+
       const metrics = await coreService.evaluateMetrics(measureValues, ["height_at_18"]);
       const heightAt18 = metrics[0].result;
       const height = measureValues.find(x => x.name === "height")?.value;
