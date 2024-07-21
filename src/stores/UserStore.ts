@@ -8,9 +8,10 @@ import { OperationResult } from "./interfaces/OperationResult";
 type State = {
   loading: boolean;
   isSignedIn: boolean;
+  isInitialized: boolean;
   userName?: string;
   userEmail?: string;
-  userRole?: 'User';
+  userRoles?: string[];
 };
 
 type Actions = {
@@ -24,6 +25,7 @@ type UserStore = State & Actions;
 
 const initialValues: State = {
   loading: true,
+  isInitialized: false,
   isSignedIn: false
 };
 
@@ -37,7 +39,7 @@ export const useUserStore = create<UserStore>()(
       await identityService.signIn(userName, email, password);
 
       const userInfo = await identityService.getUserInfo();
-      set({ isSignedIn: true, userName: userInfo.userName, userEmail: userInfo.email, userRole: 'User', loading: false });
+      set({ isSignedIn: true, userName: userInfo.userName, userEmail: userInfo.email, userRoles: userInfo.roles, loading: false });
     },
     signUp: async (userName: string | undefined, email: string | undefined, password: string): Promise<OperationResult> => {
       set({ loading: true });
@@ -48,17 +50,17 @@ export const useUserStore = create<UserStore>()(
       set({ loading: true });
       await identityService.signOut();
 
-      set({ isSignedIn: false, userName: undefined, userEmail: undefined, userRole: undefined, loading: false});
+      set({ isSignedIn: false, userName: undefined, userEmail: undefined, userRoles: undefined, loading: false});
     },
     refreshUserInfo: async (): Promise<OperationResult> => {
       set({ loading: true });
 
       try {
         const userInfo = await identityService.getUserInfo();
-        set({ isSignedIn: true, userName: userInfo.userName, userEmail: userInfo.email, userRole: 'User', loading: false });
+        set({ isSignedIn: true, userName: userInfo.userName, userEmail: userInfo.email, userRoles: userInfo.roles, loading: false });
       }
       catch (error) {
-        set({ isSignedIn: false, userName: undefined, userEmail: undefined, userRole: undefined, loading: false });
+        set({ isSignedIn: false, userName: undefined, userEmail: undefined, userRoles: undefined, loading: false, isInitialized: true });
       }
     }
   })

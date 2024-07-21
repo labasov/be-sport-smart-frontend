@@ -5,4 +5,5 @@ export const routes = {
   signUp: '/sign-up',
   forgotPassword: '/forgot-password',
   terms: '/terms',
+  sportScoreData: '/sport-score-data',
 } as const;

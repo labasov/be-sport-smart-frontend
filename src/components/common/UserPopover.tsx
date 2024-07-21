@@ -50,7 +50,7 @@ export function UserPopover({ anchorEl, onClose, open, children }: UserPopoverPr
       <Box sx={{ p: '16px 20px ', display: 'flex', alignItems: 'center', gap: 1 }}>
         {children}
         <Box>
-          <Typography variant="subtitle1">Sofia Rivers</Typography>
+          <Typography variant="subtitle1">Fit User</Typography>
           <Typography color="text.secondary" variant="body2">
             {userEmail}
           </Typography>

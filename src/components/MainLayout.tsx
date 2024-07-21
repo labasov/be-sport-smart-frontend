@@ -20,7 +20,10 @@ const MainLayout: FC = (): ReactElement => {
   const fullScreenPage = () => fullScreenPages.find((page) => page === pathname);
 
   if (fullScreenPage()) {
-    return <AuthProvider><MainRoutes /></AuthProvider>
+    return (
+      <AuthProvider>
+        <MainRoutes />
+      </AuthProvider>);
   }
 
   return (
