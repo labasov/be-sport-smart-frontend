@@ -17,8 +17,8 @@ import React, { useEffect, useState, useCallback, memo, useRef } from "react";
 
 import config from "../../config";
 import { useDynamicTranslation } from "../../hooks/UseTranslation";
-import { CoreAdminSportScoreService } from "../../services/core-admin-sport-score-service/CoreAdminSportScoreService";
-import { SportScoreDto } from "../../services/core-admin-sport-score-service/interfaces/SportScoreDto";
+import { CoreAdminSportScoreService } from "../../services/core-admin/CoreAdminSportScoreService";
+import { SportScoreDto } from "../../services/core-admin/interfaces/SportScoreDto";
 
 import UpdateButton, { UpdateButtonRef } from "./UpdateButton";
 

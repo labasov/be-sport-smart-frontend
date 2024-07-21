@@ -7,6 +7,7 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import { GearSix as GearSixIcon } from '@phosphor-icons/react/dist/ssr/GearSix';
 import { SignOut as SignOutIcon } from '@phosphor-icons/react/dist/ssr/SignOut';
+import { Table as TableIcon } from '@phosphor-icons/react/dist/ssr/Table';
 import { User as UserIcon } from '@phosphor-icons/react/dist/ssr/User';
 import { useSnackbar } from 'notistack';
 import * as React from 'react';
@@ -26,9 +27,10 @@ export interface UserPopoverProps {
 export function UserPopover({ anchorEl, onClose, open, children }: UserPopoverProps): React.JSX.Element {
   //const { checkSession } = useUser();
   const { enqueueSnackbar } = useSnackbar();
-  const { userEmail, signOut } = useUserStore();
+  const { userEmail, userRoles, signOut } = useUserStore();
 
   const router = useNavigate();
+  const isInRole = (role: string): boolean => userRoles?.includes(role) ?? false;
 
   const handleSignOut = React.useCallback(async (): Promise<void> => {
     try {
@@ -38,6 +40,11 @@ export function UserPopover({ anchorEl, onClose, open, children }: UserPopoverPr
       enqueueSnackbar('An error occurred while signing out', { variant: 'error' });
     }
   }, [router]);
+
+  const handleNavigate = (path: string): void => {
+    onClose();
+    router(path);
+  }
 
   return (
     <Popover
@@ -58,6 +65,14 @@ export function UserPopover({ anchorEl, onClose, open, children }: UserPopoverPr
       </Box>
       <Divider />
       <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>
+        {isInRole('Admin') && (
+          <MenuItem href={routes.sportScoreData} onClick={() => handleNavigate(routes.sportScoreData)}>
+            <ListItemIcon>
+              <TableIcon fontSize="var(--icon-fontSize-md)" />
+            </ListItemIcon>
+            Sport Score Data
+          </MenuItem>
+        )}
         <MenuItem href={routes.home} onClick={onClose}>
           <ListItemIcon>
             <GearSixIcon fontSize="var(--icon-fontSize-md)" />
