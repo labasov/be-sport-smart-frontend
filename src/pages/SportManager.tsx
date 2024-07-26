@@ -2,11 +2,11 @@ import { Box } from '@mui/system';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import SportScoreManageTable from '../components/admin/SportScoreManageTable.tsx';
+import SportTable from '../components/admin/SportTable.tsx';
 import { useAuth } from '../components/common/AuthProvider.tsx';
 import { routes } from '../routes.ts';
 
-const SportScoreData = () => {
+const SportManagerPage = () => {
     const navigate = useNavigate();
     const { loading, isInRole } = useAuth();
 
@@ -14,13 +14,13 @@ const SportScoreData = () => {
         if (!loading && !isInRole('Admin')) {
             navigate(routes.home);
         }
-    }, [navigate, isInRole]); 
+    }, [navigate, isInRole, loading]); 
 
     return (
       <Box mt={4} mb={4}>
-        <SportScoreManageTable/>
+        <SportTable/>
       </Box>
     );
 };
 
-export default SportScoreData;
+export default SportManagerPage;

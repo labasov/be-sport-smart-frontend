@@ -10,6 +10,7 @@ import {
   Button,
   IconButton,
   Box,
+  Checkbox,
 } from "@mui/material";
 import { Minus as ExpandLessIcon } from "@phosphor-icons/react/dist/ssr/Minus";
 import { Plus as ExpandMoreIcon } from "@phosphor-icons/react/dist/ssr/Plus";
@@ -17,25 +18,25 @@ import React, { useEffect, useState, useCallback, memo, useRef } from "react";
 
 import config from "../../config";
 import { useDynamicTranslation } from "../../hooks/UseTranslation";
-import { CoreAdminSportScoreService } from "../../services/core-admin/CoreAdminSportScoreService";
-import { SportScoreDto } from "../../services/core-admin/interfaces/SportScoreDto";
+import { SportDto } from "../../services/core-admin/interfaces/SportDto";
+import { SportManagerService } from "../../services/core-admin/SportManagerService";
 
 import UpdateButton, { UpdateButtonRef } from "./UpdateButton";
 
-const coreAdminSportScoreService = new CoreAdminSportScoreService(config.backend.baseUrl);
+const coreAdminSportScoreService = new SportManagerService(config.backend.baseUrl);
 
 const SportScoreManageTable: React.FC = () => {
   const { t } = useDynamicTranslation();
-  const [sportScores, setSportScores] = useState<SportScoreDto[]>([]);
+  const [sportScores, setSportScores] = useState<SportDto[]>([]);
   const [expandedSports, setExpandedSports] = useState<{ [key: string]: boolean }>({});
   const updatedScores = useRef<{ [key: string]: number }>({});
   const updateButtonRef = useRef<UpdateButtonRef>(null);
 
   useEffect(() => {
-    coreAdminSportScoreService.getSportScores().then((data) => {
+    coreAdminSportScoreService.getSports().then((data) => {
       setSportScores(data);
       const initialExpandedState = data.reduce((acc, sport) => {
-        acc[sport.sportName] = false;
+        acc[sport.name] = false;
         return acc;
       }, {} as { [key: string]: boolean });
       setExpandedSports(initialExpandedState);
@@ -49,9 +50,9 @@ const SportScoreManageTable: React.FC = () => {
   }, []);
 
   const handleApply = useCallback(async () => {
-    const sportScoresToUpdate : SportScoreDto[] = [];
+    const sportScoresToUpdate : SportDto[] = [];
     const newScores = sportScores.map((sport, sportIndex) => {
-      const updatedSportScoreData = { ...sport.sportScoreData };
+      const updatedSportScoreData = { ...sport.variables };
       let sportUpdated = false;
       Object.entries(updatedSportScoreData).forEach(([scoreKey]) => {
         const key = `${sportIndex}-${scoreKey}`;
@@ -73,7 +74,7 @@ const SportScoreManageTable: React.FC = () => {
       return updatedSport;
     });
 
-    await coreAdminSportScoreService.updateSportScores(sportScoresToUpdate);
+    await coreAdminSportScoreService.updateSports(sportScoresToUpdate);
 
     setSportScores(newScores);
     updatedScores.current = {};
@@ -157,7 +158,7 @@ const SportScoreManageTable: React.FC = () => {
       expanded,
       toggleExpand,
     }: {
-      sport: SportScoreDto;
+      sport: SportDto;
       sportIndex: number;
       handleScoreChange: (sportIndex: number, scoreKey: string, value: number) => void;
       expanded: boolean;
@@ -167,20 +168,22 @@ const SportScoreManageTable: React.FC = () => {
         <TableRow>
           <TableCell
             style={{
-              padding: "8px",
-              textAlign: "center",
+              padding: "8px 8px",
               backgroundColor: "#f0f0f0", // Adjust this color as needed
             }}
             colSpan={3}
           >
+            <Checkbox
+              
+            />
             <IconButton onClick={toggleExpand} sx={{ mr: 2 }}>
               {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
             </IconButton>
-            {t(`sports.${sport.sportName}.name`)}
+            {t(`sports.${sport.name}.name`)}
           </TableCell>
         </TableRow>
         {expanded &&
-          Object.entries(sport.sportScoreData).map(([scoreKey, scoreValue]) => (
+          Object.entries(sport.variables).map(([scoreKey, scoreValue]) => (
             <MemoizedTableRow
               key={scoreKey}
               sportIndex={sportIndex}
@@ -192,8 +195,8 @@ const SportScoreManageTable: React.FC = () => {
       </>
     ),
     (prevProps, nextProps) =>
-      prevProps.sport.sportName === nextProps.sport.sportName &&
-      prevProps.sport.sportScoreData === nextProps.sport.sportScoreData &&
+      prevProps.sport.name === nextProps.sport.name &&
+      prevProps.sport.variables === nextProps.sport.variables &&
       prevProps.expanded === nextProps.expanded
   );
 
@@ -219,12 +222,12 @@ const SportScoreManageTable: React.FC = () => {
           <TableBody>
             {sportScores.map((sport, sportIndex) => (
               <MemoizedSportRow
-                key={sport.sportName}
+                key={sport.name}
                 sport={sport}
                 sportIndex={sportIndex}
                 handleScoreChange={handleScoreChange}
-                expanded={expandedSports[sport.sportName]}
-                toggleExpand={() => toggleSportExpand(sport.sportName)}
+                expanded={expandedSports[sport.name]}
+                toggleExpand={() => toggleSportExpand(sport.name)}
               />
             ))}
           </TableBody>

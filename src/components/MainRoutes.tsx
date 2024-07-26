@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import EvaluationPage from "../pages/EvaluationDashboard";
 import HomePage from "../pages/HomePage";
 import { SignPage } from "../pages/SignPage";
-import SportScoreData from "../pages/SportScoreData";
+import SportManagerPage from "../pages/SportManager";
 import { routes } from "../routes";
 
 import { SignInForm } from "./account/SignInForm";
@@ -18,7 +18,7 @@ const MainRoutes: FC = (): ReactElement => {
         <Route path={routes.evaluation} element={<EvaluationPage />} />
         <Route path={routes.signIn} element={<SignPage><SignInForm/></SignPage>} />
         <Route path={routes.signUp} element={<SignPage><SignUpForm/></SignPage>} />
-        <Route path={routes.sportScoreData} element={<SportScoreData/>} />
+        <Route path={routes.sportScoreData} element={<SportManagerPage/>} />
       </Routes>
     </>
   );

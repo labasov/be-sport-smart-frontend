@@ -1,8 +1,6 @@
 import { Button } from "@mui/material";
 import React, { useState, useImperativeHandle, forwardRef } from "react";
 
-import { LoadingOverlay } from "../common/LoadingOverlay";
-
 interface UpdateButtonProps {
   apply: () => Promise<void>;
 }
@@ -16,7 +14,6 @@ const UpdateButton: React.ForwardRefRenderFunction<UpdateButtonRef, UpdateButton
   ref
 ) => {
   const [ updateCount, setUpdateCount ] = useState(0);
-  const [ isUpdating, setIsUpdating ] = useState(false);
 
   useImperativeHandle(ref, () => ({
     updateCount: (count: number) => {
@@ -25,19 +22,16 @@ const UpdateButton: React.ForwardRefRenderFunction<UpdateButtonRef, UpdateButton
   }));
 
   const onClick = async () => {
-    setIsUpdating(true);
     await apply();
-    setIsUpdating(false);
   }
 
   return (
     <>
-      <LoadingOverlay open={isUpdating} />
       <Button
         variant="contained"
         color="primary"
         onClick={onClick}
-        disabled={updateCount === 0 || isUpdating}
+        disabled={updateCount === 0}
         style={{
           position: "fixed",
           bottom: "20px",
