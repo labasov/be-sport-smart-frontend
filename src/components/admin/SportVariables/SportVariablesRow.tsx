@@ -4,7 +4,7 @@ import React, { useEffect, useState, memo } from "react";
 interface SportVariablesRowProps {
   variableKey: string;
   variableValue: number;
-  onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onChange: (variableValue: number) => void;
 }
 
 const StyledTableCell = styled(TableCell)({
@@ -12,7 +12,7 @@ const StyledTableCell = styled(TableCell)({
 });
 
 const SportVariablesRow: React.FC<SportVariablesRowProps> = memo(
-  ({ variableKey, variableValue, onBlur }) => {
+  ({ variableKey, variableValue, onChange }) => {
     const [localValue, setLocalValue] = useState(variableValue);
 
     useEffect(() => {
@@ -20,7 +20,9 @@ const SportVariablesRow: React.FC<SportVariablesRowProps> = memo(
     }, [variableValue]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setLocalValue(parseFloat(event.target.value));
+      const value = parseFloat(event.target.value);
+      onChange(value);
+      setLocalValue(value);
     };
 
     return (
@@ -31,7 +33,6 @@ const SportVariablesRow: React.FC<SportVariablesRowProps> = memo(
             type="number"
             value={localValue}
             onChange={handleChange}
-            onBlur={onBlur}
             variant="outlined"
             size="small"
             InputProps={{

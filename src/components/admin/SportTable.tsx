@@ -23,6 +23,7 @@ const sportManagerService = new SportManagerService(config.backend.baseUrl);
 
 const SportTable: React.FC = () => {
   const [ isLoading, setIsLoading ] = useState(true);
+  const [ sportTemplate, setSportTemplate ] = useState<SportDto | null>(null);
   const [sports, setSports] = useState<SportDto[]>([]);
   const updatedSports = useRef<{ [sportName: string]: Record<string, number> }>({});
   const updateButtonRef = useRef<UpdateButtonRef>(null);
@@ -54,18 +55,18 @@ const SportTable: React.FC = () => {
     setIsLoading(true);
     const updatedSportsArray = Object.keys(updatedSports.current).map(name => ({
       name,
-      variables: updatedSports.current[name]
+      variables: updatedSports.current[name],
     }));
 
     const newSports = sports.map((sport) => {
       const updatedSport = updatedSportsArray.find((s) => s.name === sport.name);
       if (updatedSport) {
         return { 
-          ...sport, 
+          ...sport,
           variables: { 
             ...sport.variables, 
             ...updatedSport.variables 
-          } 
+          }
         };
       }
       return sport;
@@ -80,6 +81,22 @@ const SportTable: React.FC = () => {
     setIsLoading(false);
   };
 
+  const handleSyncSport = async (sport: SportDto) => {
+    setIsLoading(true);
+    const newSport = await sportManagerService.syncSport(sport);
+    const newSports = sports.map((s) => (s.name === newSport.name ? newSport : s));
+    setSports(newSports);
+    setIsLoading(false);
+  };
+
+  const handleDeleteSport = async (sport: SportDto) => {
+    setIsLoading(true);
+    await sportManagerService.deleteSport(sport);
+    const newSports = sports.filter((s) => s.name !== sport.name);
+    setSports(newSports);
+    setIsLoading(false);
+  }
+
   const handleExpandAll = useCallback(() => {
     sportRowRefs.current.forEach((ref) => ref?.expand());
   }, []);
@@ -88,17 +105,39 @@ const SportTable: React.FC = () => {
     sportRowRefs.current.forEach((ref) => ref?.collapse());
   }, []);
 
-  const handleCreate = useCallback(() => {
+  const handleSportCreate = (sport: SportDto) => {
+    const newSports = [sport, ...sports];
+    setSports(newSports);
+  };
+
+  const handleSwitchSport = async (sport: SportDto, isDisabled: boolean) => {
     setIsLoading(true);
-    console.log("Create");
-  }, []);
+    const updatedSport = { ...sport, disabled: isDisabled };
+    await sportManagerService.updateSports([updatedSport]);
+    const newSports = sports.map((s) => (s.name === sport.name ? updatedSport : s));
+    setSports(newSports);
+    setIsLoading(false);
+  }
+
+  const isSportOutOfSync = useCallback((sport: SportDto) => {
+    if (!sportTemplate || !sportTemplate.variables) {
+      return false;
+    }
+
+    const templateKeys = Object.keys(sportTemplate.variables);
+    // eslint-disable-next-line no-prototype-builtins
+    const allKeysPresent = templateKeys.every(key => sport.variables.hasOwnProperty(key));
+  
+    return !allKeysPresent;
+  }, [sportTemplate]);
 
   return (
     <>
       <Toolbar
         handleExpandAll={handleExpandAll}
         handleCollapseAll={handleCollapseAll}
-        handleCreate={handleCreate}
+        onSportCreate={handleSportCreate}
+        onSportTemplateReady={setSportTemplate}
       />
       <TableContainer component={Paper} sx={{position: 'relative'}}>
         <LoadingOverlay open={isLoading} />
@@ -106,6 +145,7 @@ const SportTable: React.FC = () => {
           <TableHead>
             <TableRow>
               <TableCell>Sport Name</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -114,8 +154,11 @@ const SportTable: React.FC = () => {
                 key={sport.name}
                 ref={(ref) => (sportRowRefs.current[sportIndex] = ref)}
                 sport={sport}
-                //sportIndex={sportIndex}
                 handleVariableChange={handleVariableChange}
+                isSportOutOfSync={isSportOutOfSync}
+                syncSport={handleSyncSport}
+                deleteSport={handleDeleteSport}
+                switchSport={handleSwitchSport}
                 updatedSports={updatedSports}
               />
             ))}

@@ -45,7 +45,7 @@ const SportVariablesTable: React.FC<SportVariablesTableProps> = ({
               key={variableKey}
               variableKey={variableKey}
               variableValue={!!updatedSports.current[sport.name] && !!updatedSports.current[sport.name][variableKey] ? updatedSports.current[sport.name][variableKey] : variableValue}
-              onBlur={(e) => handleVariableChange(sport.name, variableKey, parseFloat(e.target.value))}
+              onChange={(variableValue) => handleVariableChange(sport.name, variableKey, variableValue)}
             />
           ))}
         </TableBody>

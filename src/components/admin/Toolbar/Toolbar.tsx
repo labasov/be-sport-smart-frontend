@@ -1,13 +1,23 @@
 import { Box, Button } from '@mui/material';
 import React from 'react';
 
+import { SportDto } from '../../../services/core-admin/interfaces/SportDto';
+
+import CreateSport from './CreateSport';
+
 interface ExampleComponentProps {
   handleExpandAll: () => void;
   handleCollapseAll: () => void;
-  handleCreate: () => void;
+  onSportCreate: (sport: SportDto) => void;
+  onSportTemplateReady: (sport: SportDto) => void;
 }
 
-const Toolbar: React.FC<ExampleComponentProps> = ({ handleExpandAll, handleCollapseAll, handleCreate }) => {
+const Toolbar: React.FC<ExampleComponentProps> = ({ 
+  handleExpandAll,
+  handleCollapseAll,
+  onSportCreate,
+  onSportTemplateReady
+}) => {
   return (
     <Box display="flex" justifyContent="space-between" mb={2}>
       <Box display="flex">
@@ -18,9 +28,13 @@ const Toolbar: React.FC<ExampleComponentProps> = ({ handleExpandAll, handleColla
           Collapse All
         </Button>
       </Box>
-      <Button variant="contained" color="primary" disabled={true} onClick={handleCreate}>
+      {/* <Button variant="contained" color="primary" disabled={true} onClick={handleCreate}>
         Create
-      </Button>
+      </Button> */}
+      <CreateSport 
+        onSportCreate={onSportCreate}
+        onSportTemplateReady={onSportTemplateReady}
+      />
     </Box>
   );
 };
