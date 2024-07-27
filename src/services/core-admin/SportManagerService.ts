@@ -2,7 +2,7 @@ import { RestServiceBase } from "../RestService";
 
 import { SportDto } from "./interfaces/SportDto";
 
-type SportDtoWithOptionalDisabled = Omit<SportDto, 'disabled'> & { disabled?: boolean };
+type SportDtoForUpdate = Omit<Omit<SportDto, 'disabled'>, "formula"> & { disabled?: boolean };
 
 export class SportManagerService extends RestServiceBase {
   public constructor(baseUrl: string) {
@@ -13,7 +13,7 @@ export class SportManagerService extends RestServiceBase {
     return await this.post('getSports');
   }
 
-  public async updateSports(sports: SportDtoWithOptionalDisabled[]): Promise<void> {
+  public async updateSports(sports: SportDtoForUpdate[]): Promise<void> {
     return await this.post('updateSports', { sports: [...sports] });
   }
 
