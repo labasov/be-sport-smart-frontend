@@ -17,7 +17,7 @@ export class SportManagerService extends RestServiceBase {
     return await this.post('updateSports', { sports: [...sports] });
   }
 
-  public async createSport(sport: SportDto, disabled: boolean): Promise<void> {
+  public async createSport(sport: SportDto, disabled: boolean): Promise<SportDto> {
     return await this.post('createSport', { 
       name: sport.name,
       variables: sport.variables,

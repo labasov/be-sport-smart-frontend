@@ -1,6 +1,8 @@
 import { TableRow, TableCell, IconButton, Button } from "@mui/material";
+import { ArrowsClockwise as ArrowsClockwiseIcon } from "@phosphor-icons/react/dist/ssr/ArrowsClockwise";
 import { CaretDown as ExpandMoreIcon } from "@phosphor-icons/react/dist/ssr/CaretDown";
 import { CaretUp as ExpandLessIcon } from "@phosphor-icons/react/dist/ssr/CaretUp";
+import { Trash as TrashIcon } from "@phosphor-icons/react/dist/ssr/Trash";
 import { enqueueSnackbar } from "notistack";
 import React, { useState, forwardRef, useImperativeHandle, memo, useEffect } from "react";
 
@@ -8,6 +10,7 @@ import { useDynamicTranslation } from "../../hooks/UseTranslation";
 import { SportDto } from "../../services/core-admin/interfaces/SportDto";
 import { ConfirmationPopover } from "../common/ConfirmationPopover";
 
+import SportFormula from "./SportFormula";
 import SportVariablesTable from "./SportVariables/SportVariablesTable";
 
 interface SportRowProps {
@@ -65,9 +68,9 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(({ sport,
       enqueueSnackbar(`Sport ${sport.name} deleted.`, { variant: "success" });
     }
 
-    const handleSwitch = async (isDisabled: boolean) => {
-      await switchSport(sport, isDisabled);
-      enqueueSnackbar(`Sport ${sport.name} ${isDisabled ? 'disabled' : 'enabled'}.`, { variant: "success" });
+    const handleSwitch = async () => {
+      await switchSport(sport, !sport.disabled);
+      enqueueSnackbar(`Sport ${sport.name} ${!sport.disabled ? 'disabled' : 'enabled'}.`, { variant: "success" });
     }
 
     const sportKey = `sports.${sport.name}.name`;
@@ -98,6 +101,9 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(({ sport,
               size="small"
               disabled={!isSportSyncAvailable}
               onClick={handleSportSync}
+              startIcon={
+                <ArrowsClockwiseIcon />
+              }
             >
               {isSportSyncAvailable ? 'Sync sport' : 'Up to date'}
             </Button>
@@ -106,7 +112,10 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(({ sport,
               color={sport.disabled ? "success" : "secondary"}
               variant="contained"
               size="small"
-              onClick={() => handleSwitch(!sport.disabled)}
+              startIcon={
+                <TrashIcon />
+              }
+              onClick={handleSwitch}
             >
               {sport.disabled ? 'Enable' : 'Disable'}
             </Button>
@@ -117,9 +126,9 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(({ sport,
               <Button
                 sx={{ ml: 1 }}
                 color="error"
-                // startIcon={
-                //   <ArrowCounterClockwiseIcon fontSize="var(--icon-fontSize-md)" />
-                // }
+                startIcon={
+                  <TrashIcon />
+                }
                 variant="contained"
                 size="small"
               >
@@ -128,13 +137,16 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(({ sport,
             </ConfirmationPopover>
           </TableCell>
         </TableRow>
-        <TableRow >
-          <TableCell colSpan={2} style={{ display: expanded ? "table-cell" : "none" }}>
+        <TableRow style={{ display: expanded ? "table-row" : "none" }}>
+          <TableCell >
             <SportVariablesTable
               sport={sport}
               handleVariableChange={handleVariableChange}
               updatedSports={updatedSports}
             />
+          </TableCell>
+          <TableCell>
+            <SportFormula sport={sport}/>
           </TableCell>
         </TableRow>
       </>

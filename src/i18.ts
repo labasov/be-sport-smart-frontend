@@ -14,7 +14,7 @@ i18n
     fallbackLng: 'en',
     debug: false,
     ns: [StaticNamespace, DynamicNamespace],
-    defaultNS: StaticNamespace,
+    //defaultNS: StaticNamespace,
     backend: {
       loadPath: function (language: string, namespace: string[]) {
         if (namespace[0] === DynamicNamespace) {

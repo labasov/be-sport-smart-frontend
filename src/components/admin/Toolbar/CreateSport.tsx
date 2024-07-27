@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
+import { Plus as PlusIcon } from "@phosphor-icons/react/dist/ssr/Plus";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback, useEffect, useState } from "react";
 
@@ -17,6 +18,7 @@ import { toSportKey } from "../../../helpers/stringHelpers";
 import { SportDto } from "../../../services/core-admin/interfaces/SportDto";
 import { SportManagerService } from "../../../services/core-admin/SportManagerService";
 import { LoadingOverlay } from "../../common/LoadingOverlay";
+import SportFormula from "../SportFormula";
 import SportVariablesTable from "../SportVariables/SportVariablesTable";
 
 interface CreateSportProps {
@@ -29,6 +31,7 @@ const sportManagerService = new SportManagerService(config.backend.baseUrl);
 const CreateSport: React.FC<CreateSportProps> = ({ onSportCreate, onSportTemplateReady }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [ showTemplate, setShowTemplate ] = useState(false);
   const [createDisabled, setCreateDisabled] = useState(false);
   const [sport, setSport] = useState<SportDto | null>(null);
 
@@ -80,14 +83,14 @@ const CreateSport: React.FC<CreateSportProps> = ({ onSportCreate, onSportTemplat
   const handleSave = async () => {
     setIsLoading(true);
     try {
-      const sportToCreate = { ...sport!, name: toSportKey(sport!.name) };
-      await sportManagerService.createSport(
+      const sportToCreate = { ...sport!, name: toSportKey(sport!.name), disabled: createDisabled };
+      const createdSport = await sportManagerService.createSport(
         { ...sportToCreate },
         createDisabled
       );
 
       enqueueSnackbar(`Sport '${sportToCreate.name}' created successfully!`, { variant: "success" });
-      onSportCreate(sportToCreate);
+      onSportCreate(createdSport);
       handleCloseDialog();
     } catch (error) {
       enqueueSnackbar("Failed to create sport", { variant: "error" });
@@ -97,7 +100,11 @@ const CreateSport: React.FC<CreateSportProps> = ({ onSportCreate, onSportTemplat
 
   return (
     <Box>
-      <Button variant="contained" color="primary" onClick={handleOpenDialog}>
+      <Button 
+        variant="contained"
+        color="primary"
+        onClick={handleOpenDialog}
+        startIcon={<PlusIcon/>}>
         Create
       </Button>
       <Dialog
@@ -118,22 +125,33 @@ const CreateSport: React.FC<CreateSportProps> = ({ onSportCreate, onSportTemplat
             fullWidth
             margin="normal"
           />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={createDisabled}
-                onChange={handleCreateDisabledChange}
-              />
-            }
-            label="Create disabled"
-          />
+          <Box display="flex" justifyContent="space-between" alignItems="center">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={createDisabled}
+                  onChange={handleCreateDisabledChange}
+                />
+              }
+              label="Create disabled"
+            />
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => setShowTemplate(!showTemplate)}
+              sx={{ ml: 2 }}
+            >
+              { !showTemplate? "Show template" : "Hide template" }
+            </Button>
+          </Box>
           <Box mt={2}>
             {sport && (
-              <SportVariablesTable
+              !showTemplate && (<SportVariablesTable
                 sport={sport}
                 handleVariableChange={handleVariableChange}
                 updatedSports={{ current: {} }}
-              />
+              />)
+              || (<SportFormula sport={sport}/>)
             )}
           </Box>
         </DialogContent>

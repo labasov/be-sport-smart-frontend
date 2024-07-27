@@ -1,4 +1,4 @@
-import { TableRow as MuiTableRow, TableCell, Chip } from '@mui/material';
+import { TableRow, TableCell, Chip } from '@mui/material';
 import React from 'react';
 
 import { Status, StatusMap } from '../../../hooks/UseRankedSports';
@@ -20,13 +20,13 @@ export const SportTableRow: React.FC<SportTableRowProps> = ({ sport, getStatusBy
     : getStatusByRank(result);
 
   return (
-    <MuiTableRow hover key={sport.name}>
+    <TableRow hover key={sport.name}>
       <TableCell>{t(`sports.${sport.name}.name`)}</TableCell>
       <TableCell>
         <Chip color={color} label={tStatic(`sport.table.labels.${label}`)} size="small" />
       </TableCell>
       <TableCell>{isNaN(result) ? '-' : result.toFixed(2)}</TableCell>
       <TableCell>-</TableCell>
-    </MuiTableRow>
+    </TableRow>
   );
 };

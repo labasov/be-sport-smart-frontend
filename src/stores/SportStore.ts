@@ -42,7 +42,8 @@ export const useSportStore = create<SportStore>()(
     }),
     {
       name: "sports-store",
-      storage: createJSONStorage(() => sessionStorage)
+      storage: createJSONStorage(() => sessionStorage),
+      version: 1
     }
   )
 );
