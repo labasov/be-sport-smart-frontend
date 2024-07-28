@@ -1,56 +1,54 @@
-name: Build and deploy ASP.Net Core app to Azure Web App - app-frontend-besportsmart
+name: Azure Static Web Apps CI/CD
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
   workflow_dispatch:
 
 env:
-  APP_NAME: 'app-frontend-besportsmart'
-  NODE_VERSION: '20.x'
-  DEPLOYMENT_ENVIRONMENT: 'Production'
   VITE_BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
   VITE_DYNAMIC_LOCALIZATION_BASE_URL: ${{ vars.DYNAMIC_LOCALIZATION_BASE_URL }}
   VITE_APPLICATIONINSIGHTS_CONNECTION_STRING: ${{ vars.APPLICATIONINSIGHTS_CONNECTION_STRING }}
 
 jobs:
-  deploy:
+  build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      contents: read
-      deployments: write
-      id-token: write
-
+    name: Build and Deploy Job
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v2
         with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: npm install, build, and test
-        run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
-      
-      - name: Login to Azure
-        uses: azure/login@v1
+          submodules: true
+      # - name: setup vue environment file
+      #   run: |
+      #     echo "VUE_APP_NOT_SECRET_CODE=some_value" >  $GITHUB_WORKSPACE/.env
+      - name: Build And Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v0.0.1-preview
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+          azure_static_web_apps_api_token: ${{ secrets.FRONTEND_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          action: "upload"
+          ###### Repository/Build Configurations - These values can be configured to match you app requirements. ######
+          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
+          app_location: "/" # App source code path
+          # api_location: "" # Api source code path - optional
+          output_location: "dist" # Built app content directory - optional
+          ###### End of Repository/Build Configurations ######
 
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v0.0.1-preview
         with:
-          app-name: ${{ env.APP_NAME }}
-          slot-name: ${{ env.DEPLOYMENT_ENVIRONMENT }}
-          package: .
-          
+          azure_static_web_apps_api_token: ${{ secrets.FRONTEND_STATIC_WEB_APPS_API_TOKEN }}
+          action: "close"
