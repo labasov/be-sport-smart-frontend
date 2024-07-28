@@ -2,10 +2,13 @@ import { TableRow, TableCell, IconButton, Button } from "@mui/material";
 import { ArrowsClockwise as ArrowsClockwiseIcon } from "@phosphor-icons/react/dist/ssr/ArrowsClockwise";
 import { CaretDown as ExpandMoreIcon } from "@phosphor-icons/react/dist/ssr/CaretDown";
 import { CaretUp as ExpandLessIcon } from "@phosphor-icons/react/dist/ssr/CaretUp";
+import { Eye as EyeIcon } from "@phosphor-icons/react/dist/ssr/Eye";
+import { EyeSlash as EyeSlashIcon } from "@phosphor-icons/react/dist/ssr/EyeSlash";
 import { Trash as TrashIcon } from "@phosphor-icons/react/dist/ssr/Trash";
 import { enqueueSnackbar } from "notistack";
 import React, { useState, forwardRef, useImperativeHandle, memo, useEffect } from "react";
 
+import { DynamicNamespace } from "../../constants/LocalizationConstants";
 import { useDynamicTranslation } from "../../hooks/UseTranslation";
 import { SportDto } from "../../services/core-admin/interfaces/SportDto";
 import { ConfirmationPopover } from "../common/ConfirmationPopover";
@@ -87,7 +90,7 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(({ sport,
             <IconButton onClick={toggleExpand} sx={{ mr: 2 }}>
               {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
             </IconButton>
-            {sport.name + ' (' + (i18n.exists(sportKey) ? t(sportKey) : 'Localization not exist') + ')'}
+            {sport.name + ' (' + (i18n.exists(sportKey, { ns: DynamicNamespace }) ? t(sportKey) : 'Localization not exist') + ')'}
           </TableCell>
           <TableCell
             style={{
@@ -109,11 +112,11 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(({ sport,
             </Button>
             <Button
               sx={{ ml: 1 }}
-              color={sport.disabled ? "success" : "secondary"}
+              color={sport.disabled ? "primary" : "info"}
               variant="contained"
               size="small"
               startIcon={
-                <TrashIcon />
+                sport.disabled ? <EyeSlashIcon /> : <EyeIcon />
               }
               onClick={handleSwitch}
             >
@@ -125,7 +128,7 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(({ sport,
             >
               <Button
                 sx={{ ml: 1 }}
-                color="error"
+                color="secondary"
                 startIcon={
                   <TrashIcon />
                 }

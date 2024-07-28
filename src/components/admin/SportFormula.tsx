@@ -3,7 +3,7 @@ import * as babelPlugin from "prettier/parser-babel";
 import * as prettierPluginEstree from "prettier/plugins/estree";
 import { format } from "prettier/standalone";
 import React, { useEffect } from 'react';
-import Highlight from 'react-highlight';
+import HighlightElement from 'react-highlight';
 import 'highlight.js/styles/atom-one-dark.css';
 
 import { SportDto } from '../../services/core-admin/interfaces/SportDto';
@@ -37,9 +37,9 @@ const SportFormula: React.FC<SportFormulaProps> = ({ sport }) => {
   }, [sport.formula]);
 
   return (<Box>
-    <Highlight className="javascript">
+    <HighlightElement className="javascript">
       {formattedFormula}
-    </Highlight>
+    </HighlightElement>
   </Box>);
 };
 

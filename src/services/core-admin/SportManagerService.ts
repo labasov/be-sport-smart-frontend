@@ -13,7 +13,7 @@ export class SportManagerService extends RestServiceBase {
     return await this.post('getSports');
   }
 
-  public async updateSports(sports: SportDtoForUpdate[]): Promise<void> {
+  public async updateSports(sports: SportDtoForUpdate[]): Promise<SportDto[]> {
     return await this.post('updateSports', { sports: [...sports] });
   }
 

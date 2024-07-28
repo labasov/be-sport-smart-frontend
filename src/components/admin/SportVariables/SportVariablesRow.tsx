@@ -8,7 +8,7 @@ interface SportVariablesRowProps {
 }
 
 const StyledTableCell = styled(TableCell)({
-  padding: '8px 8px',
+  padding: "8px 8px",
 });
 
 const SportVariablesRow: React.FC<SportVariablesRowProps> = memo(
@@ -36,7 +36,13 @@ const SportVariablesRow: React.FC<SportVariablesRowProps> = memo(
             variant="outlined"
             size="small"
             InputProps={{
-              style: { height: "30px" },
+              style: {
+                height: "30px",
+                backgroundColor:
+                  variableValue === localValue
+                    ? "var(--mui-palette-common-background)"
+                    : "var(--mui-palette-success-200)",
+              },
               inputProps: { step: "any" },
             }}
           />
@@ -45,7 +51,8 @@ const SportVariablesRow: React.FC<SportVariablesRowProps> = memo(
     );
   },
   (prevProps, nextProps) =>
-    prevProps.variableValue === nextProps.variableValue && prevProps.variableKey === nextProps.variableKey
+    prevProps.variableValue === nextProps.variableValue &&
+    prevProps.variableKey === nextProps.variableKey
 );
 
 export default SportVariablesRow;

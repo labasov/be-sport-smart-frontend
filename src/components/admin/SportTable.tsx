@@ -58,21 +58,11 @@ const SportTable: React.FC = () => {
       variables: updatedSports.current[name],
     }));
 
+    const updatedSportsResult = await sportManagerService.updateSports(updatedSportsArray);
     const newSports = sports.map((sport) => {
-      const updatedSport = updatedSportsArray.find((s) => s.name === sport.name);
-      if (updatedSport) {
-        return { 
-          ...sport,
-          variables: { 
-            ...sport.variables, 
-            ...updatedSport.variables 
-          }
-        };
-      }
-      return sport;
+      const updatedSport = updatedSportsResult.find((s) => s.name === sport.name);
+      return updatedSport ? updatedSport : sport;
     });
-
-    await sportManagerService.updateSports(updatedSportsArray);
 
     setSports(newSports);
     updatedSports.current = {};
