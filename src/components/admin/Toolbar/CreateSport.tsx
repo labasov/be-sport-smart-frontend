@@ -31,12 +31,15 @@ const sportManagerService = new SportManagerService(config.backend.baseUrl);
 const CreateSport: React.FC<CreateSportProps> = ({ onSportCreate, onSportTemplateReady }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [ showTemplate, setShowTemplate ] = useState(false);
+  const [showTemplate, setShowTemplate] = useState(false);
   const [createDisabled, setCreateDisabled] = useState(false);
   const [sport, setSport] = useState<SportDto | null>(null);
 
   const handleOpenDialog = () => setDialogOpen(true);
-  const handleCloseDialog = () => setDialogOpen(false);
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    setShowTemplate(false);
+  };
 
   useEffect(() => {
     const fetchSportTemplate = async () => {
@@ -138,6 +141,7 @@ const CreateSport: React.FC<CreateSportProps> = ({ onSportCreate, onSportTemplat
             <Button
               variant="outlined"
               color="primary"
+              size={"small"}
               onClick={() => setShowTemplate(!showTemplate)}
               sx={{ ml: 2 }}
             >
@@ -157,10 +161,10 @@ const CreateSport: React.FC<CreateSportProps> = ({ onSportCreate, onSportTemplat
         </DialogContent>
         <DialogActions sx={{ pl: "24px", pr: "24px", pb: "20px", pt: "0px" }}>
           <Box display="flex" justifyContent="space-between" width="100%">
-            <Button variant="outlined" color="secondary" onClick={handleCloseDialog}>
+            <Button variant="outlined" color="secondary" size={"small"} onClick={handleCloseDialog}>
               Cancel
             </Button>
-            <Button variant="contained" color="primary" onClick={handleSave}>
+            <Button variant="contained" color="primary" size={"small"} onClick={handleSave}>
               Save
             </Button>
           </Box>
