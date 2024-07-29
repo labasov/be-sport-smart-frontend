@@ -1,3 +1,4 @@
+import { Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -54,15 +55,17 @@ export function UserPopover({ anchorEl, onClose, open, children }: UserPopoverPr
       open={open}
       slotProps={{ paper: { sx: { width: '240px' } } }}
     >
-      <Box sx={{ p: '16px 20px ', display: 'flex', alignItems: 'center', gap: 1 }}>
-        {children}
-        <Box>
-          <Typography variant="subtitle1">Fit User</Typography>
-          <Typography color="text.secondary" variant="body2">
-            {userEmail}
-          </Typography>
-        </Box>
-      </Box>
+     <Box sx={{ p: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+  <Stack direction="column" spacing={1} alignItems="center">
+    {children}
+    <Box textAlign="center">
+      <Typography variant="subtitle1">Fit User</Typography>
+      <Typography color="text.secondary" variant="body2">
+        {userEmail}
+      </Typography>
+    </Box>
+  </Stack>
+</Box>
       <Divider />
       <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>
         {isInRole('Admin') && (

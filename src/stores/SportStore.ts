@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
 
 import config from "../config";
 import { CoreService } from "../services/core-service/CoreService";
@@ -28,22 +27,15 @@ const initialValues: State = {
 const coreService = new CoreService(config.backend.baseUrl);
 
 export const useSportStore = create<SportStore>()(
-  persist(
-    (set) => ({
-      ...initialValues,
-      rankSports: async (measureValues: MeasureValue[]): Promise<void> => {
-        set({ loading: true });
+  (set) => ({
+    ...initialValues,
+    rankSports: async (measureValues: MeasureValue[]): Promise<void> => {
+      set({ loading: true });
 
-        const sports = await coreService
-          .evaluateSports(measureValues);
+      const sports = await coreService
+        .evaluateSports(measureValues);
 
-        set({ sports, loading: false, initialized: true });
-      }
-    }),
-    {
-      name: "sports-store",
-      storage: createJSONStorage(() => sessionStorage),
-      version: 1
+      set({ sports, loading: false, initialized: true });
     }
-  )
+  })
 );
