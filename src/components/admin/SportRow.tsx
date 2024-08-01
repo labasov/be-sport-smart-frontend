@@ -16,18 +16,20 @@ import { ConfirmationPopover } from "../common/ConfirmationPopover";
 import SportFormula from "./SportFormula";
 import SportVariablesTable from "./SportVariables/SportVariablesTable";
 
+const isTemplate = (sport: SportDto) => sport.name.endsWith("_template");
+
 interface SportRowProps {
   sport: SportDto;
   handleVariableChange: (
     sportName: string,
     variableKey: string,
-    variableValue: number
+    variableValue: number | string | boolean
   ) => void;
   isSportOutOfSync: (sport: SportDto) => boolean;
   syncSport: (sport: SportDto) => Promise<void>;
   deleteSport: (sport: SportDto) => Promise<void>;
   switchSport: (sport: SportDto, isDisabled: boolean) => Promise<void>;
-  updatedSports: React.MutableRefObject<{ [sportName: string]: Record<string, number> }>;
+  updatedSports: React.MutableRefObject<{ [sportName: string]: Record<string, number | string | boolean> }>;
 }
 
 export interface SportRowRef {
@@ -94,6 +96,7 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(({ sport,
           </TableCell>
           <TableCell
             style={{
+              display: isTemplate(sport) ? "none" : "table-cell",
               padding: "8px 8px",
               backgroundColor: "var(--mui-palette-background-level1)",
             }}
@@ -138,6 +141,15 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(({ sport,
                 Delete
               </Button>
             </ConfirmationPopover>
+          </TableCell>
+          <TableCell
+            style={{
+              display: !isTemplate(sport) ? "none" : "table-cell",
+              padding: "8px 8px",
+              backgroundColor: "var(--mui-palette-background-level1)",
+            }}
+          >
+            No actions available for template
           </TableCell>
         </TableRow>
         <TableRow style={{ display: expanded ? "table-row" : "none" }}>

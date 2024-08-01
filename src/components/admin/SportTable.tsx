@@ -25,7 +25,7 @@ const SportTable: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [sportTemplate, setSportTemplate] = useState<SportDto | null>(null);
   const [sports, setSports] = useState<SportDto[]>([]);
-  const updatedSports = useRef<{ [sportName: string]: Record<string, number> }>(
+  const updatedSports = useRef<{ [sportName: string]: Record<string, number | string | boolean> }>(
     {}
   );
   const updateButtonRef = useRef<UpdateButtonRef>(null);
@@ -39,7 +39,7 @@ const SportTable: React.FC = () => {
   }, []);
 
   const handleVariableChange = useCallback(
-    (sportName: string, variableKey: string, variableValue: number) => {
+    (sportName: string, variableKey: string, variableValue: number | string | boolean) => {
       if (updatedSports.current[sportName] === undefined) {
         updatedSports.current[sportName] = {};
       }

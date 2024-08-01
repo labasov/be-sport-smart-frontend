@@ -19,9 +19,9 @@ interface SportVariablesTableProps {
   handleVariableChange: (
     sportName: string,
     variableKey: string,
-    variableValue: number
+    variableValue: number | string | boolean
   ) => void;
-  updatedSports: React.MutableRefObject<{ [sportName: string]: Record<string, number> }>;
+  updatedSports: React.MutableRefObject<{ [sportName: string]: Record<string, number | string | boolean> }>;
 }
 
 const SportVariablesTable: React.FC<SportVariablesTableProps> = ({
