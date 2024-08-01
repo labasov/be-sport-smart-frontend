@@ -69,7 +69,7 @@ const CreateSport: React.FC<CreateSportProps> = ({ onSportCreate, onSportTemplat
   };
 
   const handleVariableChange = useCallback(
-    (_: string, variableKey: string, variableValue: number) => {
+    (_: string, variableKey: string, variableValue: number | string | boolean) => {
       if (!sport) return;
 
       const updatedVariables = {
