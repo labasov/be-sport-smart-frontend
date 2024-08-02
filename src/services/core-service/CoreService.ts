@@ -5,7 +5,7 @@ import { ComputationResult, ComputationType, Measure } from "./interfaces";
 
 export class CoreService extends RestServiceBase {
   public constructor(baseUrl: string) {
-    super(baseUrl, 'core');
+    super(baseUrl, '/core');
   }
 
   public async getMeasures(): Promise<Measure[]> {

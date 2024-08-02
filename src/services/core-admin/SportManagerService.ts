@@ -6,7 +6,7 @@ type SportDtoForUpdate = Omit<Omit<SportDto, 'disabled'>, "formula"> & { disable
 
 export class SportManagerService extends RestServiceBase {
   public constructor(baseUrl: string) {
-    super(baseUrl, 'core/admin/sportManager');
+    super(baseUrl, '/core/admin/sportManager');
   }
 
   public async getSports(): Promise<SportDto[]> {
