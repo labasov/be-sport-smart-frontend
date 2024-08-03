@@ -6,6 +6,8 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Chip,
+  Box,
 } from "@mui/material";
 import React from "react";
 
@@ -21,37 +23,57 @@ interface SportVariablesTableProps {
     variableKey: string,
     variableValue: number | string | boolean
   ) => void;
-  updatedSports: React.MutableRefObject<{ [sportName: string]: Record<string, number | string | boolean> }>;
+  updatedSports: React.MutableRefObject<{
+    [sportName: string]: Record<string, number | string | boolean>;
+  }>;
 }
 
 const SportVariablesTable: React.FC<SportVariablesTableProps> = ({
   sport,
-  //sportIndex,
   handleVariableChange,
   updatedSports,
 }) => {
+  const hasVariables = Object.keys(sport.variables).length > 0;
+
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Variable</TableCell>
-            <TableCell>Value</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {Object.entries(sport.variables).map(([variableKey, variableValue]) => (
-            <SportVariablesRow
-              key={variableKey}
-              variableKey={variableKey}
-              variableValue={!!updatedSports.current[sport.name] && !!updatedSports.current[sport.name][variableKey] ? updatedSports.current[sport.name][variableKey] : variableValue}
-              onChange={(variableValue) => handleVariableChange(sport.name, variableKey, variableValue)}
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      {hasVariables ? (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Variable</TableCell>
+                <TableCell>Value</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Object.entries(sport.variables).map(
+                ([variableKey, variableValue]) => (
+                  <SportVariablesRow
+                    key={variableKey}
+                    variableKey={variableKey}
+                    variableValue={
+                      updatedSports.current[sport.name] &&
+                      updatedSports.current[sport.name][variableKey] !==
+                        undefined
+                        ? updatedSports.current[sport.name][variableKey]
+                        : variableValue
+                    }
+                    onChange={(newValue) =>
+                      handleVariableChange(sport.name, variableKey, newValue)
+                    }
+                  />
+                )
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Box style={{ display: "flex", justifyContent: "center" }}>
+          <Chip label="No variables" />
+        </Box>
+      )}
+    </>
   );
 };
-
 export default SportVariablesTable;

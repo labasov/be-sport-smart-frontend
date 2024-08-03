@@ -24,6 +24,7 @@ import React, {
 
 import { DynamicNamespace } from "../../constants/LocalizationConstants";
 import { useDynamicTranslation } from "../../hooks/UseTranslation";
+import { ComputationType } from "../../services/core-admin/interfaces/ComputationType";
 import { SportDto } from "../../services/core-admin/interfaces/SportDto";
 import { ConfirmationPopover } from "../common/ConfirmationPopover";
 
@@ -31,6 +32,7 @@ import SportFormula from "./SportFormula";
 import SportVariablesTable from "./SportVariables/SportVariablesTable";
 
 const isTemplate = (sport: SportDto) => sport.name.endsWith("_template");
+const shouldShowActions = (sport: SportDto) => sport.type == ComputationType.Sport && !isTemplate(sport);
 
 interface SportRowProps {
   sport: SportDto;
@@ -106,7 +108,7 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(
 
     const sportKey = `sports.${sport.name}.name`;
     const localizationExists = i18n.exists(sportKey, { ns: DynamicNamespace });
-    const isTemplateSport = isTemplate(sport);
+    const showActions = shouldShowActions(sport);
 
     return (
       <>
@@ -148,7 +150,7 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(
           </TableCell>
           <TableCell
             style={{
-              display: isTemplateSport ? "none" : "table-cell",
+              display: showActions ? "table-cell" : "none",
               padding: "8px 8px",
               backgroundColor: "var(--mui-palette-background-level1)",
             }}
@@ -190,12 +192,12 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(
           </TableCell>
           <TableCell
             style={{
-              display: !isTemplateSport ? "none" : "table-cell",
+              display: !showActions ? "table-cell" : "none",
               padding: "8px 8px",
               backgroundColor: "var(--mui-palette-background-level1)",
             }}
           >
-            Template formula actions are hidden
+            Actions are hidden
           </TableCell>
         </TableRow>
         <TableRow style={{ display: expanded ? "table-row" : "none" }}>
@@ -206,7 +208,7 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(
               updatedSports={updatedSports}
             />
           </TableCell>
-          <TableCell>
+          <TableCell style={{ verticalAlign: 'top' }}>
             <SportFormula sport={sport} />
           </TableCell>
         </TableRow>

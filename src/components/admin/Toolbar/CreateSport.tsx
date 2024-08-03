@@ -22,14 +22,15 @@ import SportFormula from "../SportFormula";
 import SportVariablesTable from "../SportVariables/SportVariablesTable";
 
 interface CreateSportProps {
+  disabled: boolean;
   onSportTemplateReady: (sport: SportDto) => void;
   onSportCreate: (sport: SportDto) => void;
 }
 
 const sportManagerService = new SportManagerService(config.backend.baseUrl);
 
-const CreateSport: React.FC<CreateSportProps> = ({ onSportCreate, onSportTemplateReady }) => {
-  const [isLoading, setIsLoading] = useState(true);
+const CreateSport: React.FC<CreateSportProps> = ({ disabled, onSportCreate, onSportTemplateReady }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showTemplate, setShowTemplate] = useState(false);
   const [createDisabled, setCreateDisabled] = useState(false);
@@ -43,13 +44,16 @@ const CreateSport: React.FC<CreateSportProps> = ({ onSportCreate, onSportTemplat
 
   useEffect(() => {
     const fetchSportTemplate = async () => {
+      setIsLoading(true);
       const sportTemplate = await sportManagerService.getSportTemplate();
       setSport(sportTemplate);
       onSportTemplateReady(sportTemplate);
       setIsLoading(false);
     };
 
-    fetchSportTemplate();
+    if(!sport) {
+      fetchSportTemplate();
+    }
   }, []);
 
   const handleSportNameChange = (
@@ -106,15 +110,16 @@ const CreateSport: React.FC<CreateSportProps> = ({ onSportCreate, onSportTemplat
       <Button 
         variant="contained"
         color="primary"
+        disabled={disabled}
         onClick={handleOpenDialog}
         startIcon={<PlusIcon/>}>
         Create
       </Button>
       <Dialog
         open={dialogOpen}
-        maxWidth="xl"
+        scroll="paper"
+        fullScreen={true}
         onClose={handleCloseDialog}
-        sx={{ position: "relative" }}
       >
         <LoadingOverlay open={isLoading} />
         <DialogTitle>Create Sport</DialogTitle>

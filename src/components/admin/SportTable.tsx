@@ -10,6 +10,7 @@ import {
 import React, { useEffect, useState, useCallback, useRef } from "react";
 
 import config from "../../config";
+import { ComputationType } from "../../services/core-admin/interfaces/ComputationType";
 import { SportDto } from "../../services/core-admin/interfaces/SportDto";
 import { SportManagerService } from "../../services/core-admin/SportManagerService";
 import { LoadingOverlay } from "../common/LoadingOverlay";
@@ -23,6 +24,7 @@ const sportManagerService = new SportManagerService(config.backend.baseUrl);
 
 const SportTable: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [computationType, setComputationType] = useState<ComputationType>(ComputationType.Sport);
   const [sportTemplate, setSportTemplate] = useState<SportDto | null>(null);
   const [sports, setSports] = useState<SportDto[]>([]);
   const updatedSports = useRef<{ [sportName: string]: Record<string, number | string | boolean> }>(
@@ -32,11 +34,12 @@ const SportTable: React.FC = () => {
   const sportRowRefs = useRef<(SportRowRef | null)[]>([]);
 
   useEffect(() => {
-    sportManagerService.getSports().then((sports) => {
+    setIsLoading(true);
+    sportManagerService.getSports(computationType).then((sports) => {
       setSports(sports);
       setIsLoading(false);
     });
-  }, []);
+  }, [computationType]);
 
   const handleVariableChange = useCallback(
     (sportName: string, variableKey: string, variableValue: number | string | boolean) => {
@@ -62,8 +65,7 @@ const SportTable: React.FC = () => {
       })
     );
 
-    const updatedSportsResult =
-      await sportManagerService.updateSports(updatedSportsArray);
+    const updatedSportsResult = await sportManagerService.updateSports(updatedSportsArray);
     const newSports = sports.map((sport) => {
       const updatedSport = updatedSportsResult.find(
         (s) => s.name === sport.name
@@ -109,6 +111,10 @@ const SportTable: React.FC = () => {
     setSports(newSports);
   };
 
+  const handleComputationTypeSelect = (computationType: ComputationType) => {
+    setComputationType(computationType);
+  }
+
   const handleSwitchSport = async (sport: SportDto, isDisabled: boolean) => {
     setIsLoading(true);
     const updatedSport = { ...sport, disabled: isDisabled };
@@ -144,6 +150,7 @@ const SportTable: React.FC = () => {
         handleCollapseAll={handleCollapseAll}
         onSportCreate={handleSportCreate}
         onSportTemplateReady={setSportTemplate}
+        onComputationTypeSelect={handleComputationTypeSelect}
       />
       <TableContainer component={Paper} sx={{ position: "relative" }}>
         <LoadingOverlay open={isLoading} />

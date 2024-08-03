@@ -5,7 +5,7 @@ import { UserInfo } from "./interfaces";
 
 export class IdentityService extends RestServiceBase {
   public constructor(baseUrl: string) {
-    super(baseUrl, '/identity');
+    super(baseUrl, 'identity');
   }
 
   public async signIn(userName: string | undefined, email: string | undefined, password: string): Promise<{ userName: string}> {
