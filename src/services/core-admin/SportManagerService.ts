@@ -33,10 +33,9 @@ export class SportManagerService extends RestServiceBase {
     return await this.post('getSportTemplate');
   }
 
-  public async syncSport(sport: SportDto): Promise<SportDto> {
-    return await this.post('syncSport', { 
-      name: sport.name,
-      variables: sport.variables
+  public async syncSports(names: string[]): Promise<SportDto[]> {
+    return await this.post('syncSports', { 
+      names
     });
   }
 

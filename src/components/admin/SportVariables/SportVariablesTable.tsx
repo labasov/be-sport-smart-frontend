@@ -6,8 +6,8 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Chip,
   Box,
+  Chip,
 } from "@mui/material";
 import React from "react";
 
@@ -17,7 +17,6 @@ import SportVariablesRow from "./SportVariablesRow";
 
 interface SportVariablesTableProps {
   sport: SportDto;
-  //sportIndex: number;
   handleVariableChange: (
     sportName: string,
     variableKey: string,
@@ -33,9 +32,10 @@ const SportVariablesTable: React.FC<SportVariablesTableProps> = ({
   handleVariableChange,
   updatedSports,
 }) => {
+
   const hasVariables = Object.keys(sport.variables).length > 0;
 
-  return (
+   return (
     <>
       {hasVariables ? (
         <TableContainer component={Paper}>
@@ -76,4 +76,5 @@ const SportVariablesTable: React.FC<SportVariablesTableProps> = ({
     </>
   );
 };
+
 export default SportVariablesTable;

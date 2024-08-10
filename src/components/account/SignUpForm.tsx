@@ -75,7 +75,7 @@ export function SignUpForm(): React.JSX.Element {
 
         const message = knownError.response?.data?.detail;
 
-        setError("root", { type: "server", message });
+        setError("root", { type: "server", message : (message || t("auth.errors.signUp")) });
       }
 
       setIsPending(false);

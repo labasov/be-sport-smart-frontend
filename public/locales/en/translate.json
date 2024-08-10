@@ -85,7 +85,11 @@
       "iHaveRead": "I have read the <0>terms and conditions</0>"
     },
     "welcomeTo": "Welcome to",
-    "accountCreated": "Account {{email}} created successfully!"
+    "accountCreated": "Account {{email}} created successfully!",
+    "errors": {
+      "signIn": "Sign in failed. Please try again later.",
+      "signUp": "Sign up failed. Please try again later."
+    }
   },
   "widgets": {
     "guest": {

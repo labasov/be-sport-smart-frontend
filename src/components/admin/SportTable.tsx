@@ -15,9 +15,10 @@ import { SportDto } from "../../services/core-admin/interfaces/SportDto";
 import { SportManagerService } from "../../services/core-admin/SportManagerService";
 import { LoadingOverlay } from "../common/LoadingOverlay";
 
+import { CheckAll, CheckAllRef } from "./CheckAll";
 import SportRow, { SportRowRef } from "./SportRow";
 import { SportRowSkeleton } from "./SportRowSkeleton";
-import Toolbar from "./Toolbar/Toolbar";
+import Toolbar, { ToolbarRef } from "./Toolbar/Toolbar";
 import UpdateButton, { UpdateButtonRef } from "./UpdateButton";
 
 const sportManagerService = new SportManagerService(config.backend.baseUrl);
@@ -30,11 +31,18 @@ const SportTable: React.FC = () => {
   const updatedSports = useRef<{ [sportName: string]: Record<string, number | string | boolean> }>(
     {}
   );
+  const selectedSports = useRef<SportDto[]>([]);
+  const toolbarRef = useRef<ToolbarRef>(null);
   const updateButtonRef = useRef<UpdateButtonRef>(null);
+  const checkAllRef = React.useRef<CheckAllRef>(null);
   const sportRowRefs = useRef<(SportRowRef | null)[]>([]);
 
   useEffect(() => {
     setIsLoading(true);
+    selectedSports.current = [];
+    checkAllRef.current?.onToggleSportsSelection(0);
+    toolbarRef.current?.onSportSelectionChange(0);
+
     sportManagerService.getSports(computationType).then((sports) => {
       setSports(sports);
       setIsLoading(false);
@@ -82,7 +90,7 @@ const SportTable: React.FC = () => {
 
   const handleSyncSport = async (sport: SportDto) => {
     setIsLoading(true);
-    const newSport = await sportManagerService.syncSport(sport);
+    const newSport = (await sportManagerService.syncSports([sport.name]))[0];
     const newSports = sports.map((s) =>
       s.name === newSport.name ? newSport : s
     );
@@ -106,12 +114,27 @@ const SportTable: React.FC = () => {
     sportRowRefs.current.forEach((ref) => ref?.collapse());
   }, []);
 
+  const handleSelectAll = useCallback((isSelected: boolean) => {
+    sportRowRefs.current.forEach((ref) => ref?.select(isSelected));
+  }, []);
+
   const handleSportCreate = (sport: SportDto) => {
     const newSports = [sport, ...sports];
     setSports(newSports);
   };
 
+  const handleSportsUpdate = (updatedSports: SportDto[]) => {
+    const newSports = sports.map((sport) => {
+      const updatedSport = updatedSports.find((s) => s.name === sport.name);
+      return updatedSport ? updatedSport : sport;
+    });
+
+    setSports(newSports);
+    handleSelectAll(false);
+  };
+
   const handleComputationTypeSelect = (computationType: ComputationType) => {
+    setSports([]);
     setComputationType(computationType);
   }
 
@@ -124,6 +147,21 @@ const SportTable: React.FC = () => {
     );
     setSports(newSports);
     setIsLoading(false);
+  };
+
+  const handleSelectSport = (sport: SportDto, checked?: boolean) => {
+    if (selectedSports.current.includes(sport)) {
+      if (checked === undefined || checked === false) {
+        selectedSports.current = selectedSports.current.filter(
+          (s) => s.name !== sport.name
+        );
+      }
+    } else if (checked === undefined || checked === true) {
+      selectedSports.current = [...selectedSports.current, sport];
+    }
+
+    checkAllRef.current?.onToggleSportsSelection(selectedSports.current.length);
+    toolbarRef.current?.onSportSelectionChange(selectedSports.current.length);
   };
 
   const isSportOutOfSync = useCallback(
@@ -146,17 +184,32 @@ const SportTable: React.FC = () => {
   return (
     <>
       <Toolbar
+        ref={toolbarRef}
         handleExpandAll={handleExpandAll}
         handleCollapseAll={handleCollapseAll}
         onSportCreate={handleSportCreate}
+        onSportsUpdate={handleSportsUpdate}
         onSportTemplateReady={setSportTemplate}
         onComputationTypeSelect={handleComputationTypeSelect}
+        isSportOutOfSync={isSportOutOfSync}
+        selectedSports={selectedSports}
       />
       <TableContainer component={Paper} sx={{ position: "relative" }}>
         <LoadingOverlay open={isLoading} />
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell>
+                <CheckAll
+                  ref={checkAllRef}
+                  computationType={sports[0]?.type || ComputationType.Sport}
+                  sportCount={sports.length}
+                  selectAll={handleSelectAll}
+                />
+              </TableCell>
+              <TableCell>
+                Collapse/ Expand
+              </TableCell>
               <TableCell>Sport Name</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
@@ -179,6 +232,7 @@ const SportTable: React.FC = () => {
                 syncSport={handleSyncSport}
                 deleteSport={handleDeleteSport}
                 switchSport={handleSwitchSport}
+                selectSport={handleSelectSport}
                 updatedSports={updatedSports}
               />
             ))}

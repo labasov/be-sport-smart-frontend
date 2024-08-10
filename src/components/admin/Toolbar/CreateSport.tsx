@@ -8,6 +8,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
 } from "@mui/material";
 import { Plus as PlusIcon } from "@phosphor-icons/react/dist/ssr/Plus";
 import { enqueueSnackbar } from "notistack";
@@ -123,11 +124,12 @@ const CreateSport: React.FC<CreateSportProps> = ({ disabled, onSportCreate, onSp
       >
         <LoadingOverlay open={isLoading} />
         <DialogTitle>Create Sport</DialogTitle>
-        <DialogContent
-        >
+        <Divider/>
+        <DialogContent>
           <TextField
             label="Sport Key"
             value={sport?.name}
+            size="small"
             placeholder="new_sport"
             onChange={handleSportNameChange}
             fullWidth
@@ -164,7 +166,8 @@ const CreateSport: React.FC<CreateSportProps> = ({ disabled, onSportCreate, onSp
             )}
           </Box>
         </DialogContent>
-        <DialogActions sx={{ pl: "24px", pr: "24px", pb: "20px", pt: "0px" }}>
+        <Divider/>
+        <DialogActions sx={{ pl: "24px", pr: "24px", pb: "20px", pt: "20px" }}>
           <Box display="flex" justifyContent="space-between" width="100%">
             <Button variant="outlined" color="secondary" size={"small"} onClick={handleCloseDialog}>
               Cancel

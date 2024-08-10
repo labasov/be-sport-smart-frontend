@@ -6,6 +6,8 @@ import {
   Typography,
   Box,
   Chip,
+  Checkbox,
+  styled,
 } from "@mui/material";
 import { ArrowsClockwise as ArrowsClockwiseIcon } from "@phosphor-icons/react/dist/ssr/ArrowsClockwise";
 import { CaretDown as ExpandMoreIcon } from "@phosphor-icons/react/dist/ssr/CaretDown";
@@ -34,6 +36,12 @@ import SportVariablesTable from "./SportVariables/SportVariablesTable";
 const isTemplate = (sport: SportDto) => sport.name.endsWith("_template");
 const shouldShowActions = (sport: SportDto) => sport.type == ComputationType.Sport && !isTemplate(sport);
 
+const NarrowTableCell = styled(TableCell)({
+  paddingTop: "8px",
+  paddingBottom: "8px",
+  backgroundColor: "var(--mui-palette-background-level1)",
+});
+
 interface SportRowProps {
   sport: SportDto;
   handleVariableChange: (
@@ -45,6 +53,7 @@ interface SportRowProps {
   syncSport: (sport: SportDto) => Promise<void>;
   deleteSport: (sport: SportDto) => Promise<void>;
   switchSport: (sport: SportDto, isDisabled: boolean) => Promise<void>;
+  selectSport: (sport: SportDto, checked?: boolean) => void;
   updatedSports: React.MutableRefObject<{
     [sportName: string]: Record<string, number | string | boolean>;
   }>;
@@ -53,6 +62,7 @@ interface SportRowProps {
 export interface SportRowRef {
   expand: () => void;
   collapse: () => void;
+  select:(checked?: boolean) => void;
 }
 
 const SportRow = forwardRef<SportRowRef, SportRowProps>(
@@ -64,12 +74,14 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(
       syncSport,
       deleteSport,
       switchSport,
+      selectSport,
       updatedSports,
     },
     ref
   ) => {
     const { t, i18n } = useDynamicTranslation();
     const [expanded, setExpanded] = useState(false);
+    const [selected, setSelected] = useState(false);
     const [isSportSyncAvailable, setIsSportSyncAvailable] = useState(false);
 
     useEffect(() => {
@@ -83,6 +95,10 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(
     useImperativeHandle(ref, () => ({
       expand: () => setExpanded(true),
       collapse: () => setExpanded(false),
+      select: (checked?: boolean) => {
+        setSelected((prev) => checked !== undefined ? checked : !prev);
+        selectSport(sport, checked);
+      },
     }));
 
     const handleSportSync = async () => {
@@ -106,6 +122,11 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(
       );
     };
 
+    const handleSelect = () => {
+      selectSport(sport);
+      setSelected((prev) => !prev);
+    };
+
     const sportKey = `sports.${sport.name}.name`;
     const localizationExists = i18n.exists(sportKey, { ns: DynamicNamespace });
     const showActions = shouldShowActions(sport);
@@ -113,16 +134,24 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(
     return (
       <>
         <TableRow>
-          <TableCell
-            style={{
-              padding: "8px 8px",
-              backgroundColor: "var(--mui-palette-background-level1)",
-            }}
-          >
+          <NarrowTableCell sx={{
+            width: '10px',
+          }}>
+            <Checkbox
+              disabled={sport.type !== ComputationType.Sport}
+              checked={selected}
+              onChange={handleSelect}
+            />
+          </NarrowTableCell>
+          <NarrowTableCell sx={{
+            width: '10px',
+          }}>
+            <IconButton onClick={toggleExpand}>
+              {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </IconButton>
+          </NarrowTableCell>
+          <NarrowTableCell>
             <Box display="flex" alignItems="center">
-              <IconButton onClick={toggleExpand} sx={{ mr: 2 }}>
-                {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-              </IconButton>
               {sport.name}
               &nbsp;
               <Typography
@@ -147,12 +176,10 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(
                 </>
               )}
             </Box>
-          </TableCell>
-          <TableCell
+          </NarrowTableCell>
+          <NarrowTableCell
             style={{
-              display: showActions ? "table-cell" : "none",
-              padding: "8px 8px",
-              backgroundColor: "var(--mui-palette-background-level1)",
+              display: showActions ? "table-cell" : "none"
             }}
           >
             <Button
@@ -189,19 +216,17 @@ const SportRow = forwardRef<SportRowRef, SportRowProps>(
                 Delete
               </Button>
             </ConfirmationPopover>
-          </TableCell>
-          <TableCell
+          </NarrowTableCell>
+          <NarrowTableCell
             style={{
-              display: !showActions ? "table-cell" : "none",
-              padding: "8px 8px",
-              backgroundColor: "var(--mui-palette-background-level1)",
+              display: !showActions ? "table-cell" : "none"
             }}
           >
             Actions are hidden
-          </TableCell>
+          </NarrowTableCell>
         </TableRow>
         <TableRow style={{ display: expanded ? "table-row" : "none" }}>
-          <TableCell>
+          <TableCell colSpan={3}>
             <SportVariablesTable
               sport={sport}
               handleVariableChange={handleVariableChange}
