@@ -1,11 +1,12 @@
+import config from "../../config";
 import { MeasureValue } from "../../stores/interfaces/MeasureValue";
 import { RestServiceBase } from "../RestService";
 
 import { ComputationResult, ComputationType, Measure } from "./interfaces";
 
 export class CoreService extends RestServiceBase {
-  public constructor(baseUrl: string) {
-    super(baseUrl, 'core');
+  public constructor() {
+    super(config.backend.baseUrl, 'core');
   }
 
   public async getMeasures(): Promise<Measure[]> {

@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-import config from "../config";
 import { IdentityService } from "../services/identity-service/IdentityService";
 
 import { OperationResult } from "./interfaces/OperationResult";
@@ -29,7 +28,7 @@ const initialValues: State = {
   isSignedIn: false
 };
 
-const identityService = new IdentityService(config.backend.baseUrl);
+const identityService = new IdentityService();
 
 export const useUserStore = create<UserStore>()(
   (set) => ({

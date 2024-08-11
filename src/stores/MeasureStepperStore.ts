@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-import config from "../config";
 import { CoreService } from "../services/core-service/CoreService";
 import { Measure } from "../services/core-service/interfaces";
 
@@ -30,7 +29,7 @@ const initialValues: State = {
   currentMeasureIndex: 0
 };
 
-const coreService = new CoreService(config.backend.baseUrl);
+const coreService = new CoreService();
 
 export const useMeasureStepperStore = create<MeasureStepperStore>()(
   (set, get) => ({

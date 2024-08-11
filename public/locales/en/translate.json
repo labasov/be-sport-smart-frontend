@@ -79,6 +79,8 @@
     "actions": {
       "signUp": "Sign up",
       "signIn": "Sign in",
+      "signInWithGithub": "Sign in with Github",
+      "signInWithGoogle": "Sign in with Google",
       "dontHaveAccount": "Don't have an account?",
       "alreadyHaveAccount": "Already have an account?",
       "forgotPassword": "Forgot password?",

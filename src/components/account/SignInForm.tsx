@@ -10,6 +10,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Eye as EyeIcon } from "@phosphor-icons/react/dist/ssr/Eye";
 import { EyeSlash as EyeSlashIcon } from "@phosphor-icons/react/dist/ssr/EyeSlash";
+import { GithubLogo } from "@phosphor-icons/react/dist/ssr/GitHubLogo";
+import { GoogleLogo } from "@phosphor-icons/react/dist/ssr/GoogleLogo";
 import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -17,8 +19,11 @@ import { z as zod } from "zod";
 
 import { useStaticTranslation } from "../../hooks/UseTranslation";
 import { routes } from "../../routes";
+import { IdentityService } from "../../services/identity-service/IdentityService";
 import { ServerErrorResponse } from "../../stores/interfaces/ServerError";
 import { useUserStore } from "../../stores/UserStore";
+
+const identityService = new IdentityService();
 
 export function SignInForm(): React.JSX.Element {
   const { t } = useStaticTranslation();
@@ -32,10 +37,10 @@ export function SignInForm(): React.JSX.Element {
       .min(1, { message: t("auth.fields.validation.password") }),
   });
   type Values = zod.infer<typeof schema>;
-  const defaultValues = {
-    email: "test@test.com",
-    password: "Qwerty1234!",
-  } satisfies Values;
+  // const defaultValues = {
+  //   email: "test@test.com",
+  //   password: "Qwerty1234!",
+  // } satisfies Values;
 
   const navigate = useNavigate();
   const { signIn } = useUserStore();
@@ -48,7 +53,7 @@ export function SignInForm(): React.JSX.Element {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
+  } = useForm<Values>({ resolver: zodResolver(schema) });
 
   const onSubmit = React.useCallback(
     async (values: Values): Promise<void> => {
@@ -60,27 +65,20 @@ export function SignInForm(): React.JSX.Element {
         navigate(routes.home);
       } catch (error: unknown) {
         const knownError = error as ServerErrorResponse;
-
         const message = knownError.response?.data?.detail;
 
         setError("root", { type: "server", message : (message || t("auth.errors.signIn")) });
       }
 
       setIsPending(false);
-
-      // Refresh the auth state
       await checkSession?.();
-
-      // UserProvider, for this case, will not refresh the router
-      // After refresh, GuestGuard will handle the redirect
-      //router.refresh();
     },
     [checkSession, setError]
   );
 
-  const handleGitHubLogin = React.useCallback(() => {
-    window.location.href = 'https://app-backend-besportsmart.azurewebsites.net/api/v1/identity/signInGithub';
-  }, []);
+  const handleOAuthLogin = (provider: string) => {
+    window.location.href = identityService.getOAuthUrl(provider);
+  };
 
   return (
     <Stack spacing={4}>
@@ -98,14 +96,6 @@ export function SignInForm(): React.JSX.Element {
           </Link>
         </Typography>
       </Stack>
-      <Button
-        variant="contained"
-        onClick={handleGitHubLogin}
-        //startIcon={<GitHubIcon />}
-        disabled={isPending}
-      >
-        {t("auth.actions.signInWithGitHub")}
-      </Button>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
           <Controller
@@ -175,6 +165,24 @@ export function SignInForm(): React.JSX.Element {
           ) : null}
           <Button disabled={isPending} type="submit" variant="contained">
             {t("auth.actions.signIn")}
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => handleOAuthLogin("github")}
+            startIcon={<GithubLogo weight="bold"/>}
+            disabled={isPending}
+          >
+            {t("auth.actions.signInWithGithub")}
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => handleOAuthLogin("google")}
+            startIcon={<GoogleLogo weight="bold"/>}
+            disabled={isPending}
+          >
+            {t("auth.actions.signInWithGoogle")}
           </Button>
         </Stack>
       </form>

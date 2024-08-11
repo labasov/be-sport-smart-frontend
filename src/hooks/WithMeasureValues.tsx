@@ -1,13 +1,12 @@
 import { useEffect, useRef, ComponentType, FC } from "react";
 
 import { MeasureValuesChangeHandler } from "../components/metrics-toolbar/widgets/interfaces/MeasureValuesChangeHandler";
-import config from "../config";
 import { CoreService } from "../services/core-service/CoreService";
 import { MeasureValue } from "../stores/interfaces/MeasureValue";
 import { useMeasureValuesStore } from "../stores/MeasureValuesStore";
 import { useSportStore } from "../stores/SportStore";
 
-const coreService = new CoreService(config.backend.baseUrl);
+const coreService = new CoreService();
 
 const withMeasureValueChanges = <P extends object>(
   Component: ComponentType<P>,

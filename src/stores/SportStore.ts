@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-import config from "../config";
 import { CoreService } from "../services/core-service/CoreService";
 import { ComputationResult } from "../services/core-service/interfaces";
 
@@ -24,7 +23,7 @@ const initialValues: State = {
   sports: []
 };
 
-const coreService = new CoreService(config.backend.baseUrl);
+const coreService = new CoreService();
 
 export const useSportStore = create<SportStore>()(
   (set) => ({

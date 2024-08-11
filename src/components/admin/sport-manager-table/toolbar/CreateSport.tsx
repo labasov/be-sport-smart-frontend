@@ -14,7 +14,6 @@ import { Plus as PlusIcon } from "@phosphor-icons/react/dist/ssr/Plus";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback, useEffect, useState } from "react";
 
-import config from "../../../../config";
 import { toSportKey } from "../../../../helpers/stringHelpers";
 import { SportDto } from "../../../../services/core-admin/interfaces/SportDto";
 import { SportManagerService } from "../../../../services/core-admin/SportManagerService";
@@ -28,7 +27,7 @@ interface CreateSportProps {
   onSportCreate: (sport: SportDto) => void;
 }
 
-const sportManagerService = new SportManagerService(config.backend.baseUrl);
+const sportManagerService = new SportManagerService();
 
 const CreateSport: React.FC<CreateSportProps> = ({ disabled, onSportCreate, onSportTemplateReady }) => {
   const [isLoading, setIsLoading] = useState(false);

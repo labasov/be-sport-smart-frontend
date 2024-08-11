@@ -1,3 +1,4 @@
+import config from "../../config";
 import { RestServiceBase } from "../RestService";
 
 import { ComputationType } from "./interfaces/ComputationType";
@@ -6,8 +7,8 @@ import { SportDto } from "./interfaces/SportDto";
 type SportDtoForUpdate = Omit<Omit<Omit<SportDto, 'disabled'>, "formula">, "type"> & { disabled?: boolean };
 
 export class SportManagerService extends RestServiceBase {
-  public constructor(baseUrl: string) {
-    super(baseUrl, 'core/admin/sportManager');
+  public constructor() {
+    super(config.backend.baseUrl, 'core/admin/sportManager');
   }
 
   public async getSports(computationType: ComputationType): Promise<SportDto[]> {
