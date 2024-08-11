@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React from "react";
 
-import { SportDto } from "../../../services/core-admin/interfaces/SportDto";
+import { SportDto } from "../../../../services/core-admin/interfaces/SportDto";
 
 import SportVariablesRow from "./SportVariablesRow";
 

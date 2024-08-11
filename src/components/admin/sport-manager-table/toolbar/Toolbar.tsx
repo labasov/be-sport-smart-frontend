@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 
-import { ComputationType } from "../../../services/core-admin/interfaces/ComputationType";
-import { SportDto } from "../../../services/core-admin/interfaces/SportDto";
+import { ComputationType } from "../../../../services/core-admin/interfaces/ComputationType";
+import { SportDto } from "../../../../services/core-admin/interfaces/SportDto";
 
 import BulkSportUpdate from "./BulkSportUpdate";
 import CreateSport from "./CreateSport";

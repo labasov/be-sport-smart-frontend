@@ -24,14 +24,14 @@ import React, {
   useEffect,
 } from "react";
 
-import { DynamicNamespace } from "../../constants/LocalizationConstants";
-import { useDynamicTranslation } from "../../hooks/UseTranslation";
-import { ComputationType } from "../../services/core-admin/interfaces/ComputationType";
-import { SportDto } from "../../services/core-admin/interfaces/SportDto";
-import { ConfirmationPopover } from "../common/ConfirmationPopover";
+import { DynamicNamespace } from "../../../constants/LocalizationConstants";
+import { useDynamicTranslation } from "../../../hooks/UseTranslation";
+import { ComputationType } from "../../../services/core-admin/interfaces/ComputationType";
+import { SportDto } from "../../../services/core-admin/interfaces/SportDto";
+import { ConfirmationPopover } from "../../common/ConfirmationPopover";
+import SportFormula from "../SportFormula";
 
-import SportFormula from "./SportFormula";
-import SportVariablesTable from "./SportVariables/SportVariablesTable";
+import SportVariablesTable from "./sport-variables/SportVariablesTable";
 
 const isTemplate = (sport: SportDto) => sport.name.endsWith("_template");
 const shouldShowActions = (sport: SportDto) => sport.type == ComputationType.Sport && !isTemplate(sport);

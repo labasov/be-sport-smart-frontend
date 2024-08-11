@@ -6,7 +6,7 @@ import {
   useImperativeHandle,
 } from "react";
 
-import { ComputationType } from "../../services/core-admin/interfaces/ComputationType";
+import { ComputationType } from "../../../services/core-admin/interfaces/ComputationType";
 
 interface CheckAllProps {
   computationType: ComputationType;

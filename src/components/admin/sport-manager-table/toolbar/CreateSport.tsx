@@ -14,13 +14,13 @@ import { Plus as PlusIcon } from "@phosphor-icons/react/dist/ssr/Plus";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback, useEffect, useState } from "react";
 
-import config from "../../../config";
-import { toSportKey } from "../../../helpers/stringHelpers";
-import { SportDto } from "../../../services/core-admin/interfaces/SportDto";
-import { SportManagerService } from "../../../services/core-admin/SportManagerService";
-import { LoadingOverlay } from "../../common/LoadingOverlay";
-import SportFormula from "../SportFormula";
-import SportVariablesTable from "../SportVariables/SportVariablesTable";
+import config from "../../../../config";
+import { toSportKey } from "../../../../helpers/stringHelpers";
+import { SportDto } from "../../../../services/core-admin/interfaces/SportDto";
+import { SportManagerService } from "../../../../services/core-admin/SportManagerService";
+import { LoadingOverlay } from "../../../common/LoadingOverlay";
+import SportFormula from "../../SportFormula";
+import SportVariablesTable from "../sport-variables/SportVariablesTable";
 
 interface CreateSportProps {
   disabled: boolean;

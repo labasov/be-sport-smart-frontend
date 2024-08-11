@@ -9,16 +9,16 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState, useCallback, useRef } from "react";
 
-import config from "../../config";
-import { ComputationType } from "../../services/core-admin/interfaces/ComputationType";
-import { SportDto } from "../../services/core-admin/interfaces/SportDto";
-import { SportManagerService } from "../../services/core-admin/SportManagerService";
-import { LoadingOverlay } from "../common/LoadingOverlay";
+import config from "../../../config";
+import { ComputationType } from "../../../services/core-admin/interfaces/ComputationType";
+import { SportDto } from "../../../services/core-admin/interfaces/SportDto";
+import { SportManagerService } from "../../../services/core-admin/SportManagerService";
+import { LoadingOverlay } from "../../common/LoadingOverlay";
 
 import { CheckAll, CheckAllRef } from "./CheckAll";
 import SportRow, { SportRowRef } from "./SportRow";
 import { SportRowSkeleton } from "./SportRowSkeleton";
-import Toolbar, { ToolbarRef } from "./Toolbar/Toolbar";
+import Toolbar, { ToolbarRef } from "./toolbar/Toolbar";
 import UpdateButton, { UpdateButtonRef } from "./UpdateButton";
 
 const sportManagerService = new SportManagerService(config.backend.baseUrl);

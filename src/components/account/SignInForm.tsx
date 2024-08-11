@@ -78,6 +78,10 @@ export function SignInForm(): React.JSX.Element {
     [checkSession, setError]
   );
 
+  const handleGitHubLogin = React.useCallback(() => {
+    window.location.href = 'https://app-backend-besportsmart.azurewebsites.net/api/v1/identity/signInGithub';
+  }, []);
+
   return (
     <Stack spacing={4}>
       <Stack spacing={1}>
@@ -94,6 +98,14 @@ export function SignInForm(): React.JSX.Element {
           </Link>
         </Typography>
       </Stack>
+      <Button
+        variant="contained"
+        onClick={handleGitHubLogin}
+        //startIcon={<GitHubIcon />}
+        disabled={isPending}
+      >
+        {t("auth.actions.signInWithGitHub")}
+      </Button>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
           <Controller

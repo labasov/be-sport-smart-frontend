@@ -17,13 +17,13 @@ import { ArrowsClockwise as ArrowsClockwiseIcon } from "@phosphor-icons/react/di
 import { enqueueSnackbar } from "notistack";
 import React, { useState } from "react";
 
-import config from "../../../config";
-import { ComputationType } from "../../../services/core-admin/interfaces/ComputationType";
-import { SportDto } from "../../../services/core-admin/interfaces/SportDto";
-import { SportManagerService } from "../../../services/core-admin/SportManagerService";
-import { ConfirmationPopover } from "../../common/ConfirmationPopover";
-import { LoadingOverlay } from "../../common/LoadingOverlay";
-import SportVariablesTable from "../SportVariables/SportVariablesTable";
+import config from "../../../../config";
+import { ComputationType } from "../../../../services/core-admin/interfaces/ComputationType";
+import { SportDto } from "../../../../services/core-admin/interfaces/SportDto";
+import { SportManagerService } from "../../../../services/core-admin/SportManagerService";
+import { ConfirmationPopover } from "../../../common/ConfirmationPopover";
+import { LoadingOverlay } from "../../../common/LoadingOverlay";
+import SportVariablesTable from "../sport-variables/SportVariablesTable";
 
 interface BulkSportUpdateProps {
   disabled: boolean;

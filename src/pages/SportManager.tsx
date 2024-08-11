@@ -2,7 +2,7 @@ import { Box } from '@mui/system';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import SportTable from '../components/admin/SportTable.tsx';
+import SportTable from '../components/admin/sport-manager-table/SportTable.tsx';
 import { useAuth } from '../components/common/AuthProvider.tsx';
 import { routes } from '../routes.ts';
 
