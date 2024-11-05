@@ -1,74 +1,76 @@
-# Getting Started with Create React App and Fluent UI
+# Be Sport Smart
 
-This is a [Create React App](https://github.com/facebook/create-react-app) based repo that comes with Fluent UI pre-installed!
+Be Sport Smart is a frontend application written in **React 18**. This project aims to be a **personalized service** that helps children choose the ideal sport for them based on various parameters. By guiding children toward the sport that best suits their strengths and interests, Be Sport Smart supports their journey to success in sports, boosting their confidence and improving their chances of earning scholarships.
 
-## Setup
+## Getting Started
 
-Create a `.env` file within the base of the `reactd-fluent` folder with the following configuration:
+### Installation
 
-- `VITE_API_BASE_URL` - Base URL for all api requests, (ex: `http://localhost:3100`)
+To set up the project, clone the repository and install the required dependencies:
 
-> Note: The URL must include the schema, either `http://` or `https://`.
+### Development
 
-- `VITE_APPLICATIONINSIGHTS_CONNECTION_STRING` - Azure Application Insights connection string
 
-## Available Scripts
 
-In the project directory, you can run:
+	`git clone
+	npm install
+	npm run dev` 
 
-### `npm ci`
+This will run the app with Vite on your local host. The server is configured to be accessible via the `--host` flag.
 
-Installs local pre-requisites.
+## Project Structure
 
-### `npm start`
+Here is an overview of the main folders and files in the project:
 
-Runs the app in the development mode.
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+	`public/
+	│   ├── assets/            # Contains static assets like images and icons
+	│   ├── locales/           # Stores static localization files
+	│   ├── favicon.ico        # Favicon for the application
+	│   ├── manifest.json      # Manifest file for PWA support
+	src/
+	│   ├── @types/            # TypeScript types for the application
+	│   ├── components/        # Reusable React components
+	│   ├── config/            # Configuration files and settings
+	│   ├── constants/         # Application constants
+	│   ├── helpers/           # Utility functions
+	│   ├── hooks/             # Custom React hooks
+	│   ├── pages/             # Page components for routes
+	│   ├── services/          # API calls and business logic
+	│   ├── stores/            # Zustand stores for state management
+	│   ├── styles/            # Global and component-specific styles
+	│   ├── App.tsx            # Main application component
+	│   ├── i18.ts             # Localization configuration file
+	│   ├── index.tsx          # Application entry point
+	│   ├── routes.ts          # Route configuration
+	├── .dockerignore          # Files to ignore in Docker builds
+	├── .eslint.cjs            # ESLint configuration
+	├── index.html             # Main HTML file
+	├── package.json           # Project dependencies and scripts
+	├── README.md              # Project documentation
+	├── tsconfig.json          # TypeScript configuration
+	└── vite.config.ts         # Vite configuration` 
 
-The page will reload if you make edits.
-You will also see any lint errors in the console.
+## Localization
 
-### `npm test`
+The app uses both static and dynamic localization files, managed by **i18next**. Static locales are located in `public/locales`. For dynamic locales, the `i18.ts` file contains a `loadPath` function that determines the path to fetch translations from a storage backend when a dynamic namespace is specified:
 
-Launches the test runner in the interactive watch mode.
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+typescript
 
-### `npm run build`
+Copy code
 
-Builds the app for production to the `build` folder.
-It correctly bundles React in production mode and optimizes the build for the best performance.
+	`loadPath: function (language: string, namespace: string[]) {
+	  if (namespace[0] === DynamicNamespace) {
+	    return `${config.dynamicLocalization.baseUrl}/${language}/translate.json`;
+	  }
+	  return `/locales/${language}/translate.json`;
+	}`
 
-The build is minified and the filenames include the hashes.
-Your app is ready to be deployed!
+Dynamic locales are fetched from blob storage based on the language and namespace.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## State Management
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+The application uses **Zustand** for state management. Zustand is a lightweight library that simplifies global state management, making it easy to share and manage state across components.
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+Feel free to fork the repository and create a pull request if you'd like to contribute.
